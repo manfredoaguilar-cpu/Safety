@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Job Site Safety: General Safety & PPE</title>
+
+  <!-- Tailwind and Inter font -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .quiz-container { transition: opacity 0.5s ease-in-out; }
+    .feedback-modal { transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out; }
+
+    /* Custom scrollbar for dark theme */
+    body::-webkit-scrollbar { width: 8px; }
+    body::-webkit-scrollbar-track { background: #1e293b; } /* slate-800 */
+    body::-webkit-scrollbar-thumb {
+      background-color: #3b82f6; /* blue-500 */
+      border-radius: 20px;
+      border: 2px solid #1e293b;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-900 text-slate-50 flex flex-col items-center justify-start min-h-screen p-4">
+
+  <!-- HERO / VIDEO -->
+  <div id="hero-section" class="w-full max-w-4xl mx-auto text-center pt-4">
+    <h1 class="text-4xl md:text-5xl font-extrabold mb-2 tracking-tight">
+      <span class="text-blue-500">JOB SITE SAFETY</span>
+    </h1>
+    <p class="text-xl md:text-2xl font-semibold text-slate-100">
+      Module: General Safety &amp; PPE — Training &amp; Quiz
+    </p>
+
+    <div class="mt-8 bg-slate-800 p-2 md:p-4 rounded-xl shadow-lg">
+      <!-- 16:9 responsive video -->
+      <div class="relative w-full" style="padding-top: 56.25%;">
+        <iframe class="absolute top-0 left-0 w-full h-full rounded-lg"
+          src="https://www.youtube.com/embed/5_IFz7FEZ9E?rel=0"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen></iframe>
+      </div>
+      <p class="text-slate-300 mt-4 text-sm md:text-base">
+        Watch the video above, then download the study guide and complete the quiz.
+      </p>
+    </div>
+  </div>
+
+  <!-- LANGUAGE SELECT -->
+  <div id="language-screen" class="bg-slate-800 w-full max-w-2xl mx-auto rounded-xl shadow-lg p-6 md:p-8 text-center mt-8">
+    <h2 class="text-2xl font-bold text-slate-50 mb-4">Select Language / Seleccione Idioma</h2>
+    <p class="text-slate-300 mb-6">Choose your preferred language to start the quiz.</p>
+    <div class="space-y-4">
+      <button onclick="setLanguage('en')"
+        class="w-full bg-blue-500 text-slate-50 font-semibold py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+        English
+      </button>
+      <button onclick="setLanguage('es')"
+        class="w-full bg-blue-500 text-slate-50 font-semibold py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+        Español
+      </button>
+    </div>
+  </div>
+
+  <!-- START SCREEN (Name, Email, Download Guide, Start Quiz) -->
+  <div id="start-screen" class="bg-slate-800 w-full max-w-2xl mx-auto rounded-xl shadow-lg p-6 md:p-8 hidden mt-8">
+    <h2 id="start-title" class="text-3xl font-bold text-slate-50 text-center mb-2"></h2>
+    <p id="start-subtitle" class="text-slate-300 text-center mb-6"></p>
+
+    <!-- Download Study Guide -->
+    <a id="download-guide-btn" href="#" target="_blank"
+       class="inline-flex items-center justify-center w-full mb-4 bg-green-500 text-slate-50 font-semibold py-3 px-4 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+      <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M12 3v12m0 0l-3.5-3.5M12 15l3.5-3.5M4 21h16" />
+      </svg>
+      <span id="download-guide-label">Download Study Guide (PDF)</span>
+    </a>
+
+    <div class="space-y-4">
+      <div>
+        <label for="name" id="name-label" class="block text-sm font-medium text-slate-200"></label>
+        <input type="text" id="name" name="name"
+               class="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md shadow-sm text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+               required>
+      </div>
+      <div>
+        <label for="email" id="email-label" class="block text-sm font-medium text-slate-200"></label>
+        <input type="email" id="email" name="email"
+               class="mt-1 block w-full px-3 py-2 bg-slate-700 border border-slate-600 rounded-md shadow-sm text-slate-50 placeholder-slate-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+               required>
+      </div>
+      <button onclick="startQuiz()" id="start-button"
+              class="w-full bg-blue-500 text-slate-50 font-semibold py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+      </button>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="quiz-container" class="quiz-container bg-slate-800 w-full max-w-2xl mx-auto rounded-xl shadow-lg p-6 md:p-8 opacity-0 hidden mt-8"></div>
+
+  <!-- FEEDBACK MODAL (No-fail: info + retry) -->
+  <div id="feedback-modal" class="feedback-modal fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 opacity-0 pointer-events-none transform scale-95">
+    <div class="bg-slate-800 rounded-lg shadow-xl p-6 md:p-8 w-full max-w-md text-center text-slate-50">
+      <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-800 bg-opacity-30">
+        <svg class="h-6 w-6 text-red-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
+        </svg>
+      </div>
+      <h3 id="modal-title" class="text-xl font-semibold text-slate-50 mt-4"></h3>
+      <p id="feedback-text" class="text-slate-300 mt-2 mb-6"></p>
+      <button onclick="closeFeedbackModal()" id="modal-button"
+              class="w-full bg-blue-500 text-slate-50 font-semibold py-3 px-4 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // === CONFIG ===
+    // English Study Guide PDF link
+    const STUDY_GUIDE_PDF_URL_EN = "https://us-prod.asyncgw.teams.microsoft.com/v1/objects/0-wus-d8-2d2d822c528078c93f65fb8d9b11d689/views/original/Job_Site_Safety_Training_Guide.pdf";
+    // Spanish PDF can be added later
+    const STUDY_GUIDE_PDF_URL_ES = STUDY_GUIDE_PDF_URL_EN; // TODO: replace with Spanish PDF URL when available
+
+    // --- Quiz Data (English) ---
+    const quizDataEnglish = [
+      {
+        question: "Which of the following is NOT part of the required PPE for EV charger installations in parking lots/garages?",
+        answers: [
+          { text: "Hard hat", correct: false },
+          { text: "Safety glasses", correct: false },
+          { text: "Flip flops", correct: true },
+          { text: "High-visibility vest", correct: false }
+        ],
+        feedback:
+          "Required PPE includes a <strong>hard hat</strong>, <strong>safety glasses</strong>, <strong>high-visibility vest</strong>, <strong>work gloves</strong>, and <strong>steel-toe boots</strong>. Flip flops are never acceptable on a job site."
+      },
+      {
+        question: "Before starting work each day, what should you do first?",
+        answers: [
+          { text: "Start setting up your tools", correct: false },
+          { text: "Check in with your supervisor and attend the safety briefing", correct: true },
+          { text: "Find a good parking spot", correct: false },
+          { text: "Begin wiring the EV charger", correct: false }
+        ],
+        feedback:
+          "Always <strong>check in with your supervisor</strong> and attend the daily <strong>safety briefing</strong>. Review the Job Hazard Analysis (JHA) for your tasks."
+      },
+      {
+        question: "True or False: You only need to wear a hard hat if you are using a ladder.",
+        answers: [
+          { text: "True", correct: false },
+          { text: "False", correct: true }
+        ],
+        feedback:
+          "<strong>False.</strong> Hard hats must be worn in active construction zones, not just when working at heights."
+      },
+      {
+        question: "When should you inspect your PPE?",
+        answers: [
+          { text: "Only when it looks dirty", correct: false },
+          { text: "At the end of the week", correct: false },
+          { text: "Every morning before starting work", correct: true },
+          { text: "Only if a supervisor asks", correct: false }
+        ],
+        feedback:
+          "Inspect PPE <strong>daily</strong> for damage or wear. Replace damaged gear immediately to ensure protection."
+      },
+      {
+        question: "If you do not have the required PPE when you arrive on site, what should you do?",
+        answers: [
+          { text: "Borrow a coworker’s used gloves", correct: false },
+          { text: "Use a hoodie and sunglasses instead", correct: false },
+          { text: "Notify your supervisor and wait for proper PPE", correct: true },
+          { text: "Start carefully and put PPE on later", correct: false }
+        ],
+        feedback:
+          "Stop work, <strong>notify your supervisor</strong>, and wait for proper PPE. Employers are required to provide PPE at no cost (Cal/OSHA §3380)."
+      }
+    ];
+
+    // --- Quiz Data (Spanish) ---
+    const quizDataSpanish = [
+      {
+        question: "¿Cuál de los siguientes NO forma parte del EPP obligatorio para instalaciones de cargadores de EV en estacionamientos/garajes?",
+        answers: [
+          { text: "Casco (hard hat)", correct: false },
+          { text: "Gafas de seguridad", correct: false },
+          { text: "Chanclas (flip flops)", correct: true },
+          { text: "Chaleco de alta visibilidad", correct: false }
+        ],
+        feedback:
+          "El EPP requerido incluye <strong>casco</strong>, <strong>gafas de seguridad</strong>, <strong>chaleco de alta visibilidad</strong>, <strong>guantes de trabajo</strong> y <strong>botas con punta de acero</strong>. Las chanclas nunca son aceptables."
+      },
+      {
+        question: "Antes de comenzar a trabajar cada día, ¿qué debe hacer primero?",
+        answers: [
+          { text: "Empezar a preparar las herramientas", correct: false },
+          { text: "Registrarse con su supervisor y asistir a la charla de seguridad", correct: true },
+          { text: "Buscar buen estacionamiento", correct: false },
+          { text: "Empezar a cablear el cargador", correct: false }
+        ],
+        feedback:
+          "Siempre <strong>regístrese con su supervisor</strong> y asista a la <strong>charla de seguridad</strong> diaria. Revise el Análisis de Peligros del Trabajo (JHA)."
+      },
+      {
+        question: "Verdadero o Falso: Solo necesita usar casco si está usando una escalera.",
+        answers: [
+          { text: "Verdadero", correct: false },
+          { text: "Falso", correct: true }
+        ],
+        feedback:
+          "<strong>Falso.</strong> El casco debe usarse en zonas de construcción activas, no solo al trabajar en altura."
+      },
+      {
+        question: "¿Cuándo debe inspeccionar su EPP?",
+        answers: [
+          { text: "Solo cuando se vea sucio", correct: false },
+          { text: "Al final de la semana", correct: false },
+          { text: "Cada mañana antes de empezar a trabajar", correct: true },
+          { text: "Solo si el supervisor lo pide", correct: false }
+        ],
+        feedback:
+          "Inspeccione el EPP <strong>diariamente</strong> en busca de daños o desgaste. Sustituya el equipo dañado de inmediato."
+      },
+      {
+        question: "Si no tiene el EPP requerido al llegar al sitio, ¿qué debe hacer?",
+        answers: [
+          { text: "Pedir prestados los guantes de un compañero", correct: false },
+          { text: "Usar sudadera con capucha y gafas de sol", correct: false },
+          { text: "Notificar a su supervisor y esperar el EPP adecuado", correct: true },
+          { text: "Comenzar con cuidado y ponerse el EPP después", correct: false }
+        ],
+        feedback:
+          "Detenga el trabajo, <strong>notifique a su supervisor</strong> y espere el EPP adecuado. El empleador debe proporcionarlo sin costo (Cal/OSHA §3380)."
+      }
+    ];
+
+    // --- UI Strings ---
+    const messages = {
+      en: {
+        startTitle: "Job Site Safety: General Safety & PPE",
+        startSubtitle: "Read the study guide, then complete the 5‑question, no‑fail quiz.",
+        downloadGuide: "Download Study Guide (PDF)",
+        nameLabel: "Full Name",
+        emailLabel: "Email Address",
+        startButton: "Start Quiz",
+        modalTitle: "Incorrect Answer",
+        modalButton: "Review and Try Again",
+        questionLabel: "Question",
+        ofLabel: "of",
+        completionTitle: "Training Complete!",
+        completionSubtitle:
+          "You have successfully completed the Job Site Safety module on General Safety & PPE.",
+        recordTitle: "Completion Record",
+        recordName: "Name:",
+        recordEmail: "Email:",
+        recordDate: "Date:",
+        screenshotPrompt: "Please take a screenshot of this page and send it to your supervisor.",
+        restartButton: "Restart Quiz",
+        requiredFields: "Please enter your full name and email address to begin."
+      },
+      es: {
+        startTitle: "Seguridad en el Sitio: Reglas Generales y EPP",
+        startSubtitle:
+          "Lea la guía de estudio y complete el cuestionario (5 preguntas, sin fallas).",
+        downloadGuide: "Descargar Guía de Estudio (PDF)",
+        nameLabel: "Nombre Completo",
+        emailLabel: "Correo Electrónico",
+        startButton: "Iniciar Cuestionario",
+        modalTitle: "Respuesta Incorrecta",
+        modalButton: "Revisar e Intentar de Nuevo",
+        questionLabel: "Pregunta",
+        ofLabel: "de",
+        completionTitle: "¡Entrenamiento Completado!",
+        completionSubtitle:
+          "Ha completado el módulo de Seguridad en el Sitio: Reglas Generales y EPP.",
+        recordTitle: "Registro de Finalización",
+        recordName: "Nombre:",
+        recordEmail: "Correo:",
+        recordDate: "Fecha:",
+        screenshotPrompt:
+          "Tome una captura de pantalla de esta página y envíela a su supervisor.",
+        restartButton: "Reiniciar Cuestionario",
+        requiredFields: "Ingrese su nombre completo y correo electrónico para comenzar."
+      }
+    };
+
+    // --- State ---
+    let currentQuestionIndex = 0;
+    let activeQuizData;
+    let activeMessages;
+    let userName = '';
+    let userEmail = '';
+
+    const languageScreen = document.getElementById('language-screen');
+    const startScreen = document.getElementById('start-screen');
+    const quizContainer = document.getElementById('quiz-container');
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackText = document.getElementById('feedback-text');
+
+    function setLanguage(lang) {
+      languageScreen.classList.add('hidden');
+      startScreen.classList.remove('hidden');
+
+      if (lang === 'en') {
+        activeQuizData = quizDataEnglish;
+        activeMessages = messages.en;
+        document.getElementById('download-guide-btn').href = STUDY_GUIDE_PDF_URL_EN;
+      } else {
+        activeQuizData = quizDataSpanish;
+        activeMessages = messages.es;
+        document.getElementById('download-guide-btn').href = STUDY_GUIDE_PDF_URL_ES;
+      }
+
+      // Localized labels
+      document.getElementById('start-title').textContent = activeMessages.startTitle;
+      document.getElementById('start-subtitle').textContent = activeMessages.startSubtitle;
+      document.getElementById('name-label').textContent = activeMessages.nameLabel;
+      document.getElementById('email-label').textContent = activeMessages.emailLabel;
+      document.getElementById('start-button').textContent = activeMessages.startButton;
+      document.getElementById('modal-title').textContent = activeMessages.modalTitle;
+      document.getElementById('modal-button').textContent = activeMessages.modalButton;
+      document.getElementById('download-guide-label').textContent = activeMessages.downloadGuide;
+    }
+
+    function startQuiz() {
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+
+      if (nameInput.value.trim() === '' || emailInput.value.trim() === '') {
+        alert(activeMessages.requiredFields);
+        return;
+      }
+
+      userName = nameInput.value.trim();
+      userEmail = emailInput.value.trim();
+
+      startScreen.classList.add('hidden');
+      quizContainer.classList.remove('hidden');
+      currentQuestionIndex = 0;
+      showQuestion();
+    }
+
+    function showQuestion() {
+      quizContainer.style.opacity = 0;
+
+      setTimeout(() => {
+        const questionData = activeQuizData[currentQuestionIndex];
+        if (!questionData) {
+          showCompletionScreen();
+          return;
+        }
+
+        let answersHTML = '';
+        questionData.answers.forEach((answer) => {
+          const feedbackEsc = questionData.feedback.replace(/'/g, "\\'");
+          answersHTML += `
+            <button onclick="selectAnswer(${answer.correct}, '${feedbackEsc}')"
+              class="w-full text-left bg-slate-700 text-slate-50 p-4 rounded-lg hover:bg-blue-500 hover:text-slate-50 hover:ring-2 hover:ring-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200">
+              ${answer.text}
+            </button>`;
+        });
+
+        quizContainer.innerHTML = `
+          <div class=\"mb-6\">\n            <p class=\"text-sm font-semibold text-blue-400\">\n              ${activeMessages.questionLabel} ${currentQuestionIndex + 1}\n              ${activeMessages.ofLabel} ${activeQuizData.length}\n            </p>\n            <h2 class=\"text-2xl font-bold text-slate-50 mt-1\">\n              ${questionData.question}\n            </h2>\n          </div>\n          <div class=\"space-y-3\">${answersHTML}</div>\n        `;
+        quizContainer.style.opacity = 1;
+      }, 250);
+    }
+
+    function selectAnswer(isCorrect, feedback) {
+      if (isCorrect) {
+        currentQuestionIndex++;
+        showQuestion();
+      } else {
+        // Render **bold** to <strong>
+        feedbackText.innerHTML = feedback.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        feedbackModal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        feedbackModal.classList.add('opacity-100', 'pointer-events-auto', 'scale-100');
+      }
+    }
+
+    function closeFeedbackModal() {
+      feedbackModal.classList.remove('opacity-100', 'pointer-events-auto', 'scale-100');
+      feedbackModal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+    }
+
+    function showCompletionScreen() {
+      quizContainer.style.opacity = 0;
+      setTimeout(() => {
+        const locale = (activeMessages === messages.en) ? 'en-US' : 'es-ES';
+        const dateStr = new Date().toLocaleDateString(locale);
+
+        quizContainer.innerHTML = `
+          <div class=\"text-center py-8\">\n            <div class=\"mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-500 bg-opacity-20 mb-4 animate-bounce\">\n              <svg class=\"h-8 w-8 text-green-400\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\"\n                   viewBox=\"0 0 24 24\" stroke-width=\"1.5\" stroke=\"currentColor\" aria-hidden=\"true\">\n                <path stroke-linecap=\"round\" stroke-linejoin=\"round\"\n                      d=\"M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z\"/>\n              </svg>\n            </div>\n            <h2 class=\"text-3xl font-bold text-slate-50\">${activeMessages.completionTitle}</h2>\n            <p class=\"text-slate-300 mt-2\">${activeMessages.completionSubtitle}</p>\n\n            <div class=\"mt-8 p-6 bg-slate-700 rounded-lg border border-slate-600 shadow-inner text-slate-50 text-left\">\n              <p class=\"text-lg font-semibold text-blue-400\">${activeMessages.recordTitle}</p>\n              <p class=\"text-slate-300 mt-2\">\n                <strong>${activeMessages.recordName}</strong> ${userName}<br>\n                <strong>${activeMessages.recordEmail}</strong> ${userEmail}<br>\n                <strong>${activeMessages.recordDate}</strong> ${dateStr}\n              </p>\n              <p class=\"mt-4 text-blue-400 font-semibold text-lg animate-pulse\">\n                ${activeMessages.screenshotPrompt}\n              </p>\n            </div>\n\n            <button onclick=\"restartQuiz()\"\n              class=\"mt-8 bg-blue-500 text-slate-50 font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors\">\n              ${activeMessages.restartButton}\n            </button>\n          </div>\n        `;
+        quizContainer.style.opacity = 1;
+      }, 250);
+    }
+
+    function restartQuiz() {
+      currentQuestionIndex = 0;
+      userName = '';
+      userEmail = '';
+      quizContainer.classList.add('hidden');
+      startScreen.classList.add('hidden');
+      languageScreen.classList.remove('hidden');
+      document.getElementById('name').value = '';
+      document.getElementById('email').value = '';
+    }
+  </script>
+</body>
+</html>
