@@ -32,24 +32,16 @@
         
         <div class="space-y-6">
             <details class="group" open>
-                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
-                    Job Site Safety <span class="group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-                <nav id="archive-JobSite" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">Job Site Safety <span class="group-open:rotate-180 transition-transform">▾</span></summary>
+                <nav id="archive-JobSite" class="space-y-3 pl-4 border-l-2 border-slate-50 text-[11px] text-slate-400 font-bold uppercase tracking-widest">Loading...</nav>
             </details>
-
             <details class="group">
-                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
-                    Driver Safety <span class="group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-                <nav id="archive-Driver" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">Driver Safety <span class="group-open:rotate-180 transition-transform">▾</span></summary>
+                <nav id="archive-Driver" class="space-y-3 pl-4 border-l-2 border-slate-50 text-[11px] text-slate-400 font-bold uppercase tracking-widest">Loading...</nav>
             </details>
-
             <details class="group">
-                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
-                    Safety Docs <span class="group-open:rotate-180 transition-transform">▾</span>
-                </summary>
-                <nav id="archive-Doc" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">Safety Docs <span class="group-open:rotate-180 transition-transform">▾</span></summary>
+                <nav id="archive-Doc" class="space-y-3 pl-4 border-l-2 border-slate-50 text-[11px] text-slate-400 font-bold uppercase tracking-widest">Loading...</nav>
             </details>
         </div>
     </div>
@@ -101,7 +93,8 @@
     </main>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxql6Z2p841Y3nqlwqxVBKRpm16ct4tmh06HF6-QGqQZ1tJ8PCB82MMf2XLVB19k1OHlQ/exec';
+        // PASTE YOUR NEW DEPLOYMENT URL HERE
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzWl5-V8W1lG3P2MGx2-xL-KSMoM0Gm6XNpnhE-TrAevR5SHkOntkko6shiIW2mGGTgRw/exec';
         const urlParams = new URLSearchParams(window.location.search);
         let uuid = urlParams.get('id');
         let quizData = [];
@@ -165,25 +158,32 @@
             if (urlParams.has('email')) document.getElementById('userEmail').value = urlParams.get('email');
 
             const modQuery = urlParams.get('module') ? `&moduleId=${urlParams.get('module')}` : '';
-            fetch(scriptURL + "?action=getModule" + modQuery).then(r => r.json()).then(data => {
-                document.getElementById('moduleTitle').textContent = data.topic;
-                document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + data.videoId + "?rel=0";
-                window.guideEN = data.guideEN; window.guideES = data.guideES; quizData = data.quiz;
-            });
+            fetch(scriptURL + "?action=getModule" + modQuery)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) { document.getElementById('moduleTitle').textContent = data.error; return; }
+                    document.getElementById('moduleTitle').textContent = data.topic;
+                    document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + data.videoId + "?rel=0";
+                    window.guideEN = data.guideEN; window.guideES = data.guideES; quizData = data.quiz;
+                })
+                .catch(() => { document.getElementById('moduleTitle').textContent = "Connection Error"; });
             
-            fetch(scriptURL + "?action=getArchive").then(r => r.json()).then(data => {
-                data.forEach(m => {
-                    const catId = m.category.replace(/\s+/g, '');
-                    const targetNav = document.getElementById(`archive-${catId}`);
-                    if (targetNav) {
-                        const link = document.createElement('a');
-                        link.href = `?id=${uuid || ''}&name=${urlParams.get('name') || ''}&email=${urlParams.get('email') || ''}&module=${m.id}`;
-                        link.className = "block text-[11px] font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest pb-1";
-                        link.textContent = `Module ${m.id}: ${m.title}`;
-                        targetNav.appendChild(link);
-                    }
+            fetch(scriptURL + "?action=getArchive")
+                .then(r => r.json())
+                .then(data => {
+                    ["JobSite", "Driver", "Doc"].forEach(cat => document.getElementById(`archive-${cat}`).innerHTML = "");
+                    data.forEach(m => {
+                        const catId = m.category.replace(/\s+/g, '');
+                        const targetNav = document.getElementById(`archive-${catId}`);
+                        if (targetNav) {
+                            const link = document.createElement('a');
+                            link.href = `?id=${uuid || ''}&name=${urlParams.get('name') || ''}&email=${urlParams.get('email') || ''}&module=${m.id}`;
+                            link.className = "block text-[11px] font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest pb-1";
+                            link.textContent = `Module ${m.id}: ${m.title}`;
+                            targetNav.appendChild(link);
+                        }
+                    });
                 });
-            });
         }
     </script>
 </body>
