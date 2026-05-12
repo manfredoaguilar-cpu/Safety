@@ -23,15 +23,33 @@
 
     <div id="overlay" class="fixed inset-0 bg-slate-900/20 opacity-0 pointer-events-none transition-opacity z-[60]" onclick="toggleMenu()"></div>
     
-    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100">
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 overflow-y-auto">
         <div class="flex justify-between items-center mb-12">
             <h2 class="text-xl font-black tracking-tighter uppercase italic text-orange-600">Archive</h2>
             <button onclick="toggleMenu()" class="text-slate-400 hover:text-orange-600 transition-colors text-2xl">✕</button>
         </div>
-        <nav class="space-y-6">
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase transition-colors italic">01 // Training History</a>
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase transition-colors italic">02 // Fleet Docs</a>
-            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.5.0 // PRODUCTION</p></div>
+        
+        <nav class="space-y-8">
+            <div>
+                <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-4 italic">01 // Training History</h3>
+                <div class="space-y-3 pl-2 border-l-2 border-slate-50">
+                    <a href="#" class="block text-xs font-bold text-slate-400 hover:text-[#002855] transition-colors">Module 01: Electrical Safety</a>
+                    <a href="#" class="block text-xs font-bold text-slate-400 hover:text-[#002855] transition-colors">Module 02: Housekeeping</a>
+                    <a href="#" class="block text-xs font-bold text-slate-400 hover:text-[#002855] transition-colors">Module 03: Hand Safety</a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-4 italic">02 // Fleet Logistics</h3>
+                <div class="space-y-3 pl-2 border-l-2 border-slate-50">
+                    <a href="#" class="block text-xs font-bold text-slate-400 hover:text-[#002855] transition-colors">Vehicle Maintenance Log</a>
+                    <a href="#" class="block text-xs font-bold text-slate-400 hover:text-[#002855] transition-colors">Incident Reporting Kit</a>
+                </div>
+            </div>
+
+            <div class="pt-12 border-t border-slate-100">
+                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.6.0 // OPS READY</p>
+            </div>
         </nav>
     </div>
 
@@ -42,8 +60,8 @@
                     <span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span>
                 </button>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-[#002855] rounded-full flex items-center justify-center font-bold text-white italic text-sm shadow-sm">C</div>
-                    <span class="text-xl font-black tracking-tighter uppercase">Chargie <span class="text-orange-600">Field Ops</span></span>
+                    <img src="https://raw.githubusercontent.com/manfredoaguilar-cpu/Safety/main/Chargie%20Logo%201.png" alt="Chargie Logo" class="h-8 w-auto">
+                    <span class="hidden md:block text-xl font-black tracking-tighter uppercase text-slate-200 ml-2 italic">Field Ops</span>
                 </div>
             </div>
             <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-100 text-slate-400">
@@ -108,17 +126,16 @@
         let uuid = urlParams.get('id');
         let currentLang = 'en';
 
-        // LEGACY CONTENT DATA
         const messages = {
-            en: { startTitle: "Protocol Access", startSubtitle: "Review guide and pass evaluation.", nameLabel: "Technician Full Name", emailLabel: "Chargie Email", ackLabel: "I confirm I have watched the video and reviewed the study guide.", downloadGuide: "Download Study Guide (PDF)", startButton: "Begin Evaluation", requiredFields: "Please enter your name and email.", requiredAck: "Acknowledgement required.", recordTitle: "COMPLIANCE RECEIPT", restartButton: "Restart Module" },
-            es: { startTitle: "Acceso al Protocolo", startSubtitle: "Revise la guía y apruebe la evaluación.", nameLabel: "Nombre del Técnico", emailLabel: "Correo de Chargie", ackLabel: "Confirmo que he visto el video y revisado la guía.", downloadGuide: "Descargar Guía (PDF)", startButton: "Iniciar Evaluación", requiredFields: "Ingrese su nombre y correo.", requiredAck: "Se requiere confirmación.", recordTitle: "RECIBO DE CUMPLIMIENTO", restartButton: "Reiniciar" }
+            en: { startTitle: "Protocol Access", startSubtitle: "Review guide and pass evaluation.", nameLabel: "Technician Full Name", emailLabel: "Chargie Email", ackLabel: "I confirm I have watched the video and reviewed the study guide.", downloadGuide: "Download Study Guide (PDF)", startButton: "Begin Evaluation", requiredFields: "Please enter your name and email.", requiredAck: "Acknowledgement required.", recordTitle: "COMPLIANCE RECEIPT" },
+            es: { startTitle: "Acceso al Protocolo", startSubtitle: "Revise la guía y apruebe la evaluación.", nameLabel: "Nombre del Técnico", emailLabel: "Correo de Chargie", ackLabel: "Confirmo que he visto el video y revisado la guía.", downloadGuide: "Descargar Guía (PDF)", startButton: "Iniciar Evaluación", requiredFields: "Ingrese su nombre y correo.", requiredAck: "Se requiere confirmación.", recordTitle: "RECIBO DE CUMPLIMIENTO" }
         };
 
         const quizData = {
             en: [
                 { q: "Safest way to park a Chargie van?", a: ["Pull in forward", "Diagonal", "Back into stall"], correct: 2, f: "Always park for a forward exit to ensure visibility." },
                 { q: "White lights are on a vehicle. Your protocol?", a: ["Speed up", "Touch the car", "Stop and wait"], correct: 2, f: "Never walk behind active vehicles until eye contact is made." },
-                { q: "When is a technician at highest risk?", a: ["Heavy rain", "Routine arrivals", "High voltage work"], correct: 1, f: "Complacency is the silent hazard. Most incidents happen on routine days." },
+                { q: "When is a technician at highest risk?", a: ["Heavy rain", "Routine arrivals", "High voltage work"], correct: 1, f: "Complacency is the silent hazard." },
                 { q: "Where should your phone be while walking?", a: ["In hand", "Eye level", "Tucked away"], correct: 2, f: "Eyes on the asphalt. No distractions." },
                 { q: "What is the 'Eye Contact Rule'?", a: ["Stare down", "Acknowledge before crossing", "Mirror check"], correct: 1, f: "If you haven't seen their eyes, they haven't seen you." }
             ],
@@ -150,13 +167,12 @@
             document.getElementById('ack-label').textContent = msg.ackLabel;
             document.getElementById('download-guide-label').textContent = msg.downloadGuide;
             document.getElementById('start-button').textContent = msg.startButton;
-            document.getElementById('download-guide-btn').href = lang === 'en' ? 'guide-en.pdf' : 'guide-es.pdf';
+            document.getElementById('download-guide-btn').href = lang === 'en' ? 'Parking Lot Safety.pdf' : 'Parking Lot Safety - Spanish.pdf';
         }
 
         function startQuiz() {
             if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert(messages[currentLang].requiredFields);
             if (!document.getElementById('ack-checkbox').checked) return alert(messages[currentLang].requiredAck);
-            
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('quiz-container').classList.remove('hidden');
             showQuestion(0);
@@ -197,22 +213,19 @@
 
         function completeModule() {
             const container = document.getElementById('quiz-container');
-            container.innerHTML = `<div class="text-center py-8 fade-in"><div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-50 border-2 border-green-500 mb-6 shadow-lg shadow-green-100 text-green-600 font-black text-3xl">✓</div><h2 class="text-4xl font-black uppercase tracking-tighter">Supercharged</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mb-10">Field Ops Compliance Verified</p><div class="p-8 bg-slate-50 rounded-3xl border border-slate-100 text-left font-mono text-[11px] text-slate-500 italic"><p class="text-orange-600 font-black not-italic mb-4 uppercase tracking-widest border-b border-slate-200 pb-2">${messages[currentLang].recordTitle}</p><p>NAME: ${document.getElementById('userName').value}</p><p>DATE: ${new Date().toLocaleDateString()}</p><p>STATUS: GRID_SYNC_COMPLETE</p></div></div>`;
-            
-            const payload = {
-                uuid: uuid || ("MANUAL-" + Date.now()),
-                techName: document.getElementById('userName').value,
-                email: document.getElementById('userEmail').value
-            };
-
-            fetch(scriptURL + "?uuid=" + payload.uuid + "&name=" + encodeURIComponent(payload.techName))
-                .catch(e => console.log("Silent logging active. Check sheet."));
+            container.innerHTML = `<div class="text-center py-8 fade-in"><div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-50 border-2 border-green-500 mb-6 shadow-lg shadow-green-100 text-green-600 font-black text-3xl">✓</div><h2 class="text-4xl font-black uppercase tracking-tighter">Supercharged</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mb-10">Field Ops Compliance Verified</p></div>`;
+            fetch(scriptURL + "?uuid=" + uuid + "&name=" + encodeURIComponent(document.getElementById('userName').value));
         }
 
         window.onload = () => {
-            const params = new URLSearchParams(window.location.search);
-            if (params.has('name')) document.getElementById('userName').value = params.get('name');
-            if (params.has('email')) document.getElementById('userEmail').value = params.get('email');
+            if (urlParams.has('name')) {
+                document.getElementById('userName').value = urlParams.get('name');
+                document.getElementById('user-status').classList.remove('hidden');
+                document.getElementById('display-name').textContent = 'Welcome, ' + urlParams.get('name');
+            }
+            if (urlParams.has('email')) {
+                document.getElementById('userEmail').value = urlParams.get('email');
+            }
 
             fetch(scriptURL + "?action=getModule")
                 .then(r => r.json())
