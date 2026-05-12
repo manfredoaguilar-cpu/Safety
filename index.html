@@ -15,6 +15,7 @@
         .burger-bun { background: #D2B48C; height: 4px; width: 28px; border-radius: 4px; }
         .burger-lettuce { background: #22C55E; height: 3px; width: 28px; border-radius: 4px; }
         .burger-meat { background: #5C4033; height: 4px; width: 28px; border-radius: 4px; }
+        details summary::-webkit-details-marker { display:none; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -28,7 +29,29 @@
             <h2>Archive Library</h2>
             <button onclick="toggleMenu()" class="text-slate-400 text-2xl">✕</button>
         </div>
-        <nav id="archiveList" class="space-y-6"></nav>
+        
+        <div class="space-y-6">
+            <details class="group" open>
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
+                    Job Site Safety <span class="group-open:rotate-180 transition-transform">▾</span>
+                </summary>
+                <nav id="archive-JobSite" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+            </details>
+
+            <details class="group">
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
+                    Driver Safety <span class="group-open:rotate-180 transition-transform">▾</span>
+                </summary>
+                <nav id="archive-Driver" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+            </details>
+
+            <details class="group">
+                <summary class="flex justify-between items-center font-black text-[10px] tracking-[0.3em] uppercase text-slate-300 cursor-pointer mb-4 italic">
+                    Safety Docs <span class="group-open:rotate-180 transition-transform">▾</span>
+                </summary>
+                <nav id="archive-Doc" class="space-y-3 pl-4 border-l-2 border-slate-50"></nav>
+            </details>
+        </div>
     </div>
 
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
@@ -47,23 +70,21 @@
 
     <main class="max-w-5xl mx-auto px-4 py-12 text-center">
         <h1 id="moduleTitle" class="text-5xl md:text-7xl font-black mb-4 tracking-tighter uppercase text-[#002855]">Loading...</h1>
-        <p class="text-xs font-black text-slate-300 uppercase tracking-[0.4em] mb-12 italic">// Field Ops Protocol</p>
-        
         <div class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16">
             <div class="video-container"><iframe id="heroVideo" src="" frameborder="0" allowfullscreen></iframe></div>
         </div>
 
         <div class="max-w-2xl mx-auto">
-            <section id="language-screen" class="bg-white rounded-3xl p-8 border border-slate-100 fade-in">
+            <section id="language-screen" class="bg-white rounded-3xl p-8 border border-slate-100 fade-in shadow-sm">
                 <h3 class="text-xl font-black text-[#002855] mb-8 uppercase italic">Select Language</h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs">English</button>
-                    <button onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs">Español</button>
+                    <button onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest">English</button>
+                    <button onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest">Español</button>
                 </div>
             </section>
 
             <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in">
-                <a id="download-btn" href="#" target="_blank" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-5 rounded-2xl border-2 border-orange-200 text-center uppercase text-xs">Download Study Guide (PDF)</a>
+                <a id="download-btn" href="#" target="_blank" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-5 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest">Download Study Guide (PDF)</a>
                 <div class="space-y-4">
                     <input type="text" id="userName" placeholder="Full Name" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none">
                     <input type="email" id="userEmail" placeholder="Chargie Email" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none">
@@ -80,16 +101,15 @@
     </main>
 
     <script>
-        // Replace with your Web App URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzpI-8bI9_ef1psLBKAwaAFk3qiTv2wjJEAK4AakgLPqppaDNCNxSBk6pDZ9EkDs9XQhQ/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxql6Z2p841Y3nqlwqxVBKRpm16ct4tmh06HF6-QGqQZ1tJ8PCB82MMf2XLVB19k1OHlQ/exec';
         const urlParams = new URLSearchParams(window.location.search);
         let uuid = urlParams.get('id');
         let quizData = [];
         let currentLang = 'en';
 
         const msgs = {
-            en: { start: "Begin Quiz", ack: "I confirm I have watched the video and reviewed the guide.", fields: "Name and Email required.", ackErr: "Acknowledge before starting." },
-            es: { start: "Iniciar Cuestionario", ack: "Confirmo que he visto el video y revisado la guía.", fields: "Nombre y Correo requeridos.", ackErr: "Debe confirmar antes de iniciar." }
+            en: { start: "Begin Evaluation", ack: "I confirm I have watched the video and reviewed the guide.", fields: "Name and Email required.", ackErr: "Acknowledge before starting." },
+            es: { start: "Iniciar Evaluación", ack: "Confirmo que he visto el video y revisado la guía.", fields: "Nombre y Correo requeridos.", ackErr: "Debe confirmar antes de iniciar." }
         };
 
         function toggleMenu() { document.getElementById('menuDrawer').classList.toggle('drawer-open'); document.getElementById('overlay').classList.toggle('opacity-0'); document.getElementById('overlay').classList.toggle('pointer-events-none'); }
@@ -117,12 +137,12 @@
             container.innerHTML = `<h2 class="text-xl font-black text-[#002855] mb-8 uppercase tracking-tighter italic">Challenge ${idx+1} / ${quizData.length}</h2><p class="text-lg font-bold text-[#002855] mb-8 leading-tight">${q.q}</p><div id="answers" class="space-y-3"></div><div id="feedback" class="mt-8 min-h-[100px]"></div>`;
             q.a.forEach((opt, oIdx) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-500 hover:border-orange-500 hover:text-[#002855]";
+                btn.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-500 hover:border-orange-500 hover:text-[#002855] transition-all";
                 btn.innerHTML = opt;
                 btn.onclick = () => {
                     const feedback = document.getElementById('feedback');
                     if (oIdx === q.correct) {
-                        feedback.innerHTML = `<div class="p-5 bg-green-50 border border-green-200 rounded-xl"><p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">// Verified</p><p class="text-slate-600 text-xs font-bold mb-4">${q.f}</p><button onclick="${idx < quizData.length - 1 ? `showQuestion(${idx+1})` : `complete()`}" class="w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs">${idx < quizData.length - 1 ? 'Next →' : 'Finalize Sync'}</button></div>`;
+                        feedback.innerHTML = `<div class="p-5 bg-green-50 border border-green-200 rounded-xl"><p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">// Verified</p><p class="text-slate-600 text-xs font-bold mb-4">${q.f}</p><button onclick="${idx < quizData.length - 1 ? `showQuestion(${idx+1})` : `complete()`}" class="w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest">${idx < quizData.length - 1 ? 'Next →' : 'Finalize Sync'}</button></div>`;
                     } else {
                         feedback.innerHTML = `<div class="p-5 bg-red-50 border border-red-200 rounded-xl"><p class="text-red-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">// Retry</p><p class="text-slate-600 text-xs font-bold">${q.f}</p></div>`;
                     }
@@ -132,7 +152,7 @@
         }
 
         function complete() {
-            document.getElementById('quiz-container').innerHTML = `<div class="text-center py-8"><h2 class="text-4xl font-black uppercase tracking-tighter">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">Field Ops Compliance Sync Complete</p></div>`;
+            document.getElementById('quiz-container').innerHTML = `<div class="text-center py-12"><h2 class="text-4xl font-black uppercase tracking-tighter">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">Field Ops Compliance Sync Complete</p></div>`;
             fetch(scriptURL + "?uuid=" + uuid + "&name=" + encodeURIComponent(document.getElementById('userName').value) + "&email=" + encodeURIComponent(document.getElementById('userEmail').value) + "&lang=" + currentLang);
         }
 
@@ -152,13 +172,16 @@
             });
             
             fetch(scriptURL + "?action=getArchive").then(r => r.json()).then(data => {
-                const list = document.getElementById('archiveList');
                 data.forEach(m => {
-                    const link = document.createElement('a');
-                    link.href = `?id=${uuid || ''}&name=${urlParams.get('name') || ''}&email=${urlParams.get('email') || ''}&module=${m.id}`;
-                    link.className = "block text-xs font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest border-b border-slate-50 pb-2";
-                    link.textContent = `Module ${m.id}: ${m.title}`;
-                    list.appendChild(link);
+                    const catId = m.category.replace(/\s+/g, '');
+                    const targetNav = document.getElementById(`archive-${catId}`);
+                    if (targetNav) {
+                        const link = document.createElement('a');
+                        link.href = `?id=${uuid || ''}&name=${urlParams.get('name') || ''}&email=${urlParams.get('email') || ''}&module=${m.id}`;
+                        link.className = "block text-[11px] font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest pb-1";
+                        link.textContent = `Module ${m.id}: ${m.title}`;
+                        targetNav.appendChild(link);
+                    }
                 });
             });
         }
