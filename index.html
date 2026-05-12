@@ -8,13 +8,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; background: #000; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1.5rem; background: #000; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         #menuDrawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .drawer-open { transform: translateX(0) !important; }
         .burger-bun { background: #D2B48C; height: 4px; width: 28px; border-radius: 4px; }
         .burger-lettuce { background: #22C55E; height: 3px; width: 28px; border-radius: 4px; }
         .burger-meat { background: #5C4033; height: 4px; width: 28px; border-radius: 4px; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-white text-[#002855] min-h-screen relative overflow-x-hidden">
@@ -23,13 +25,13 @@
     
     <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100">
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-xl font-black tracking-tighter uppercase italic">Menu</h2>
+            <h2 class="text-xl font-black tracking-tighter uppercase italic text-orange-600">Archive</h2>
             <button onclick="toggleMenu()" class="text-slate-400 hover:text-orange-600 transition-colors text-2xl">✕</button>
         </div>
         <nav class="space-y-6">
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Training Archive</a>
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Incident Report</a>
-            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.3.0 // AUTO-SYNC</p></div>
+            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase transition-colors italic">01 // Training History</a>
+            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase transition-colors italic">02 // Fleet Docs</a>
+            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.5.0 // PRODUCTION</p></div>
         </nav>
     </div>
 
@@ -40,53 +42,94 @@
                     <span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span>
                 </button>
                 <div class="flex items-center gap-3">
-                    <div class="w-8 h-8 bg-[#002855] rounded-full flex items-center justify-center font-bold text-white italic text-sm">C</div>
+                    <div class="w-8 h-8 bg-[#002855] rounded-full flex items-center justify-center font-bold text-white italic text-sm shadow-sm">C</div>
                     <span class="text-xl font-black tracking-tighter uppercase">Chargie <span class="text-orange-600">Field Ops</span></span>
                 </div>
             </div>
             <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-100 text-slate-400">
-                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span id="display-name">Technician Portal</span>
+                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span id="display-name">Technician Portal</span>
             </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 py-12">
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div class="lg:col-span-2">
-                <section class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[9px] font-black tracking-widest uppercase mb-4 italic">Live Module</span>
-                    <h2 id="moduleTitle" class="text-4xl md:text-5xl font-black mb-8 tracking-tighter uppercase leading-none">Syncing Protocol...</h2>
-                    
-                    <div class="video-container mb-8">
-                        <iframe id="heroVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                    </div>
-
-                    <button id="completeBtn" class="w-full bg-[#002855] hover:bg-orange-600 text-white font-black py-5 px-10 rounded-xl transition-all uppercase tracking-widest text-xs">
-                        Confirm Training Completion →
-                    </button>
-                    <div id="status" class="mt-4 text-center font-bold text-[11px] uppercase tracking-widest"></div>
-                </section>
+    <main class="max-w-5xl mx-auto px-4 py-12 text-center">
+        <h2 id="moduleTitle" class="text-5xl md:text-7xl font-black mb-4 tracking-tighter uppercase leading-none text-[#002855]">Syncing...</h2>
+        <p class="text-xs md:text-sm font-black text-slate-300 uppercase tracking-[0.4em] mb-12 italic">// Safety Protocol Module 04</p>
+        
+        <div class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16">
+            <div class="video-container">
+                <iframe id="heroVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
+        </div>
 
-            <aside class="space-y-6">
-                <div class="bg-white border border-slate-100 rounded-3xl p-8 shadow-sm">
-                    <h3 class="text-[10px] font-black tracking-[0.2em] mb-6 uppercase text-slate-300 italic">The Power Grid</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between text-[10px] font-black tracking-widest uppercase"><span>Global Completion</span><span class="text-green-500">84%</span></div>
-                        <div class="h-1 bg-slate-100 rounded-full overflow-hidden"><div class="w-[84%] h-full bg-green-500"></div></div>
-                    </div>
+        <div class="max-w-2xl mx-auto">
+            
+            <section id="language-screen" class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm fade-in">
+                <h3 class="text-xl font-black text-[#002855] mb-8 uppercase tracking-tight italic">Select Language / Seleccione Idioma</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl hover:bg-orange-600 transition-all uppercase tracking-widest text-xs">English</button>
+                    <button onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl hover:bg-orange-600 transition-all uppercase tracking-widest text-xs">Español</button>
                 </div>
-            </aside>
+            </section>
+
+            <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 shadow-sm fade-in">
+                <h3 id="start-title" class="text-2xl font-black text-[#002855] mb-2 uppercase tracking-tighter"></h3>
+                <p id="start-subtitle" class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-8"></p>
+                
+                <a id="download-guide-btn" href="#" target="_blank" class="flex items-center justify-center w-full mb-8 bg-orange-100 text-orange-600 font-black py-5 rounded-2xl border-2 border-orange-200 transition-all hover:bg-orange-200 uppercase tracking-widest text-xs">
+                    <span id="download-guide-label"></span>
+                </a>
+                
+                <div class="space-y-4 text-left">
+                    <div>
+                        <label id="name-label" class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-2 ml-2"></label>
+                        <input type="text" id="userName" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:border-orange-500 outline-none font-bold text-sm">
+                    </div>
+                    <div>
+                        <label id="email-label" class="block text-[10px] font-black text-slate-300 uppercase tracking-widest mb-2 ml-2"></label>
+                        <input type="email" id="userEmail" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:border-orange-500 outline-none font-bold text-sm">
+                    </div>
+                    <div class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600">
+                        <label for="ack-checkbox" id="ack-label" class="text-slate-500 text-[11px] font-bold leading-tight"></label>
+                    </div>
+                    <button onclick="startQuiz()" id="start-button" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase tracking-[0.2em] text-xs hover:bg-orange-600 transition-all shadow-xl shadow-slate-100"></button>
+                </div>
+            </section>
+
+            <section id="quiz-container" class="hidden bg-white rounded-3xl p-8 border border-slate-100 shadow-sm fade-in text-left"></section>
+
         </div>
     </main>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const uuid = urlParams.get('id');
-        const name = urlParams.get('name');
-        
-        // YOUR UPDATED DEPLOYMENT URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycby9583-__gQyu2cHTPG9aymOMbT-Xahm6jC_ELoP3fQe_Y-NsUbnb1747AO5xYmSG2aFg/exec';
+        const urlParams = new URLSearchParams(window.location.search);
+        let uuid = urlParams.get('id');
+        let currentLang = 'en';
+
+        // LEGACY CONTENT DATA
+        const messages = {
+            en: { startTitle: "Protocol Access", startSubtitle: "Review guide and pass evaluation.", nameLabel: "Technician Full Name", emailLabel: "Chargie Email", ackLabel: "I confirm I have watched the video and reviewed the study guide.", downloadGuide: "Download Study Guide (PDF)", startButton: "Begin Evaluation", requiredFields: "Please enter your name and email.", requiredAck: "Acknowledgement required.", recordTitle: "COMPLIANCE RECEIPT", restartButton: "Restart Module" },
+            es: { startTitle: "Acceso al Protocolo", startSubtitle: "Revise la guía y apruebe la evaluación.", nameLabel: "Nombre del Técnico", emailLabel: "Correo de Chargie", ackLabel: "Confirmo que he visto el video y revisado la guía.", downloadGuide: "Descargar Guía (PDF)", startButton: "Iniciar Evaluación", requiredFields: "Ingrese su nombre y correo.", requiredAck: "Se requiere confirmación.", recordTitle: "RECIBO DE CUMPLIMIENTO", restartButton: "Reiniciar" }
+        };
+
+        const quizData = {
+            en: [
+                { q: "Safest way to park a Chargie van?", a: ["Pull in forward", "Diagonal", "Back into stall"], correct: 2, f: "Always park for a forward exit to ensure visibility." },
+                { q: "White lights are on a vehicle. Your protocol?", a: ["Speed up", "Touch the car", "Stop and wait"], correct: 2, f: "Never walk behind active vehicles until eye contact is made." },
+                { q: "When is a technician at highest risk?", a: ["Heavy rain", "Routine arrivals", "High voltage work"], correct: 1, f: "Complacency is the silent hazard. Most incidents happen on routine days." },
+                { q: "Where should your phone be while walking?", a: ["In hand", "Eye level", "Tucked away"], correct: 2, f: "Eyes on the asphalt. No distractions." },
+                { q: "What is the 'Eye Contact Rule'?", a: ["Stare down", "Acknowledge before crossing", "Mirror check"], correct: 1, f: "If you haven't seen their eyes, they haven't seen you." }
+            ],
+            es: [
+                { q: "¿Forma más segura de estacionar?", a: ["Hacia adelante", "Diagonal", "De reversa"], correct: 2, f: "Estacione siempre para una salida hacia adelante." },
+                { q: "Luces blancas encendidas. ¿Protocolo?", a: ["Acelerar", "Tocar el auto", "Esperar contacto visual"], correct: 2, f: "No pase por detrás hasta que el conductor le reconozca." },
+                { q: "¿Cuándo hay mayor riesgo?", a: ["Lluvia fuerte", "Llegadas rutinarias", "Pruebas de voltaje"], correct: 1, f: "La complacencia es el peligro silencioso." },
+                { q: "¿Dónde debe estar el teléfono?", a: ["En la mano", "A la altura de ojos", "Guardado"], correct: 2, f: "Ojos en el asfalto. Sin distracciones." },
+                { q: "¿Qué es la regla del contacto visual?", a: ["Mirar fijo", "Confirmar antes de cruzar", "Solo espejo"], correct: 1, f: "Si no ha visto sus ojos, ellos no le han visto." }
+            ]
+        };
 
         function toggleMenu() {
             document.getElementById('menuDrawer').classList.toggle('drawer-open');
@@ -94,13 +137,83 @@
             document.getElementById('overlay').classList.toggle('pointer-events-none');
         }
 
-        window.onload = () => {
-            if (name) {
-                document.getElementById('user-status').classList.remove('hidden');
-                document.getElementById('display-name').textContent = 'Welcome, ' + name;
-            }
+        function setLanguage(lang) {
+            currentLang = lang;
+            const msg = messages[lang];
+            document.getElementById('language-screen').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+            
+            document.getElementById('start-title').textContent = msg.startTitle;
+            document.getElementById('start-subtitle').textContent = msg.startSubtitle;
+            document.getElementById('name-label').textContent = msg.nameLabel;
+            document.getElementById('email-label').textContent = msg.emailLabel;
+            document.getElementById('ack-label').textContent = msg.ackLabel;
+            document.getElementById('download-guide-label').textContent = msg.downloadGuide;
+            document.getElementById('start-button').textContent = msg.startButton;
+            document.getElementById('download-guide-btn').href = lang === 'en' ? 'guide-en.pdf' : 'guide-es.pdf';
+        }
 
-            // AUTO-POPULATE LOGIC: Reaches into your Google Sheet for the video
+        function startQuiz() {
+            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert(messages[currentLang].requiredFields);
+            if (!document.getElementById('ack-checkbox').checked) return alert(messages[currentLang].requiredAck);
+            
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
+            showQuestion(0);
+        }
+
+        function showQuestion(idx) {
+            const q = quizData[currentLang][idx];
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `
+                <div class="mb-10 text-center">
+                    <span class="inline-block px-3 py-1 bg-slate-50 text-[#002855] text-[9px] font-black rounded-full mb-4 uppercase tracking-[0.2em] italic border border-slate-100">Step ${idx+1} / 5</span>
+                    <h2 class="text-2xl font-black text-[#002855] tracking-tight leading-none">${q.q}</h2>
+                </div>
+                <div id="answers" class="space-y-3"></div>
+                <div id="feedback" class="mt-8 min-h-[100px]"></div>
+            `;
+            q.a.forEach((opt, oIdx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-500 hover:border-orange-500 hover:text-[#002855] transition-all flex justify-between";
+                btn.innerHTML = `<span>${opt}</span><span class="opacity-30">→</span>`;
+                btn.onclick = () => handleAnswer(idx, oIdx);
+                document.getElementById('answers').appendChild(btn);
+            });
+        }
+
+        function handleAnswer(qIdx, oIdx) {
+            const q = quizData[currentLang][qIdx];
+            const feedback = document.getElementById('feedback');
+            const btns = document.getElementById('answers').children;
+            for(let b of btns) b.disabled = true;
+
+            if (oIdx === q.correct) {
+                feedback.innerHTML = `<div class="p-6 bg-green-50 border border-green-200 rounded-2xl fade-in"><p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">// Correct</p><p class="text-slate-600 text-xs font-bold">${q.f}</p><button onclick="${qIdx < 4 ? `showQuestion(${qIdx+1})` : `completeModule()`}" class="mt-6 w-full bg-[#002855] text-white py-4 rounded-xl font-black text-xs uppercase tracking-widest">${qIdx < 4 ? 'Next Challenge →' : 'Finalize Sync'}</button></div>`;
+            } else {
+                feedback.innerHTML = `<div class="p-6 bg-red-50 border border-red-200 rounded-2xl fade-in"><p class="text-red-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">// Re-evaluate</p><p class="text-slate-600 text-xs font-bold">${q.f}</p><button onclick="showQuestion(${qIdx})" class="mt-6 w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-black text-xs uppercase tracking-widest italic">Try Again</button></div>`;
+            }
+        }
+
+        function completeModule() {
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = `<div class="text-center py-8 fade-in"><div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-50 border-2 border-green-500 mb-6 shadow-lg shadow-green-100 text-green-600 font-black text-3xl">✓</div><h2 class="text-4xl font-black uppercase tracking-tighter">Supercharged</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mb-10">Field Ops Compliance Verified</p><div class="p-8 bg-slate-50 rounded-3xl border border-slate-100 text-left font-mono text-[11px] text-slate-500 italic"><p class="text-orange-600 font-black not-italic mb-4 uppercase tracking-widest border-b border-slate-200 pb-2">${messages[currentLang].recordTitle}</p><p>NAME: ${document.getElementById('userName').value}</p><p>DATE: ${new Date().toLocaleDateString()}</p><p>STATUS: GRID_SYNC_COMPLETE</p></div></div>`;
+            
+            const payload = {
+                uuid: uuid || ("MANUAL-" + Date.now()),
+                techName: document.getElementById('userName').value,
+                email: document.getElementById('userEmail').value
+            };
+
+            fetch(scriptURL + "?uuid=" + payload.uuid + "&name=" + encodeURIComponent(payload.techName))
+                .catch(e => console.log("Silent logging active. Check sheet."));
+        }
+
+        window.onload = () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.has('name')) document.getElementById('userName').value = params.get('name');
+            if (params.has('email')) document.getElementById('userEmail').value = params.get('email');
+
             fetch(scriptURL + "?action=getModule")
                 .then(r => r.json())
                 .then(data => {
@@ -108,22 +221,10 @@
                     document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + data.videoId + "?rel=0";
                 })
                 .catch(() => {
-                    document.getElementById('moduleTitle').textContent = "Connection Error";
-                    document.getElementById('status').innerText = "POWER GRID OFFLINE. REFRESH PAGE.";
+                    document.getElementById('moduleTitle').textContent = "Parking Lot Safety";
+                    document.getElementById('heroVideo').src = "https://www.youtube.com/embed/nm8UBxyG_8o";
                 });
         }
-
-        document.getElementById('completeBtn').addEventListener('click', () => {
-            if (!uuid) { alert("Missing ID. Use the link from your SMS."); return; }
-            const status = document.getElementById('status');
-            status.innerText = "Syncing with Power Grid...";
-            fetch(scriptURL + "?uuid=" + uuid)
-                .then(() => {
-                    status.innerText = "✓ Field Clearance Logged";
-                    status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-green-500";
-                    document.getElementById('completeBtn').style.display = "none";
-                });
-        });
     </script>
 </body>
 </html>
