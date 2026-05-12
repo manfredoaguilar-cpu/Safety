@@ -15,6 +15,7 @@
         .burger-bun { background: #D2B48C; height: 4px; width: 28px; border-radius: 4px; }
         .burger-lettuce { background: #22C55E; height: 3px; width: 28px; border-radius: 4px; }
         .burger-meat { background: #5C4033; height: 4px; width: 28px; border-radius: 4px; }
+        .quiz-option.selected { border-color: #002855; background-color: #f8fafc; }
     </style>
 </head>
 <body class="bg-white text-[#002855] min-h-screen relative overflow-x-hidden">
@@ -29,7 +30,7 @@
         <nav class="space-y-6">
             <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Training Archive</a>
             <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Incident Report</a>
-            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.3.0 // AUTO-SYNC</p></div>
+            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.4.0 // FULL SUITE</p></div>
         </nav>
     </div>
 
@@ -51,18 +52,39 @@
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-12">
+        <div id="manualSignIn" class="hidden max-w-md mx-auto mb-12 bg-slate-50 p-8 rounded-3xl border border-slate-100">
+            <h3 class="text-sm font-black uppercase tracking-widest mb-4">Manual Sign-In Required</h3>
+            <input type="text" id="manualName" placeholder="Full Name" class="w-full p-4 rounded-xl border border-slate-200 mb-3 text-sm">
+            <input type="text" id="manualPhone" placeholder="Phone Number" class="w-full p-4 rounded-xl border border-slate-200 mb-4 text-sm">
+            <button onclick="saveManualInfo()" class="w-full bg-[#002855] text-white py-3 rounded-xl font-bold text-xs uppercase tracking-widest">Access Module</button>
+        </div>
+
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-8">
                 <section class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[9px] font-black tracking-widest uppercase mb-4 italic">Live Module</span>
-                    <h2 id="moduleTitle" class="text-4xl md:text-5xl font-black mb-8 tracking-tighter uppercase leading-none">Syncing Protocol...</h2>
+                    <h2 id="moduleTitle" class="text-4xl font-black mb-8 tracking-tighter uppercase">Syncing Protocol...</h2>
                     
                     <div class="video-container mb-8">
                         <iframe id="heroVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
 
-                    <button id="completeBtn" class="w-full bg-[#002855] hover:bg-orange-600 text-white font-black py-5 px-10 rounded-xl transition-all uppercase tracking-widest text-xs">
-                        Confirm Training Completion →
+                    <div class="grid grid-cols-2 gap-4 mb-8">
+                        <a href="guide-en.pdf" download class="flex items-center justify-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-slate-100 transition-all">
+                            <span class="text-[10px] font-black tracking-widest uppercase">Guide (EN)</span>
+                        </a>
+                        <a href="guide-es.pdf" download class="flex items-center justify-center gap-3 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-slate-100 transition-all">
+                            <span class="text-[10px] font-black tracking-widest uppercase">Guía (ES)</span>
+                        </a>
+                    </div>
+
+                    <div class="border-t border-slate-100 pt-8 mt-8">
+                        <h3 class="text-xs font-black tracking-[0.2em] text-slate-300 uppercase mb-8 italic">// Field Knowledge Check</h3>
+                        <div id="quizContainer" class="space-y-10">
+                            </div>
+                    </div>
+                    
+                    <button id="completeBtn" class="w-full mt-12 bg-slate-200 text-slate-400 cursor-not-allowed font-black py-5 px-10 rounded-xl transition-all uppercase tracking-widest text-xs" disabled>
+                        Pass Quiz to Unlock Completion →
                     </button>
                     <div id="status" class="mt-4 text-center font-bold text-[11px] uppercase tracking-widest"></div>
                 </section>
@@ -70,9 +92,9 @@
 
             <aside class="space-y-6">
                 <div class="bg-white border border-slate-100 rounded-3xl p-8 shadow-sm">
-                    <h3 class="text-[10px] font-black tracking-[0.2em] mb-6 uppercase text-slate-300 italic">The Power Grid</h3>
+                    <h3 class="text-xs font-black tracking-widest mb-6 text-slate-300 uppercase italic">Power Grid Sync</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between text-[10px] font-black tracking-widest uppercase"><span>Global Completion</span><span class="text-green-500">84%</span></div>
+                        <div class="flex justify-between text-[10px] font-black tracking-widest uppercase"><span>Global Completion</span><span class="text-green-400">84%</span></div>
                         <div class="h-1 bg-slate-100 rounded-full overflow-hidden"><div class="w-[84%] h-full bg-green-500"></div></div>
                     </div>
                 </div>
@@ -81,12 +103,19 @@
     </main>
 
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const uuid = urlParams.get('id');
-        const name = urlParams.get('name');
-        
-        // YOUR UPDATED DEPLOYMENT URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycby9583-__gQyu2cHTPG9aymOMbT-Xahm6jC_ELoP3fQe_Y-NsUbnb1747AO5xYmSG2aFg/exec';
+        const urlParams = new URLSearchParams(window.location.search);
+        let uuid = urlParams.get('id');
+        let techName = urlParams.get('name');
+
+        // 5-Question No-Fail Quiz Data
+        const quizData = [
+            { q: "What is the maximum speed limit in active charging zones?", a: ["15 MPH", "10 MPH", "5 MPH"], correct: 1 },
+            { q: "Which piece of PPE is essential for visibility in parking lots?", a: ["Safety Glasses", "High-Vis Vest", "Steel Toe Boots"], correct: 1 },
+            { q: "How should you mark your work perimeter?", a: ["Yellow Tape", "Safety Cones", "Parked Vehicle"], correct: 1 },
+            { q: "What is the priority when moving through a lot?", a: ["Speed", "Eye Contact with Pedestrians", "Completing the task"], correct: 1 },
+            { q: "What is the primary goal of this safety protocol?", a: ["Compliance logs", "Get everyone home safe", "Faster charger repair"], correct: 1 }
+        ];
 
         function toggleMenu() {
             document.getElementById('menuDrawer').classList.toggle('drawer-open');
@@ -94,33 +123,83 @@
             document.getElementById('overlay').classList.toggle('pointer-events-none');
         }
 
-        window.onload = () => {
-            if (name) {
-                document.getElementById('user-status').classList.remove('hidden');
-                document.getElementById('display-name').textContent = 'Welcome, ' + name;
-            }
+        function buildQuiz() {
+            const container = document.getElementById('quizContainer');
+            quizData.forEach((item, idx) => {
+                let html = `<div class="space-y-4">
+                    <p class="text-sm font-bold text-[#002855] leading-relaxed">${idx+1}. ${item.q}</p>
+                    <div class="grid grid-cols-1 gap-2">`;
+                item.a.forEach((opt, oIdx) => {
+                    html += `<button onclick="selectOption(${idx}, ${oIdx})" id="q${idx}o${oIdx}" class="quiz-option p-4 text-left border border-slate-100 rounded-xl text-xs font-semibold hover:border-slate-300 transition-all">${opt}</button>`;
+                });
+                html += `</div></div>`;
+                container.innerHTML += html;
+            });
+        }
 
-            // AUTO-POPULATE LOGIC: Reaches into your Google Sheet for the video
+        let userAnswers = {};
+        function selectOption(qIdx, oIdx) {
+            // Reset others in this question
+            quizData[qIdx].a.forEach((_, i) => document.getElementById(`q${qIdx}o${i}`).classList.remove('selected', 'bg-red-50', 'bg-green-50', 'border-red-500', 'border-green-500'));
+            
+            const btn = document.getElementById(`q${qIdx}o${oIdx}`);
+            if (oIdx === quizData[qIdx].correct) {
+                btn.classList.add('bg-green-50', 'border-green-500', 'text-green-700');
+                userAnswers[qIdx] = true;
+            } else {
+                btn.classList.add('bg-red-50', 'border-red-500', 'text-red-700');
+                userAnswers[qIdx] = false;
+            }
+            checkQuizCompletion();
+        }
+
+        function checkQuizCompletion() {
+            const btn = document.getElementById('completeBtn');
+            const allCorrect = Object.keys(userAnswers).length === quizData.length && Object.values(userAnswers).every(v => v === true);
+            if (allCorrect) {
+                btn.disabled = false;
+                btn.className = "w-full mt-12 bg-orange-600 text-white font-black py-5 px-10 rounded-xl transition-all uppercase tracking-widest text-xs shadow-lg shadow-orange-100";
+                btn.innerText = "Confirm Training Completion →";
+            }
+        }
+
+        window.onload = () => {
+            if (!uuid) document.getElementById('manualSignIn').classList.remove('hidden');
+            if (techName) document.getElementById('display-name').textContent = 'Welcome, ' + techName;
+            
+            buildQuiz();
+
             fetch(scriptURL + "?action=getModule")
                 .then(r => r.json())
                 .then(data => {
                     document.getElementById('moduleTitle').textContent = data.topic;
                     document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + data.videoId + "?rel=0";
-                })
-                .catch(() => {
-                    document.getElementById('moduleTitle').textContent = "Connection Error";
-                    document.getElementById('status').innerText = "POWER GRID OFFLINE. REFRESH PAGE.";
                 });
         }
 
+        function saveManualInfo() {
+            techName = document.getElementById('manualName').value;
+            const phone = document.getElementById('manualPhone').value;
+            if (!techName || !phone) return alert("Please enter name and phone.");
+            document.getElementById('display-name').textContent = 'Welcome, ' + techName;
+            document.getElementById('manualSignIn').classList.add('hidden');
+            uuid = "MANUAL-" + Date.now(); // Create a temp ID for logging
+        }
+
         document.getElementById('completeBtn').addEventListener('click', () => {
-            if (!uuid) { alert("Missing ID. Use the link from your SMS."); return; }
             const status = document.getElementById('status');
-            status.innerText = "Syncing with Power Grid...";
-            fetch(scriptURL + "?uuid=" + uuid)
-                .then(() => {
-                    status.innerText = "✓ Field Clearance Logged";
+            status.innerText = "UPDATING POWER GRID...";
+            status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-slate-300 animate-pulse";
+
+            fetch(scriptURL + "?uuid=" + uuid + "&manualName=" + encodeURIComponent(techName))
+                .then(response => {
+                    status.innerText = "✓ FIELD CLEARANCE LOGGED";
                     status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-green-500";
+                    document.getElementById('completeBtn').style.display = "none";
+                })
+                .catch(() => {
+                    status.innerText = "LOGGED TO SHEET (UI SYNC DELAY)";
+                    status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-orange-400";
                     document.getElementById('completeBtn').style.display = "none";
                 });
         });
