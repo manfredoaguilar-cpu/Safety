@@ -8,14 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1rem; background: #000; }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        
-        /* Drawer Menu Styling */
         #menuDrawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .drawer-open { transform: translateX(0) !important; }
-
-        /* Literal Hamburger Bars */
         .burger-bun { background: #D2B48C; height: 4px; width: 28px; border-radius: 4px; }
         .burger-lettuce { background: #22C55E; height: 3px; width: 28px; border-radius: 4px; }
         .burger-meat { background: #5C4033; height: 4px; width: 28px; border-radius: 4px; }
@@ -27,66 +23,44 @@
     
     <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100">
         <div class="flex justify-between items-center mb-12">
-            <h2 class="text-xl font-black tracking-tighter">FIELD OPS MENU</h2>
+            <h2 class="text-xl font-black tracking-tighter uppercase italic">Menu</h2>
             <button onclick="toggleMenu()" class="text-slate-400 hover:text-orange-600 transition-colors text-2xl">✕</button>
         </div>
         <nav class="space-y-6">
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 transition-colors uppercase">Training Archive</a>
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 transition-colors uppercase">Incident Report</a>
-            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 transition-colors uppercase">Fleet Docs</a>
-            <div class="pt-12 border-t border-slate-100">
-                <p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.2.5 // PRODUCTION</p>
-            </div>
+            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Training Archive</a>
+            <a href="#" class="block text-sm font-bold tracking-widest text-slate-500 hover:text-orange-600 uppercase">Incident Report</a>
+            <div class="pt-12 border-t border-slate-100"><p class="text-[10px] font-bold text-slate-300 uppercase tracking-[0.3em]">v1.3.0 // AUTO-SYNC</p></div>
         </nav>
     </div>
 
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-            
             <div class="flex items-center gap-6">
                 <button onclick="toggleMenu()" class="flex flex-col gap-1 p-2 hover:bg-slate-50 rounded-lg transition-all">
-                    <span class="burger-bun"></span>
-                    <span class="burger-lettuce"></span>
-                    <span class="burger-meat"></span>
-                    <span class="burger-bun"></span>
+                    <span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span>
                 </button>
-                
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 bg-[#002855] rounded-full flex items-center justify-center font-bold text-white italic text-sm">C</div>
                     <span class="text-xl font-black tracking-tighter uppercase">Chargie <span class="text-orange-600">Field Ops</span></span>
                 </div>
             </div>
-            
             <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black uppercase tracking-widest border border-slate-100 text-slate-400">
-                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
-                <span id="display-name">Technician Portal</span>
+                <span class="w-2 h-2 bg-green-500 rounded-full"></span><span id="display-name">Technician Portal</span>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto px-4 py-12">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            
             <div class="lg:col-span-2">
                 <section class="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
-                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[9px] font-black tracking-widest uppercase mb-4">Current Module</span>
-                    <h2 class="text-4xl md:text-5xl font-black mb-8 tracking-tighter">PARKING LOT <span class="text-orange-600">SAFETY</span></h2>
+                    <span class="inline-block px-3 py-1 bg-slate-100 text-slate-500 rounded-full text-[9px] font-black tracking-widest uppercase mb-4 italic">Live Module</span>
+                    <h2 id="moduleTitle" class="text-4xl md:text-5xl font-black mb-8 tracking-tighter uppercase leading-none">Syncing Protocol...</h2>
                     
-                    <div class="video-container mb-8 bg-slate-100 border border-slate-100">
-                        <iframe id="heroVideo" src="https://www.youtube.com/embed/vO6D9I_09mU?rel=0&modestbranding=1" allowfullscreen></iframe>
+                    <div class="video-container mb-8">
+                        <iframe id="heroVideo" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
 
-                    <div class="grid md:grid-cols-2 gap-8 mb-8 border-t border-slate-50 pt-8">
-                        <div>
-                            <h4 class="font-black text-[10px] tracking-widest uppercase text-slate-300 mb-2">Protocol</h4>
-                            <p class="text-slate-500 text-sm font-medium leading-relaxed">Visibility is life. Wear high-vis vests. Maintain sub-10 MPH in active charging zones.</p>
-                        </div>
-                        <div>
-                            <h4 class="font-black text-[10px] tracking-widest uppercase text-slate-300 mb-2">Requirement</h4>
-                            <p class="text-slate-500 text-sm font-medium leading-relaxed">Mark as complete below to update your field clearance status.</p>
-                        </div>
-                    </div>
-                    
                     <button id="completeBtn" class="w-full bg-[#002855] hover:bg-orange-600 text-white font-black py-5 px-10 rounded-xl transition-all uppercase tracking-widest text-xs">
                         Confirm Training Completion →
                     </button>
@@ -96,18 +70,10 @@
 
             <aside class="space-y-6">
                 <div class="bg-white border border-slate-100 rounded-3xl p-8 shadow-sm">
-                    <h3 class="text-xs font-black tracking-widest mb-6 text-slate-300 uppercase">Power Grid Sync</h3>
+                    <h3 class="text-[10px] font-black tracking-[0.2em] mb-6 uppercase text-slate-300 italic">The Power Grid</h3>
                     <div class="space-y-4">
-                        <div class="flex justify-between text-[10px] font-black tracking-widest uppercase">
-                            <span>Global Completion</span>
-                            <span class="text-green-500">84%</span>
-                        </div>
-                        <div class="h-1 bg-slate-100 rounded-full overflow-hidden">
-                            <div class="w-[84%] h-full bg-green-500"></div>
-                        </div>
-                    </div>
-                    <div class="mt-8 pt-6 border-t border-slate-50 text-[9px] text-slate-300 font-bold uppercase tracking-widest">
-                        A2P 10DLC Status: Active
+                        <div class="flex justify-between text-[10px] font-black tracking-widest uppercase"><span>Global Completion</span><span class="text-green-500">84%</span></div>
+                        <div class="h-1 bg-slate-100 rounded-full overflow-hidden"><div class="w-[84%] h-full bg-green-500"></div></div>
                     </div>
                 </div>
             </aside>
@@ -118,43 +84,44 @@
         const urlParams = new URLSearchParams(window.location.search);
         const uuid = urlParams.get('id');
         const name = urlParams.get('name');
+        
+        // YOUR UPDATED DEPLOYMENT URL
         const scriptURL = 'https://script.google.com/macros/s/AKfycby9583-__gQyu2cHTPG9aymOMbT-Xahm6jC_ELoP3fQe_Y-NsUbnb1747AO5xYmSG2aFg/exec';
 
         function toggleMenu() {
-            const drawer = document.getElementById('menuDrawer');
-            const overlay = document.getElementById('overlay');
-            drawer.classList.toggle('drawer-open');
-            overlay.classList.toggle('opacity-0');
-            overlay.classList.toggle('pointer-events-none');
+            document.getElementById('menuDrawer').classList.toggle('drawer-open');
+            document.getElementById('overlay').classList.toggle('opacity-0');
+            document.getElementById('overlay').classList.toggle('pointer-events-none');
         }
 
         window.onload = () => {
             if (name) {
                 document.getElementById('user-status').classList.remove('hidden');
-                const displayName = document.getElementById('display-name');
-                displayName.textContent = 'Welcome, ' + name;
-                displayName.classList.add('text-[#002855]');
+                document.getElementById('display-name').textContent = 'Welcome, ' + name;
             }
+
+            // AUTO-POPULATE LOGIC: Reaches into your Google Sheet for the video
+            fetch(scriptURL + "?action=getModule")
+                .then(r => r.json())
+                .then(data => {
+                    document.getElementById('moduleTitle').textContent = data.topic;
+                    document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + data.videoId + "?rel=0";
+                })
+                .catch(() => {
+                    document.getElementById('moduleTitle').textContent = "Connection Error";
+                    document.getElementById('status').innerText = "POWER GRID OFFLINE. REFRESH PAGE.";
+                });
         }
 
         document.getElementById('completeBtn').addEventListener('click', () => {
-            if (!uuid) {
-                alert("Missing ID. Use the link from your SMS.");
-                return;
-            }
+            if (!uuid) { alert("Missing ID. Use the link from your SMS."); return; }
             const status = document.getElementById('status');
             status.innerText = "Syncing with Power Grid...";
-            status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-slate-300";
-
             fetch(scriptURL + "?uuid=" + uuid)
                 .then(() => {
                     status.innerText = "✓ Field Clearance Logged";
                     status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-green-500";
                     document.getElementById('completeBtn').style.display = "none";
-                })
-                .catch(() => {
-                    status.innerText = "Sync Failed. Retrying...";
-                    status.className = "mt-4 text-center font-bold text-[11px] uppercase tracking-widest text-red-500";
                 });
         });
     </script>
