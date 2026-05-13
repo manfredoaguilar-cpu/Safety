@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chargie Field Ops // Safety Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -12,72 +11,55 @@
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         #menuDrawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .drawer-open { transform: translateX(0) !important; }
-        .burger-bun { background: #D2B48C; height: 4px; width: 28px; border-radius: 4px; }
-        .burger-lettuce { background: #22C55E; height: 3px; width: 28px; border-radius: 4px; }
-        .burger-meat { background: #5C4033; height: 4px; width: 28px; border-radius: 4px; }
+        .burger-bun, .burger-lettuce, .burger-meat { height: 4px; width: 28px; border-radius: 4px; }
+        .burger-bun { background: #D2B48C; } .burger-lettuce { background: #22C55E; height: 3px; } .burger-meat { background: #5C4033; }
         details summary::-webkit-details-marker { display:none; }
         .fade-in { animation: fadeIn 0.4s ease-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="bg-white text-[#002855] min-h-screen relative overflow-x-hidden">
-
     <div id="overlay" class="fixed inset-0 bg-slate-900/20 opacity-0 pointer-events-none transition-opacity z-[60]" onclick="toggleMenu()"></div>
     
-    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 overflow-y-auto">
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 flex flex-col">
         <div class="flex justify-between items-center mb-12 text-orange-600 font-black italic uppercase tracking-tighter">
             <h2 class="text-xl">Archive Library</h2>
             <button type="button" onclick="toggleMenu()" class="text-slate-400 text-2xl">✕</button>
         </div>
-        <div class="space-y-8">
-            <details class="group" id="details-JobSite" open>
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
-                    Job Site Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
-                </summary>
-                <nav id="archive-JobSite" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
-            </details>
-            <details class="group" id="details-Driver">
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
-                    Driver Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
-                </summary>
-                <nav id="archive-Driver" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
-            </details>
-            <details class="group" id="details-Doc">
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
-                    Safety Docs <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
-                </summary>
-                <nav id="archive-Doc" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
-            </details>
+        <div class="space-y-8 overflow-y-auto pb-8">
+            <details class="group" id="details-JobSite" open><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">Job Site Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-JobSite" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+            <details class="group" id="details-Driver"><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">Driver Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-Driver" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+            <details class="group" id="details-Doc"><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">Safety Docs <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-Doc" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+        </div>
+
+        <div class="mt-auto pt-8 border-t border-slate-100">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 mb-2 italic">// Support & Contact</h4>
+                <p class="text-sm font-black text-[#002855] mb-1">Manny Aguilar</p>
+                <div class="space-y-2">
+                    <a href="mailto:maguilar@chargie.com" class="block text-[11px] font-bold text-slate-900">✉ maguilar@chargie.com</a>
+                    <a href="tel:+13237097682" class="block text-[11px] font-bold text-slate-900">☏ (323) 709-7682</a>
+                </div>
+            </div>
         </div>
     </div>
 
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
             <div class="flex items-center gap-6">
-                <button type="button" onclick="toggleMenu()" class="flex flex-col gap-1 p-2 hover:bg-slate-50 rounded-lg transition-all">
-                    <span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span>
-                </button>
+                <button type="button" onclick="toggleMenu()" class="flex flex-col gap-1 p-2"><span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span></button>
                 <img src="https://raw.githubusercontent.com/manfredoaguilar-cpu/Safety/main/Chargie%20Logo%201.png" alt="Chargie Logo" class="h-6 w-auto">
             </div>
-            <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black border border-slate-100 text-slate-400 uppercase tracking-widest">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span id="display-name">Portal Active</span>
-            </div>
+            <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black border border-slate-100 text-slate-400 uppercase tracking-widest"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span id="display-name">Portal Active</span></div>
         </div>
     </header>
 
     <main class="max-w-5xl mx-auto px-4 py-12 text-center">
         <h1 id="moduleTitle" class="text-5xl md:text-7xl font-black mb-4 tracking-tighter uppercase text-[#002855]">Syncing...</h1>
-        <div id="video-wrapper" class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16">
-            <div class="video-container">
-                <iframe id="heroVideo" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
-
+        <div id="video-wrapper" class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16"><div class="video-container"><iframe id="heroVideo" src="" frameborder="0" allowfullscreen></iframe></div></div>
         <div class="max-w-2xl mx-auto">
             <section id="language-screen" class="bg-white rounded-3xl p-12 border border-slate-100 shadow-sm">
-                <div id="lang-loading" class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] animate-pulse italic">
-                    Initializing Safety Protocol...
-                </div>
+                <div id="lang-loading" class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] animate-pulse italic">Establishing Secure Protocol...</div>
                 <div id="lang-buttons" class="hidden">
                     <h3 class="text-xl font-black text-[#002855] mb-8 uppercase italic">Select Language</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -86,187 +68,61 @@
                     </div>
                 </div>
             </section>
-
             <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in">
-                <a id="download-btn" href="#" target="_blank" rel="noopener" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-6 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest italic">Download PDF Document</a>
-                
-                <div id="login-form-area" class="space-y-4">
-                    <input type="text" id="userName" placeholder="Full Name" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
-                    <input type="email" id="userEmail" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
-                    <div id="ack-wrapper" class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        <input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600">
-                        <label id="ack-label" for="ack-checkbox" class="text-slate-500 text-[11px] font-bold leading-tight"></label>
-                    </div>
-                    <button type="button" onclick="handleStartAction()" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
+                <a id="download-btn" href="#" target="_blank" rel="noopener" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-6 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest italic">Download PDF</a>
+                <div class="space-y-4">
+                    <input type="text" id="userName" placeholder="Full Name" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none">
+                    <input type="email" id="userEmail" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none">
+                    <div class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100"><input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600"><label id="ack-label" for="ack-checkbox" class="text-slate-500 text-[11px] font-bold"></label></div>
+                    <button type="button" onclick="handleStartAction()" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600"></button>
                 </div>
             </section>
-
             <section id="quiz-container" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in"></section>
         </div>
     </main>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwIM7rwg3xoNGgUVw5w31ZQWYgpHYA63mmPi_O9WyJaRSJ7RxFnh3U1qNIpQOh8p_KwZg/exec';
-        
-        // 1. CAPTURE & CLEAN URL IMMEDIATELY
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz_6lKYdRgMdzKjA-4XkV2q4xz33ZEmucKSxr0z5FgIfnsU_c_vQFAEvZCPBoFyaRJ_XQ/exec';
         const urlParams = new URLSearchParams(window.location.search);
-        const capture = {
-            id: urlParams.get('id'),
-            name: urlParams.get('name'),
-            email: urlParams.get('email')
-        };
-
-        if(capture.id) sessionStorage.setItem('uuid', capture.id);
-        if(capture.name) sessionStorage.setItem('uName', capture.name);
-        if(capture.email) sessionStorage.setItem('uEmail', capture.email);
-
-        // Claude's Security Note: Wipe the URL immediately after saving to memory
-        if(urlParams.has('id')) {
-            const cleanUrl = window.location.pathname + (urlParams.has('module') ? '?module=' + urlParams.get('module') : '');
-            window.history.replaceState({}, document.title, cleanUrl);
+        
+        if (urlParams.has('id')) {
+            sessionStorage.setItem('uuid', urlParams.get('id'));
+            sessionStorage.setItem('uName', urlParams.get('name') || "");
+            sessionStorage.setItem('uEmail', urlParams.get('email') || "");
+            window.history.replaceState({}, document.title, window.location.pathname + (urlParams.has('module') ? '?module=' + urlParams.get('module') : ''));
         }
 
         let activeQuizData = [], currentLang = 'en', currentModTitle = "", currentCategory = "";
-        const msgs = {
-            en: { start: "Begin Evaluation", doc: "Confirm & Log Receipt", ack: "I confirm I have reviewed this document.", next: "Next Challenge →", final: "Finalize Sync", correct: "// Correct", retry: "// Re-evaluate" },
-            es: { start: "Iniciar Evaluación", doc: "Confirmar y Registrar", ack: "Confirmo que he revisado este documento.", next: "Siguiente →", final: "Finalizar", correct: "// Correcto", retry: "// Re-evaluar" }
-        };
+        const msgs = { en: { start: "Begin Evaluation", doc: "Confirm & Log Receipt", ack: "I confirm I have reviewed this document.", next: "Next →", final: "Finalize Sync", correct: "// Correct", retry: "// Re-evaluate" }, es: { start: "Iniciar Evaluación", doc: "Confirmar y Registrar", ack: "Confirmo que he revisado este documento.", next: "Siguiente →", final: "Finalizar", correct: "// Correcto", retry: "// Re-evaluar" } };
 
-        function toggleMenu() { 
-            const d = document.getElementById('menuDrawer');
-            const o = document.getElementById('overlay');
-            d.classList.toggle('drawer-open'); o.classList.toggle('opacity-0'); o.classList.toggle('pointer-events-none'); 
-        }
-
+        function toggleMenu() { document.getElementById('menuDrawer').classList.toggle('drawer-open'); document.getElementById('overlay').classList.toggle('opacity-0'); document.getElementById('overlay').classList.toggle('pointer-events-none'); }
         function setLanguage(l) { 
-            currentLang = l;
-            document.getElementById('language-screen').classList.add('hidden');
-            document.getElementById('start-screen').classList.remove('hidden');
-            
-            // Re-inject memory values into fields
-            document.getElementById('userName').value = sessionStorage.getItem('uName') || "";
-            document.getElementById('userEmail').value = sessionStorage.getItem('uEmail') || "";
-            
+            currentLang = l; document.getElementById('language-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('userName').value = sessionStorage.getItem('uName'); document.getElementById('userEmail').value = sessionStorage.getItem('uEmail');
             document.getElementById('download-btn').href = l === 'en' ? window.guideEN : window.guideES;
-            document.getElementById('ack-label').textContent = msgs[l].ack;
-            document.getElementById('start-btn').textContent = currentCategory === 'Doc' ? msgs[l].doc : msgs[l].start;
+            document.getElementById('ack-label').textContent = msgs[l].ack; document.getElementById('start-btn').textContent = currentCategory === 'Doc' ? msgs[l].doc : msgs[l].start;
             activeQuizData = l === 'en' ? window.quizEN : window.quizES;
         }
-
-        function handleStartAction() {
-            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert("Please enter name and email.");
-            if (!document.getElementById('ack-checkbox').checked) return alert("Acknowledgement required.");
-            if (currentCategory === 'Doc') {
-                complete(); 
-            } else {
-                document.getElementById('start-screen').classList.add('hidden');
-                document.getElementById('quiz-container').classList.remove('hidden');
-                showQuestion(0);
-            }
-        }
-
+        function handleStartAction() { if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert("Missing Info."); if (!document.getElementById('ack-checkbox').checked) return alert("Acknowledgement required."); currentCategory === 'Doc' ? complete() : (document.getElementById('start-screen').classList.add('hidden'), document.getElementById('quiz-container').classList.remove('hidden'), showQuestion(0)); }
         function showQuestion(idx) {
-            const q = activeQuizData[idx];
-            const container = document.getElementById('quiz-container');
-            container.innerHTML = ""; 
-            const header = document.createElement('div');
-            header.className = "mb-10 text-center";
-            header.innerHTML = `<span class="inline-block px-3 py-1 bg-slate-50 text-[#002855] text-[9px] font-black rounded-full mb-4 uppercase tracking-[0.2em] italic border border-slate-100">Step ${idx+1} / ${activeQuizData.length}</span>`;
-            const qText = document.createElement('h2');
-            qText.className = "text-2xl font-black text-[#002855] tracking-tight leading-none";
-            qText.textContent = q.q;
-            header.appendChild(qText);
-            container.appendChild(header);
-
-            const answersDiv = document.createElement('div');
-            answersDiv.className = "space-y-3";
-            q.a.forEach((opt, oIdx) => {
-                const btn = document.createElement('button');
-                btn.type = "button";
-                btn.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-800 hover:border-orange-500 hover:text-orange-600 transition-all flex justify-between items-center";
-                const s = document.createElement('span'); s.textContent = opt; btn.appendChild(s);
-                const a = document.createElement('span'); a.className = "opacity-30"; a.textContent = "→"; btn.appendChild(a);
-                btn.onclick = () => handleAnswer(idx, oIdx);
-                answersDiv.appendChild(btn);
-            });
-            container.appendChild(answersDiv);
-            const fbArea = document.createElement('div'); fbArea.id = "feedback-area"; fbArea.className = "mt-8 min-h-[100px]";
-            container.appendChild(fbArea);
+            const q = activeQuizData[idx], container = document.getElementById('quiz-container');
+            container.innerHTML = ""; const header = document.createElement('div'); header.className = "mb-10 text-center"; header.innerHTML = `<span class="inline-block px-3 py-1 bg-slate-50 text-[#002855] text-[9px] font-black rounded-full mb-4 uppercase italic border border-slate-100">Step ${idx+1} / ${activeQuizData.length}</span>`;
+            const qText = document.createElement('h2'); qText.className = "text-2xl font-black tracking-tight"; qText.textContent = q.q; header.appendChild(qText); container.appendChild(header);
+            const ans = document.createElement('div'); ans.className = "space-y-3"; q.a.forEach((opt, oIdx) => { const b = document.createElement('button'); b.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-800 hover:text-orange-600 transition-all flex justify-between"; const s = document.createElement('span'); s.textContent = opt; b.appendChild(s); b.onclick = () => handleAnswer(idx, oIdx); ans.appendChild(b); }); container.appendChild(ans);
+            const fb = document.createElement('div'); fb.id = "feedback-area"; fb.className = "mt-8 min-h-[100px]"; container.appendChild(fb);
         }
-
         function handleAnswer(qIdx, oIdx) {
-            const q = activeQuizData[qIdx];
-            const feedback = document.getElementById('feedback-area');
-            const btns = document.querySelectorAll('#quiz-container button');
-            btns.forEach(b => b.disabled = true);
-            const res = document.createElement('div');
-            if (oIdx === q.correct) {
-                res.className = "p-6 bg-green-50 border border-green-200 rounded-2xl fade-in";
-                res.innerHTML = `<p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].correct}</p>`;
-                const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t);
-                const nextBtn = document.createElement('button'); nextBtn.type = "button"; nextBtn.className = "w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest";
-                nextBtn.textContent = qIdx < activeQuizData.length - 1 ? msgs[currentLang].next : msgs[currentLang].final;
-                nextBtn.onclick = () => qIdx < activeQuizData.length - 1 ? showQuestion(qIdx + 1) : complete();
-                res.appendChild(nextBtn);
-            } else {
-                res.className = "p-6 bg-red-50 border border-red-200 rounded-2xl fade-in";
-                res.innerHTML = `<p class="text-red-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].retry}</p>`;
-                const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t);
-                const retryBtn = document.createElement('button'); retryBtn.type = "button"; retryBtn.className = "w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-black uppercase text-xs italic";
-                retryBtn.textContent = currentLang === 'en' ? "Try Again" : "Intentar de nuevo";
-                retryBtn.onclick = () => showQuestion(qIdx);
-                res.appendChild(retryBtn);
-            }
-            feedback.appendChild(res);
+            const q = activeQuizData[qIdx], fb = document.getElementById('feedback-area'), btns = document.querySelectorAll('#quiz-container button'); btns.forEach(b => b.disabled = true);
+            const res = document.createElement('div'); if (oIdx === q.correct) { res.className = "p-6 bg-green-50 rounded-2xl fade-in"; res.innerHTML = `<p class="text-green-700 font-black text-[10px] uppercase mb-1 italic">// Correct</p>`; const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t); const n = document.createElement('button'); n.className = "w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs"; n.textContent = qIdx < activeQuizData.length - 1 ? msgs[currentLang].next : msgs[currentLang].final; n.onclick = () => qIdx < activeQuizData.length - 1 ? showQuestion(qIdx + 1) : complete(); res.appendChild(n); } 
+            else { res.className = "p-6 bg-red-50 rounded-2xl fade-in"; res.innerHTML = `<p class="text-red-700 font-black text-[10px] uppercase mb-1 italic">// Retry</p>`; const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t); const r = document.createElement('button'); r.className = "w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-black uppercase text-xs italic"; r.textContent = "Try Again"; r.onclick = () => showQuestion(qIdx); res.appendChild(r); } fb.appendChild(res);
         }
-
-        function complete() {
-            const finalName = document.getElementById('userName').value;
-            const finalEmail = document.getElementById('userEmail').value;
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
-            document.getElementById('quiz-container').innerHTML = `<div class="text-center py-12 fade-in"><h2 class="text-4xl font-black uppercase tracking-tighter">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">${currentLang === 'en' ? 'Field Ops Compliance Sync Complete' : 'Sincronización de Cumplimiento Completa'}</p></div>`;
-            fetch(scriptURL + "?uuid=" + sessionStorage.getItem('uuid') + "&name=" + encodeURIComponent(finalName) + "&email=" + encodeURIComponent(finalEmail) + "&lang=" + currentLang + "&modTitle=" + encodeURIComponent(currentModTitle));
-        }
+        function complete() { const n = document.getElementById('userName').value, e = document.getElementById('userEmail').value; document.getElementById('start-screen').classList.add('hidden'); document.getElementById('quiz-container').classList.remove('hidden'); document.getElementById('quiz-container').innerHTML = `<div class="text-center py-12"><h2 class="text-4xl font-black uppercase">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">Field Ops Sync Complete</p></div>`; fetch(scriptURL + "?uuid=" + sessionStorage.getItem('uuid') + "&name=" + encodeURIComponent(n) + "&email=" + encodeURIComponent(e) + "&lang=" + currentLang + "&modTitle=" + encodeURIComponent(currentModTitle)); }
 
         window.onload = () => {
-            if (sessionStorage.getItem('uName')) {
-                document.getElementById('user-status').classList.remove('hidden');
-                document.getElementById('display-name').textContent = 'Welcome, ' + sessionStorage.getItem('uName');
-            }
+            if (sessionStorage.getItem('uName')) { document.getElementById('user-status').classList.remove('hidden'); document.getElementById('display-name').textContent = 'Welcome, ' + sessionStorage.getItem('uName'); }
             const modID = new URLSearchParams(window.location.search).get('module') || "";
-            
-            // FETCH MODULE (And reveal buttons only when ready)
-            fetch(scriptURL + "?action=getModule&moduleId=" + modID)
-                .then(r => r.json())
-                .then(d => {
-                    document.getElementById('moduleTitle').textContent = d.topic;
-                    currentModTitle = d.topic;
-                    currentCategory = d.category;
-                    if(d.category === 'Doc') document.getElementById('video-wrapper').style.display = 'none';
-                    document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + d.videoId + "?rel=0";
-                    window.guideEN = d.guideEN; window.guideES = d.guideES; window.quizEN = d.quizEN; window.quizES = d.quizES;
-                    
-                    // REVEAL BUTTONS
-                    document.getElementById('lang-loading').classList.add('hidden');
-                    document.getElementById('lang-buttons').classList.remove('hidden');
-                }).catch(() => { document.getElementById('moduleTitle').textContent = "Connection Error"; });
-            
-            fetch(scriptURL + "?action=getArchive")
-                .then(r => r.json())
-                .then(data => {
-                    ["JobSite", "Driver", "Doc"].forEach(c => document.getElementById(`archive-${c}`).innerHTML = "");
-                    data.forEach(m => {
-                        const nav = document.getElementById(`archive-${m.category.replace(/\s+/g, '')}`);
-                        if (nav) {
-                            const l = document.createElement('a');
-                            l.href = `?module=${m.id}`;
-                            l.className = "block text-[11px] font-black text-slate-900 hover:text-orange-600 uppercase tracking-widest pb-2 transition-colors border-b border-slate-50";
-                            l.textContent = `Module ${m.id}: ${m.title}`;
-                            nav.appendChild(l);
-                        }
-                    });
-                });
+            fetch(scriptURL + "?action=getModule&moduleId=" + modID).then(r => r.json()).then(d => { document.getElementById('moduleTitle').textContent = d.topic; currentModTitle = d.topic; currentCategory = d.category; if(d.category === 'Doc') document.getElementById('video-wrapper').style.display = 'none'; document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + d.videoId + "?rel=0"; window.guideEN = d.guideEN; window.guideES = d.guideES; window.quizEN = d.quizEN; window.quizES = d.quizES; document.getElementById('lang-loading').classList.add('hidden'); document.getElementById('lang-buttons').classList.remove('hidden'); });
+            fetch(scriptURL + "?action=getArchive").then(r => r.json()).then(data => { ["JobSite", "Driver", "Doc"].forEach(c => document.getElementById(`archive-${c}`).innerHTML = ""); data.forEach(m => { const nav = document.getElementById(`archive-${m.category.replace(/\s+/g, '')}`); if (nav) { const l = document.createElement('a'); l.href = `?module=${m.id}`; l.className = "block text-[11px] font-black text-slate-900 hover:text-orange-600 uppercase tracking-widest pb-2 transition-colors border-b border-slate-50"; l.textContent = m.title; nav.appendChild(l); } }); });
         }
     </script>
 </body>
