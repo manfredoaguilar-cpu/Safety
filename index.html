@@ -27,10 +27,10 @@
 
     <div id="overlay" class="fixed inset-0 bg-slate-900/20 opacity-0 pointer-events-none transition-opacity z-[60]" onclick="toggleMenu()"></div>
     
-    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 overflow-y-auto">
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 overflow-y-auto" role="navigation" aria-label="Module Archive">
         <div class="flex justify-between items-center mb-12 text-orange-600 font-black italic uppercase tracking-tighter">
             <h2>Archive Library</h2>
-            <button type="button" onclick="toggleMenu()" class="text-slate-400 text-2xl">✕</button>
+            <button type="button" onclick="toggleMenu()" class="text-slate-400 text-2xl" aria-label="Close menu">✕</button>
         </div>
         
         <div class="space-y-6">
@@ -58,7 +58,7 @@
     <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
             <div class="flex items-center gap-6">
-                <button type="button" onclick="toggleMenu()" class="flex flex-col gap-1 p-2 hover:bg-slate-50 rounded-lg transition-all">
+                <button type="button" onclick="toggleMenu()" class="flex flex-col gap-1 p-2 hover:bg-slate-50 rounded-lg transition-all" aria-label="Open menu">
                     <span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span>
                 </button>
                 <img src="https://raw.githubusercontent.com/manfredoaguilar-cpu/Safety/main/Chargie%20Logo%201.png" alt="Chargie Logo" class="h-6 w-auto">
@@ -90,15 +90,22 @@
 
             <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in">
                 <a id="download-btn" href="#" target="_blank" rel="noopener noreferrer" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-5 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest">Download Study Guide (PDF)</a>
-                <div class="space-y-4">
-                    <input type="text" id="userName" placeholder="Full Name" autocomplete="name" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
-                    <input type="email" id="userEmail" placeholder="Chargie Email" autocomplete="email" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                
+                <form onsubmit="event.preventDefault(); startQuiz();" class="space-y-4">
+                    <div>
+                        <label for="userName" class="sr-only">Full Name</label>
+                        <input type="text" id="userName" placeholder="Full Name" autocomplete="name" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                    </div>
+                    <div>
+                        <label for="userEmail" class="sr-only">Email</label>
+                        <input type="email" id="userEmail" placeholder="Chargie Email" autocomplete="email" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                    </div>
                     <div class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        <input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600">
+                        <input id="ack-checkbox" type="checkbox" required class="h-5 w-5 rounded border-slate-300 text-orange-600">
                         <label id="ack-label" for="ack-checkbox" class="text-slate-500 text-[11px] font-bold leading-tight"></label>
                     </div>
-                    <button type="button" onclick="startQuiz()" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
-                </div>
+                    <button type="submit" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
+                </form>
             </section>
 
             <section id="quiz-container" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in"></section>
@@ -106,8 +113,8 @@
     </main>
 
     <script>
-        // REPLACE WITH YOUR NEW DEPLOY URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx6Q4yXBY0lILUd-O1G6eojFRBKTsSrPtem8kLFOK93fWETXF8odbNxWk1zD5sPXts7Ew/exec';
+        // REPLACE WITH YOUR NEW WEB APP URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzG75TgkutJ7NHSGFKg-szZXHj6zCVa1U40jg0jMpId_iC5yceBrf1wHIZF8Cj_M5OTpw/exec';
         const urlParams = new URLSearchParams(window.location.search);
         let uuid = urlParams.get('id'), activeQuizData = [], currentLang = 'en', currentModTitle = "";
 
@@ -117,9 +124,11 @@
         };
 
         function toggleMenu() { 
-            document.getElementById('menuDrawer').classList.toggle('drawer-open'); 
-            document.getElementById('overlay').classList.toggle('opacity-0'); 
-            document.getElementById('overlay').classList.toggle('pointer-events-none'); 
+            const drawer = document.getElementById('menuDrawer');
+            const overlay = document.getElementById('overlay');
+            drawer.classList.toggle('drawer-open'); 
+            overlay.classList.toggle('opacity-0'); 
+            overlay.classList.toggle('pointer-events-none'); 
         }
 
         function setLanguage(l) { 
@@ -133,8 +142,8 @@
         }
 
         function startQuiz() {
-            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert(msgs[currentLang].fields);
-            if (!document.getElementById('ack-checkbox').checked) return alert(msgs[currentLang].ackErr);
+            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return;
+            if (!document.getElementById('ack-checkbox').checked) return;
             document.getElementById('start-screen').classList.add('hidden');
             document.getElementById('quiz-container').classList.remove('hidden');
             showQuestion(0);
@@ -228,12 +237,18 @@
         }
 
         window.onload = () => {
+            // Immediate fill logic for Name and Email
+            const nameField = document.getElementById('userName');
+            const emailField = document.getElementById('userEmail');
+            
             if (urlParams.has('name')) {
-                document.getElementById('userName').value = urlParams.get('name');
+                nameField.value = urlParams.get('name');
                 document.getElementById('user-status').classList.remove('hidden');
                 document.getElementById('display-name').textContent = 'Welcome, ' + urlParams.get('name');
             }
-            if (urlParams.has('email')) document.getElementById('userEmail').value = urlParams.get('email');
+            if (urlParams.has('email')) {
+                emailField.value = urlParams.get('email');
+            }
 
             const modID = urlParams.get('module') || "";
             fetch(scriptURL + "?action=getModule&moduleId=" + modID)
@@ -255,7 +270,7 @@
                         if (nav) {
                             const l = document.createElement('a');
                             l.href = `?id=${uuid || ''}&name=${urlParams.get('name') || ''}&email=${urlParams.get('email') || ''}&module=${m.id}`;
-                            l.className = "block text-[11px] font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest pb-1 transition-colors";
+                            l.className = "block text-[11px] font-bold text-slate-900 hover:text-orange-600 uppercase tracking-widest pb-1 transition-colors";
                             l.textContent = `Module ${m.id}: ${m.title}`;
                             nav.appendChild(l);
                         }
