@@ -3,11 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chargie Field Ops Safety Training Portal">
     <title>Chargie Field Ops // Safety Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
@@ -34,22 +31,22 @@
         </div>
         <div class="space-y-8">
             <details class="group" id="details-JobSite" open>
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">
+                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
                     Job Site Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
                 </summary>
-                <nav id="archive-JobSite" class="space-y-4 pl-4 border-l-2 border-orange-100 text-slate-800"></nav>
+                <nav id="archive-JobSite" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
             </details>
             <details class="group" id="details-Driver">
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">
+                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
                     Driver Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
                 </summary>
-                <nav id="archive-Driver" class="space-y-4 pl-4 border-l-2 border-orange-100 text-slate-800"></nav>
+                <nav id="archive-Driver" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
             </details>
             <details class="group" id="details-Doc">
-                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600 transition-colors">
+                <summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">
                     Safety Docs <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span>
                 </summary>
-                <nav id="archive-Doc" class="space-y-4 pl-4 border-l-2 border-orange-100 text-slate-800"></nav>
+                <nav id="archive-Doc" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav>
             </details>
         </div>
     </div>
@@ -70,9 +67,9 @@
 
     <main class="max-w-5xl mx-auto px-4 py-12 text-center">
         <h1 id="moduleTitle" class="text-5xl md:text-7xl font-black mb-4 tracking-tighter uppercase text-[#002855]">Syncing...</h1>
-        <div class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16">
+        <div id="video-wrapper" class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16">
             <div class="video-container">
-                <iframe id="heroVideo" src="" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                <iframe id="heroVideo" src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
 
@@ -86,16 +83,17 @@
             </section>
 
             <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in">
-                <a id="download-btn" href="#" target="_blank" rel="noopener noreferrer" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-5 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest italic">Download Study Guide (PDF)</a>
-                <form onsubmit="event.preventDefault(); startQuiz();" class="space-y-4">
-                    <input type="text" id="userName" placeholder="Full Name" autocomplete="name" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
-                    <input type="email" id="userEmail" placeholder="Chargie Email" autocomplete="email" required class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
-                    <div class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                        <input id="ack-checkbox" type="checkbox" required class="h-5 w-5 rounded border-slate-300 text-orange-600">
+                <a id="download-btn" href="#" target="_blank" rel="noopener" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-6 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest italic">Download PDF Document</a>
+                
+                <div id="login-form-area" class="space-y-4">
+                    <input type="text" id="userName" placeholder="Full Name" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                    <input type="email" id="userEmail" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                    <div id="ack-wrapper" class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600">
                         <label id="ack-label" for="ack-checkbox" class="text-slate-500 text-[11px] font-bold leading-tight"></label>
                     </div>
-                    <button type="submit" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
-                </form>
+                    <button type="button" onclick="handleStartAction()" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
+                </div>
             </section>
 
             <section id="quiz-container" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in"></section>
@@ -103,22 +101,23 @@
     </main>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbztPNB_rEegOwS8rOGwnXeyTI58a54rXih2WKHcSTsyZ7TkUFGNR9cyUfg4OUfYgweEdA/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1duB74EYzDvsmkYRrMK3fFiU2BGM-QJ656CS_qFAOXZWsXWJ7bMt7nWHKBxJ49CTs7A/exec';
         const urlParams = new URLSearchParams(window.location.search);
         
-        // 1. CAPTURE DATA IMMEDIATELY
-        const initialID = urlParams.get('id');
-        const initialName = urlParams.get('name');
-        const initialEmail = urlParams.get('email');
+        // PERSISTENT MEMORY: EMAIL & NAME
+        const currentData = {
+            id: urlParams.get('id') || sessionStorage.getItem('uuid') || "MANUAL",
+            name: urlParams.get('name') || sessionStorage.getItem('uName') || "",
+            email: urlParams.get('email') || sessionStorage.getItem('uEmail') || ""
+        };
+        sessionStorage.setItem('uuid', currentData.id);
+        sessionStorage.setItem('uName', currentData.name);
+        sessionStorage.setItem('uEmail', currentData.email);
 
-        if(initialID) sessionStorage.setItem('uuid', initialID);
-        if(initialName) sessionStorage.setItem('uName', initialName);
-        if(initialEmail) sessionStorage.setItem('uEmail', initialEmail);
-
-        let activeQuizData = [], currentLang = 'en', currentModTitle = "";
+        let activeQuizData = [], currentLang = 'en', currentModTitle = "", currentCategory = "";
         const msgs = {
-            en: { start: "Begin Evaluation", ack: "I confirm I have watched the video and reviewed the guide.", next: "Next Challenge →", final: "Finalize Sync", correct: "// Correct", retry: "// Re-evaluate" },
-            es: { start: "Iniciar Evaluación", ack: "Confirmo que he visto el video y revisado la guía.", next: "Siguiente →", final: "Finalizar", correct: "// Correcto", retry: "// Re-evaluar" }
+            en: { start: "Begin Evaluation", doc: "Confirm & Log Receipt", ack: "I confirm I have reviewed this document.", next: "Next Challenge →", final: "Finalize Sync", correct: "// Correct", retry: "// Re-evaluate" },
+            es: { start: "Iniciar Evaluación", doc: "Confirmar y Registrar", ack: "Confirmo que he revisado este documento.", next: "Siguiente →", final: "Finalizar", correct: "// Correcto", retry: "// Re-evaluar" }
         };
 
         function toggleMenu() { 
@@ -132,26 +131,27 @@
             document.getElementById('language-screen').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden');
             
-            // 2. FILL FIELDS (Guarantees they exist in DOM)
-            document.getElementById('userName').value = sessionStorage.getItem('uName') || "";
-            document.getElementById('userEmail').value = sessionStorage.getItem('uEmail') || "";
+            // POPULATE FIELDS (Explicitly forcing values from memory)
+            document.getElementById('userName').value = sessionStorage.getItem('uName');
+            document.getElementById('userEmail').value = sessionStorage.getItem('uEmail');
             
             document.getElementById('download-btn').href = l === 'en' ? window.guideEN : window.guideES;
             document.getElementById('ack-label').textContent = msgs[l].ack;
-            document.getElementById('start-btn').textContent = msgs[l].start;
+            document.getElementById('start-btn').textContent = currentCategory === 'Doc' ? msgs[l].doc : msgs[l].start;
             activeQuizData = l === 'en' ? window.quizEN : window.quizES;
-
-            // 3. CLEAN URL (Only after data is safely stored and fields are filled)
-            if(window.location.search.includes('id=')) {
-                const clean = window.location.pathname + (urlParams.has('module') ? '?module=' + urlParams.get('module') : '');
-                window.history.replaceState({}, document.title, clean);
-            }
         }
 
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-container').classList.remove('hidden');
-            showQuestion(0);
+        function handleStartAction() {
+            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert("Missing Info.");
+            if (!document.getElementById('ack-checkbox').checked) return alert("Acknowledgement required.");
+            
+            if (currentCategory === 'Doc') {
+                complete(); // Skip to completion
+            } else {
+                document.getElementById('start-screen').classList.add('hidden');
+                document.getElementById('quiz-container').classList.remove('hidden');
+                showQuestion(0);
+            }
         }
 
         function showQuestion(idx) {
@@ -188,31 +188,32 @@
             const feedback = document.getElementById('feedback-area');
             const btns = document.querySelectorAll('#quiz-container button');
             btns.forEach(b => b.disabled = true);
-
-            const resultDiv = document.createElement('div');
+            const res = document.createElement('div');
             if (oIdx === q.correct) {
-                resultDiv.className = "p-6 bg-green-50 border border-green-200 rounded-2xl fade-in";
-                resultDiv.innerHTML = `<p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].correct}</p>`;
-                const fText = document.createElement('p'); fText.className = "text-slate-600 text-xs font-bold mb-4"; fText.textContent = q.f; resultDiv.appendChild(fText);
+                res.className = "p-6 bg-green-50 border border-green-200 rounded-2xl fade-in";
+                res.innerHTML = `<p class="text-green-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].correct}</p>`;
+                const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t);
                 const nextBtn = document.createElement('button'); nextBtn.type = "button"; nextBtn.className = "w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs tracking-widest";
                 nextBtn.textContent = qIdx < activeQuizData.length - 1 ? msgs[currentLang].next : msgs[currentLang].final;
                 nextBtn.onclick = () => qIdx < activeQuizData.length - 1 ? showQuestion(qIdx + 1) : complete();
-                resultDiv.appendChild(nextBtn);
+                res.appendChild(nextBtn);
             } else {
-                resultDiv.className = "p-6 bg-red-50 border border-red-200 rounded-2xl fade-in";
-                resultDiv.innerHTML = `<p class="text-red-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].retry}</p>`;
-                const fText = document.createElement('p'); fText.className = "text-slate-600 text-xs font-bold mb-4"; fText.textContent = q.f; resultDiv.appendChild(fText);
+                res.className = "p-6 bg-red-50 border border-red-200 rounded-2xl fade-in";
+                res.innerHTML = `<p class="text-red-700 font-black text-[10px] uppercase tracking-widest mb-1 italic">${msgs[currentLang].retry}</p>`;
+                const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t);
                 const retryBtn = document.createElement('button'); retryBtn.type = "button"; retryBtn.className = "w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-black uppercase text-xs italic";
                 retryBtn.textContent = currentLang === 'en' ? "Try Again" : "Intentar de nuevo";
                 retryBtn.onclick = () => showQuestion(qIdx);
-                resultDiv.appendChild(retryBtn);
+                res.appendChild(retryBtn);
             }
-            feedback.appendChild(resultDiv);
+            feedback.appendChild(res);
         }
 
         function complete() {
             const finalName = document.getElementById('userName').value;
             const finalEmail = document.getElementById('userEmail').value;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-container').classList.remove('hidden');
             document.getElementById('quiz-container').innerHTML = `<div class="text-center py-12 fade-in"><h2 class="text-4xl font-black uppercase tracking-tighter">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">${currentLang === 'en' ? 'Field Ops Compliance Sync Complete' : 'Sincronización de Cumplimiento Completa'}</p></div>`;
             fetch(scriptURL + "?uuid=" + sessionStorage.getItem('uuid') + "&name=" + encodeURIComponent(finalName) + "&email=" + encodeURIComponent(finalEmail) + "&lang=" + currentLang + "&modTitle=" + encodeURIComponent(currentModTitle));
         }
@@ -228,6 +229,8 @@
                 .then(d => {
                     document.getElementById('moduleTitle').textContent = d.topic;
                     currentModTitle = d.topic;
+                    currentCategory = d.category;
+                    if(d.category === 'Doc') document.getElementById('video-wrapper').style.display = 'none';
                     document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + d.videoId + "?rel=0";
                     window.guideEN = d.guideEN; window.guideES = d.guideES; window.quizEN = d.quizEN; window.quizES = d.quizES;
                 }).catch(() => { document.getElementById('moduleTitle').textContent = "Connection Error"; });
