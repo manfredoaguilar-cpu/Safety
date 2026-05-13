@@ -74,11 +74,16 @@
         </div>
 
         <div class="max-w-2xl mx-auto">
-            <section id="language-screen" class="bg-white rounded-3xl p-8 border border-slate-100 fade-in shadow-sm">
-                <h3 class="text-xl font-black text-[#002855] mb-8 uppercase italic">Select Language</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button type="button" onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">English</button>
-                    <button type="button" onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">Español</button>
+            <section id="language-screen" class="bg-white rounded-3xl p-12 border border-slate-100 shadow-sm">
+                <div id="lang-loading" class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] animate-pulse italic">
+                    Initializing Safety Protocol...
+                </div>
+                <div id="lang-buttons" class="hidden">
+                    <h3 class="text-xl font-black text-[#002855] mb-8 uppercase italic">Select Language</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button type="button" onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">English</button>
+                        <button type="button" onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">Español</button>
+                    </div>
                 </div>
             </section>
 
@@ -101,18 +106,25 @@
     </main>
 
     <script>
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1duB74EYzDvsmkYRrMK3fFiU2BGM-QJ656CS_qFAOXZWsXWJ7bMt7nWHKBxJ49CTs7A/exec';
-        const urlParams = new URLSearchParams(window.location.search);
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwIM7rwg3xoNGgUVw5w31ZQWYgpHYA63mmPi_O9WyJaRSJ7RxFnh3U1qNIpQOh8p_KwZg/exec';
         
-        // PERSISTENT MEMORY: EMAIL & NAME
-        const currentData = {
-            id: urlParams.get('id') || sessionStorage.getItem('uuid') || "MANUAL",
-            name: urlParams.get('name') || sessionStorage.getItem('uName') || "",
-            email: urlParams.get('email') || sessionStorage.getItem('uEmail') || ""
+        // 1. CAPTURE & CLEAN URL IMMEDIATELY
+        const urlParams = new URLSearchParams(window.location.search);
+        const capture = {
+            id: urlParams.get('id'),
+            name: urlParams.get('name'),
+            email: urlParams.get('email')
         };
-        sessionStorage.setItem('uuid', currentData.id);
-        sessionStorage.setItem('uName', currentData.name);
-        sessionStorage.setItem('uEmail', currentData.email);
+
+        if(capture.id) sessionStorage.setItem('uuid', capture.id);
+        if(capture.name) sessionStorage.setItem('uName', capture.name);
+        if(capture.email) sessionStorage.setItem('uEmail', capture.email);
+
+        // Claude's Security Note: Wipe the URL immediately after saving to memory
+        if(urlParams.has('id')) {
+            const cleanUrl = window.location.pathname + (urlParams.has('module') ? '?module=' + urlParams.get('module') : '');
+            window.history.replaceState({}, document.title, cleanUrl);
+        }
 
         let activeQuizData = [], currentLang = 'en', currentModTitle = "", currentCategory = "";
         const msgs = {
@@ -131,9 +143,9 @@
             document.getElementById('language-screen').classList.add('hidden');
             document.getElementById('start-screen').classList.remove('hidden');
             
-            // POPULATE FIELDS (Explicitly forcing values from memory)
-            document.getElementById('userName').value = sessionStorage.getItem('uName');
-            document.getElementById('userEmail').value = sessionStorage.getItem('uEmail');
+            // Re-inject memory values into fields
+            document.getElementById('userName').value = sessionStorage.getItem('uName') || "";
+            document.getElementById('userEmail').value = sessionStorage.getItem('uEmail') || "";
             
             document.getElementById('download-btn').href = l === 'en' ? window.guideEN : window.guideES;
             document.getElementById('ack-label').textContent = msgs[l].ack;
@@ -142,11 +154,10 @@
         }
 
         function handleStartAction() {
-            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert("Missing Info.");
+            if (!document.getElementById('userName').value || !document.getElementById('userEmail').value) return alert("Please enter name and email.");
             if (!document.getElementById('ack-checkbox').checked) return alert("Acknowledgement required.");
-            
             if (currentCategory === 'Doc') {
-                complete(); // Skip to completion
+                complete(); 
             } else {
                 document.getElementById('start-screen').classList.add('hidden');
                 document.getElementById('quiz-container').classList.remove('hidden');
@@ -223,7 +234,9 @@
                 document.getElementById('user-status').classList.remove('hidden');
                 document.getElementById('display-name').textContent = 'Welcome, ' + sessionStorage.getItem('uName');
             }
-            const modID = urlParams.get('module') || "";
+            const modID = new URLSearchParams(window.location.search).get('module') || "";
+            
+            // FETCH MODULE (And reveal buttons only when ready)
             fetch(scriptURL + "?action=getModule&moduleId=" + modID)
                 .then(r => r.json())
                 .then(d => {
@@ -233,6 +246,10 @@
                     if(d.category === 'Doc') document.getElementById('video-wrapper').style.display = 'none';
                     document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + d.videoId + "?rel=0";
                     window.guideEN = d.guideEN; window.guideES = d.guideES; window.quizEN = d.quizEN; window.quizES = d.quizES;
+                    
+                    // REVEAL BUTTONS
+                    document.getElementById('lang-loading').classList.add('hidden');
+                    document.getElementById('lang-buttons').classList.remove('hidden');
                 }).catch(() => { document.getElementById('moduleTitle').textContent = "Connection Error"; });
             
             fetch(scriptURL + "?action=getArchive")
