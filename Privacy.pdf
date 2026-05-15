@@ -1,0 +1,46 @@
+\documentclass[11pt, a4paper]{article}
+
+% --- UNIVERSAL PREAMBLE BLOCK ---
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2cm, right=2cm]{geometry}
+\usepackage{fontspec}
+\usepackage[english, bidi=basic, provide=*]{babel}
+
+\babelprovide[import, onchar=ids fonts]{english}
+\babelfont{rm}{Noto Sans}
+
+\usepackage{enumitem}
+\setlist[itemize]{label=-}
+\usepackage{hyperref}
+
+\title{\textbf{SMS Terms and Conditions}}
+\author{Chargie LLC}
+\date{Effective Date: May 15, 2024}
+
+\begin{document}
+
+\maketitle
+
+Please read these Terms and Conditions carefully. By participating in the Chargie LLC SMS Safety and Compliance Campaign, you agree to the following terms:
+
+\section*{1. Program Description}
+The Chargie LLC SMS program is designed to deliver safety training links, compliance reminders, and operational safety alerts to field technicians and drivers.
+
+\section*{2. Message Frequency}
+Message frequency varies based on the volume of training modules assigned. Technicians can expect approximately 1--4 messages per month depending on compliance status.
+
+\section*{3. Message and Data Rates}
+Standard message and data rates may apply. Chargie LLC is not responsible for any fees charged by your mobile carrier.
+
+\section*{4. Opt-Out (STOP)}
+To stop receiving SMS messages from Chargie LLC, reply "STOP" to any message. You will receive a final confirmation message. After this, you will no longer receive SMS reminders until you re-enroll.
+
+\section*{5. Help (HELP)}
+For more information or assistance, reply "HELP" to any message or contact support directly.
+
+\section*{6. Supported Carriers}
+Carriers are not liable for delayed or undelivered messages.
+
+\section*{7. Termination}
+Chargie LLC reserves the right to terminate this SMS service at any time without notice.
+
+\end{document}
