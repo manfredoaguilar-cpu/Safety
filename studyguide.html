@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargie | PDF Study Guide Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Impact&family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #1a1a1a; }
+        .impact-header { font-family: 'Impact', 'Arial Black', sans-serif; text-transform: uppercase; letter-spacing: 0.03em; }
+        
+        /* Direct edit mode visual markers (hidden during print) */
+        [contenteditable="true"]:hover {
+            outline: 2px dashed #f59e0b;
+            background-color: rgba(245, 158, 11, 0.05);
+            border-radius: 4px;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid #d97706;
+            background-color: rgba(245, 158, 11, 0.08);
+            border-radius: 4px;
+        }
+
+        /* Strict Print Engine Constraints for Letter Dimensions */
+        @page {
+            size: letter;
+            margin: 0;
+        }
+        @media print {
+            body { background-color: #ffffff; color: #000000; }
+            .print-page {
+                width: 8.5in;
+                height: 11in;
+                max-height: 11in;
+                page-break-after: always;
+                break-after: page;
+                box-shadow: none !important;
+                margin: 0 !important;
+                border: none !important;
+            }
+            .no-print { display: none !important; }
+        }
+
+        /* Screen Display Previews */
+        .print-page {
+            width: 8.5in;
+            height: 11in;
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin: 2rem auto;
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="text-gray-900 antialiased p-4">
+
+    <div class="no-print max-w-4xl mx-auto bg-gray-900 border border-gray-800 text-white rounded-xl p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-4 shadow-2xl">
+        <div>
+            <h1 class="text-xl font-bold text-amber-400 font-mono tracking-wide">STUDY GUIDE DESK v1.0</h1>
+            <p class="text-xs text-gray-400 mt-1">Click directly on any text block below to edit or paste content. Press Ctrl+P (or Cmd+P) to save as an exact 2-page PDF.</p>
+        </div>
+        <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-black font-extrabold text-sm uppercase tracking-widest px-6 py-3 rounded-lg shadow-lg transition-all duration-150">
+            Print to PDF
+        </button>
+    </div>
+
+    <div id="document-frame">
+
+        <div class="print-page flex flex-col justify-between p-12 border-b-8 border-gray-200">
+            
+            <header class="w-full bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 text-black py-8 px-8 text-center border-4 border-black rounded-lg shadow-sm">
+                <h1 contenteditable="true" class="impact-header text-5xl font-normal tracking-tight drop-shadow-sm">
+                    LOCKOUT TAGOUT TRYOUT (LOTOTO)
+                </h1>
+                <p contenteditable="true" class="text-xs font-bold uppercase tracking-widest mt-2 opacity-90">
+                    A Study Guide on Zero Energy Verification
+                </p>
+            </header>
+
+            <section class="text-center max-w-2xl mx-auto space-y-4 my-auto">
+                <h2 contenteditable="true" class="impact-header text-2xl tracking-wide border-b-2 border-black pb-1 inline-block">Introduction</h2>
+                <p contenteditable="true" id="intro-box" class="text-gray-800 text-base leading-relaxed pt-2">
+                    Parking lots and job sites present invisible electrical hazards. At Chargie, our field operations involve deploying high-voltage infrastructure where standard safety isn't enough. Lockout Tagout Tryout (LOTOTO) takes basic protection to a critical final stage. It isn’t just about applying a lock; it is about verifying absolute isolation before a single tool touches a live circuit.
+                </p>
+                <div class="bg-gray-50 border-l-4 border-rose-500 p-4 rounded-r-md mt-4 italic font-semibold text-gray-700 text-sm">
+                    "In the presence of operational hazards, absolute vigilance is the only guarantee."
+                </div>
+            </section>
+
+            <section class="space-y-4 my-auto">
+                <div class="text-center">
+                    <h2 contenteditable="true" class="impact-header text-2xl tracking-wide border-b-2 border-black pb-1 inline-block">Why It Matters</h2>
+                </div>
+                
+                <div class="grid grid-cols-12 gap-6 items-center pt-2">
+                    <div class="col-span-7 bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-3">
+                        <ul contenteditable="true" class="list-disc list-inside space-y-3 text-gray-700 text-sm leading-relaxed">
+                            <li>EV infrastructure operates on multi-ton electrical currents.</li>
+                            <li>Unexpected energization during service causes catastrophic, fatal injuries.</li>
+                            <li>Warning tags alone do not physically stop a circuit from active conduction.</li>
+                            <li>The "Tryout" step guarantees the machine cannot operate before work begins.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="col-span-5 bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl h-40 flex flex-col items-center justify-center p-4 text-center text-gray-400">
+                        <svg class="w-8 h-8 mb-2 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-400">High Voltage Boundary Marker</span>
+                    </div>
+                </div>
+            </section>
+
+            <footer class="w-full text-center border-t border-gray-100 pt-4 text-[10px] font-mono tracking-widest text-gray-400 uppercase">
+                Chargie Operations Framework // Page 1
+            </footer>
+        </div>
+
+
+        <div class="print-page flex flex-col justify-between p-12">
+            
+            <section class="space-y-4 mt-2">
+                <div class="text-center">
+                    <h2 contenteditable="true" class="impact-header text-2xl tracking-wide border-b-2 border-black pb-1 inline-block">When You Are At Risk</h2>
+                </div>
+                
+                <div contenteditable="true" class="grid grid-cols-2 gap-4 pt-2">
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg p-4">
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Main Switchgear Work</h3>
+                        <p class="text-gray-600 text-xs leading-relaxed">Interfacing with commercial panels and electrical rooms where distribution paths carry continuous live load.</p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg p-4">
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Pedestal Maintenance</h3>
+                        <p class="text-gray-600 text-xs leading-relaxed">Servicing charger internals where residual power or capacitor blocks hold stored hazards post-shutdown.</p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg p-4">
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Shared Contractor Sites</h3>
+                        <p class="text-gray-600 text-xs leading-relaxed">Active deployment locations where secondary trades can accidentally toggle or clear a breaker connection.</p>
+                    </div>
+                    <div class="bg-gray-50 border border-gray-100 rounded-lg p-4">
+                        <h3 class="font-bold text-gray-900 text-sm mb-1">Complacency Breaks</h3>
+                        <p class="text-gray-600 text-xs leading-relaxed">Rushing to meet standard delivery metrics and clean parameters while bypassing the final verification loop.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="text-center max-w-xl mx-auto space-y-3 my-auto">
+                <h2 contenteditable="true" class="impact-header text-2xl tracking-wide border-b-2 border-black pb-1 inline-block">The Cost of a Slip</h2>
+                <ul contenteditable="true" class="space-y-2 text-sm text-gray-700 font-medium pt-2">
+                    <li>&bull; Severe arc flash explosions and fatal electrocution vectors.</li>
+                    <li>&bull; Irreparable infrastructure property damage to commercial panel networks.</li>
+                    <li>&bull; Immediate OSHA field inspections, heavy corporate penalties, and site shutdown.</li>
+                </ul>
+                <p class="text-rose-600 font-extrabold text-xs tracking-widest uppercase">
+                    Small mistake. Big impact.
+                </p>
+            </section>
+
+            <section class="bg-gray-900 text-white rounded-xl p-6 shadow-md space-y-4 max-w-xl mx-auto w-full border-b-8 border-amber-400">
+                <div class="text-center border-b border-gray-800 pb-2">
+                    <h2 contenteditable="true" class="impact-header text-xl text-amber-400 tracking-wide">Field Checklist</h2>
+                    <p class="text-[9px] uppercase tracking-widest text-gray-400">Verify operations prior to site clearance</p>
+                </div>
+                
+                <ul contenteditable="true" class="space-y-3 text-xs leading-relaxed text-gray-200">
+                    <li class="flex items-center gap-3">
+                        <span class="w-4 h-4 border border-amber-400 rounded flex items-center justify-center text-amber-400 font-bold text-[10px] select-none">✓</span>
+                        All on-site personnel explicitly notified of the electrical distribution isolation.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-4 h-4 border border-amber-400 rounded flex items-center justify-center text-amber-400 font-bold text-[10px] select-none">✓</span>
+                        Personal safety padlock firmly secured to the core breaker plate or lock box.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-4 h-4 border border-amber-400 rounded flex items-center justify-center text-amber-400 font-bold text-[10px] select-none">✓</span>
+                        Warning tag filled with name, validation date, and deployment team signatures.
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <span class="w-4 h-4 border border-amber-400 rounded flex items-center justify-center text-amber-400 font-bold text-[10px] select-none">✓</span>
+                        Tryout confirmation run executed by attempting to cycle standard panel power keys.
+                    </li>
+                </ul>
+                
+                <p contenteditable="true" class="text-center text-[9px] tracking-widest uppercase font-bold text-amber-300 pt-2 border-t border-gray-800">
+                    DRIVE SLOW AND MOVE FAST &bull; WE DONT WANT TO BREAK THINGS
+                </p>
+            </section>
+
+            <footer class="w-full text-center border-t border-gray-100 pt-4 text-[10px] font-mono tracking-widest text-gray-400 uppercase">
+                Chargie Operations Framework // Page 2
+            </footer>
+        </div>
+
+    </div>
+
+</body>
+</html>
