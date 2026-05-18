@@ -1,386 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SSP // Single Safety Portal</title>
-  <style>
-    /* MINIMALIST EDITORIAL WHITE THEME */
-    :root {
-      --bg-page: #ffffff;
-      --bg-surface: #f9f9f9;
-      --bg-card: #ffffff;
-      --text-main: #111111;
-      --text-muted: #666666;
-      --accent: #000000;
-      --border: #e0e0e0;
-      --border-focus: #111111;
-      --success: #2e7d32;
-      --success-bg: #e8f5e9;
-      --error: #c62828;
-      --error-bg: #ffebee;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-page);
-      color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      line-height: 1.6;
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* UNIFIED CONTAINER BOUNDARY (Fixes ultra-wide monitor gaps) */
-    #app-wrapper {
-      display: flex;
-      width: 100%;
-      max-width: 1400px;
-      border-left: 1px solid var(--border);
-      border-right: 1px solid var(--border);
-      background-color: var(--bg-page);
-    }
-
-    /* MAIN CONTENT CANVAS */
-    #content-canvas {
-      flex: 1;
-      padding: 2.5rem;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 1.5rem;
-      border-bottom: 2px solid var(--accent);
-      margin-bottom: 2.5rem;
-    }
-
-    h1 {
-      font-size: 1.35rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
-      text-transform: uppercase;
-    }
-
-    .lang-toggle button {
-      background: none;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.4rem 0.8rem;
-      cursor: pointer;
-      font-size: 0.8rem;
-      font-weight: 600;
-      transition: all 0.2s ease;
-    }
-
-    .lang-toggle button.active {
-      border-color: var(--accent);
-      color: var(--text-main);
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-
-    /* DASHBOARD LAYOUT GRID */
-    .portal-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    .deck-card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      border-radius: 4px;
-    }
-
-    .video-container {
-      background-color: #f0f0f0;
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-      border-radius: 2px;
-      border: 1px dashed var(--border);
-    }
-
-    h2 {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    /* SIDEBAR CONTROL DRAWER */
-    #sidebar-drawer {
-      width: 340px;
-      background-color: var(--bg-surface);
-      border-left: 1px solid var(--border);
-      padding: 2.5rem 1.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-    }
-
-    @media (max-width: 900px) {
-      #app-wrapper {
-        flex-direction: column;
-        border-left: none;
-        border-right: none;
-      }
-      #sidebar-drawer {
-        width: 100%;
-        border-left: none;
-        border-top: 1px solid var(--border);
-      }
-    }
-
-    .drawer-section h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .section-subtext {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 1.25rem;
-    }
-
-    /* SYSTEM FORM CONTROLS */
-    .input-group {
-      margin-bottom: 1.25rem;
-    }
-
-    .input-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-    }
-
-    .input-group input, .input-group select {
-      width: 100%;
-      background-color: #ffffff;
-      border: 1px solid #cccccc;
-      color: var(--text-main);
-      padding: 0.7rem;
-      font-size: 0.9rem;
-      border-radius: 4px;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-
-    .input-group input:focus, .input-group select:focus {
-      border-color: var(--border-focus);
-    }
-
-    .btn-primary {
-      width: 100%;
-      background-color: var(--accent);
-      color: #ffffff;
-      border: none;
-      padding: 0.8rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.15s ease;
-    }
-
-    .btn-primary:hover {
-      background-color: #222222;
-    }
-
-    .btn-primary:disabled {
-      background-color: #cccccc;
-      color: #888888;
-      cursor: not-allowed;
-    }
-
-    /* TRANSACTION MESSAGES */
-    .status-message {
-      margin-top: 1.25rem;
-      padding: 0.85rem;
-      font-size: 0.85rem;
-      border-radius: 4px;
-      line-height: 1.4;
-    }
-
-    .status-message.hidden {
-      display: none;
-    }
-
-    .status-message.success-state {
-      background-color: var(--success-bg);
-      border: 1px solid var(--success);
-      color: var(--success);
-    }
-
-    .status-message.error-state {
-      background-color: var(--error-bg);
-      border: 1px solid var(--error);
-      color: var(--error);
-    }
-  </style>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chargie Field Ops // Safety Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 1.5rem; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        #menuDrawer { transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .drawer-open { transform: translateX(0) !important; }
+        .burger-bun, .burger-lettuce, .burger-meat { height: 4px; width: 28px; border-radius: 4px; }
+        .burger-bun { background: #D2B48C; } .burger-lettuce { background: #22C55E; height: 3px; } .burger-meat { background: #5C4033; }
+        details summary::-webkit-details-marker { display:none; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
 </head>
-<body>
-
-  <div id="app-wrapper">
-    <main id="content-canvas">
-      <header>
-        <h1>SSP // Single Safety Portal</h1>
-        <div class="lang-toggle">
-          <button class="active" id="lang-en">EN</button>
-          <button id="lang-es">ES</button>
+<body class="bg-white text-[#002855] min-h-screen relative overflow-x-hidden">
+    <div id="overlay" class="fixed inset-0 bg-slate-900/20 opacity-0 pointer-events-none transition-opacity z-[60]" onclick="toggleMenu()"></div>
+    
+    <div id="menuDrawer" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[70] -translate-x-full p-8 border-r border-slate-100 flex flex-col">
+        <div class="flex justify-between items-center mb-12 text-orange-600 font-black italic uppercase tracking-tighter">
+            <h2 class="text-xl">Archive Library</h2>
+            <button type="button" onclick="toggleMenu()" class="text-slate-400 text-2xl">✕</button>
         </div>
-      </header>
+        <div class="space-y-8 overflow-y-auto pb-8">
+            <details class="group" open><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">Job Site Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-JobSite" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+            <details class="group"><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">Driver Safety <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-Driver" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+            <details class="group"><summary class="flex justify-between items-center font-black text-[12px] tracking-[0.2em] uppercase text-slate-900 cursor-pointer mb-4 italic hover:text-orange-600">Safety Docs <span class="group-open:rotate-180 transition-transform text-orange-600">▾</span></summary><nav id="archive-Doc" class="space-y-4 pl-4 border-l-2 border-orange-100"></nav></details>
+        </div>
+        <div class="mt-auto pt-8 border-t border-slate-100">
+            <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+                <p class="text-[10px] font-black uppercase tracking-[0.2em] text-orange-600 mb-2 italic">// Support</p>
+                <p class="text-sm font-black text-[#002855] mb-1">Manny Aguilar</p>
+                <a href="mailto:maguilar@chargie.com" class="block text-[11px] font-bold text-slate-900">✉ maguilar@chargie.com</a>
+            </div>
+        </div>
+    </div>
 
-      <div class="portal-grid">
-        <section class="deck-card">
-          <div class="video-container">
-            <span>[ Phase 3: Player Pipeline Component ]</span>
-          </div>
-          <h2>Module 01: Field Risk Mitigation</h2>
-          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
-            Review the attached core guidance framework documentation prior to running the terminal validation.
-          </p>
-        </section>
-      </div>
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
+            <div class="flex items-center gap-6"><button type="button" onclick="toggleMenu()" class="flex flex-col gap-1 p-2"><span class="burger-bun"></span><span class="burger-lettuce"></span><span class="burger-meat"></span><span class="burger-bun"></span></button><img src="https://raw.githubusercontent.com/manfredoaguilar-cpu/Safety/main/Chargie%20Logo%201.png" alt="Chargie Logo" class="h-6 w-auto"></div>
+            <div id="user-status" class="hidden md:flex items-center gap-2 px-4 py-2 bg-slate-50 rounded-full text-[10px] font-black border border-slate-100 text-slate-400 uppercase tracking-widest"><span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span id="display-name">Portal Active</span></div>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 py-12 text-center">
+        <h1 id="moduleTitle" class="text-5xl md:text-7xl font-black mb-4 tracking-tighter uppercase text-[#002855]">Syncing...</h1>
+        <div id="video-wrapper" class="bg-white p-3 md:p-5 rounded-[2.5rem] shadow-2xl border border-slate-100 mb-16"><div class="video-container"><iframe id="heroVideo" src="" frameborder="0" allowfullscreen></iframe></div></div>
+        <div class="max-w-2xl mx-auto">
+            <section id="language-screen" class="bg-white rounded-3xl p-12 border border-slate-100 shadow-sm">
+                <div id="lang-loading" class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.3em] animate-pulse italic">Establishing Protocol...</div>
+                <div id="lang-buttons" class="hidden"><h3 class="text-xl font-black text-[#002855] mb-8 uppercase italic">Select Language</h3><div class="grid grid-cols-1 md:grid-cols-2 gap-4"><button type="button" onclick="setLanguage('en')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">English</button><button type="button" onclick="setLanguage('es')" class="bg-[#002855] text-white font-black py-5 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-all">Español</button></div></div>
+            </section>
+            <section id="start-screen" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in">
+                <a id="download-btn" href="#" target="_blank" rel="noopener" class="block w-full mb-8 bg-orange-100 text-orange-600 font-black py-6 rounded-2xl border-2 border-orange-200 text-center uppercase text-[10px] tracking-widest italic">Download PDF Document</a>
+                <div id="login-form-area" class="space-y-4">
+                    <div id="pii-fields" class="space-y-4">
+                        <input type="text" id="userName" placeholder="Full Name" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                        <input type="email" id="userEmail" placeholder="Email" class="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl font-bold text-sm outline-none focus:border-orange-500">
+                    </div>
+                    <div class="flex items-center gap-4 bg-slate-50 p-6 rounded-2xl border border-slate-100"><input id="ack-checkbox" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-orange-600"><label id="ack-label" for="ack-checkbox" class="text-slate-500 text-[11px] font-bold leading-tight"></label></div>
+                    <button type="button" onclick="handleStartAction()" id="start-btn" class="w-full bg-[#002855] text-white font-black py-6 rounded-2xl uppercase text-xs tracking-widest hover:bg-orange-600 transition-colors"></button>
+                </div>
+            </section>
+            <section id="quiz-container" class="hidden bg-white rounded-3xl p-8 border border-slate-100 text-left fade-in"></section>
+        </div>
     </main>
 
-    <aside id="sidebar-drawer">
-      <div class="drawer-section">
-        <h3>Operator Terminal</h3>
-        <p class="section-subtext">Infrastructure Status: Verified</p>
-      </div>
-
-      <div class="drawer-section">
-        <h3>Secure Document Vault</h3>
-        <p class="section-subtext">Provide your registered mobile number to receive encrypted verification assets via out-of-band text.</p>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbywOpDILOSwSMAltFYXTuEpn9qtVGDcBhG2aVEKrCuMLn58cdwZ_4mmm2D11sSqk7SJIw/exec';
+        const urlParams = new URLSearchParams(window.location.search);
         
-        <div class="input-group">
-          <label for="vaultPhone">Mobile Number</label>
-          <input 
-            type="tel" 
-            id="vaultPhone" 
-            placeholder="(562) 555-0199" 
-            autocomplete="tel"
-          >
-        </div>
-
-        <div class="input-group">
-          <label for="vaultDocType">Asset Designation</label>
-          <select id="vaultDocType">
-            <option value="IIPP">Injury & Illness Prevention Program (IIPP)</option>
-            <option value="HEAT">Heat Illness Prevention Plan</option>
-            <option value="FLEET">Fleet Safety Manual</option>
-          </select>
-        </div>
-
-        <button type="button" id="submitVaultRequest" class="btn-primary">
-          Request Access Link
-        </button>
-
-        <div id="vaultStatusMessage" class="status-message hidden"></div>
-      </div>
-    </aside>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const submitBtn = document.getElementById('submitVaultRequest');
-      const phoneInput = document.getElementById('vaultPhone');
-      const docSelect = document.getElementById('vaultDocType');
-      const statusDiv = document.getElementById('vaultStatusMessage');
-
-      // ASYNCHRONOUS BACKEND EXPORT TARGET
-      const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywOpDILOSwSMAltFYXTuEpn9qtVGDcBhG2aVEKrCuMLn58cdwZ_4mmm2D11sSqk7SJIw/exec';
-
-      if (!submitBtn) return;
-
-      submitBtn.addEventListener('click', async () => {
-        const rawPhone = phoneInput.value.trim();
-        const docType = docSelect.value;
-
-        // Reset display frame
-        statusDiv.classList.add('hidden');
-        statusDiv.className = 'status-message'; 
-
-        if (!rawPhone) {
-          statusDiv.textContent = 'Please enter a valid phone number.';
-          statusDiv.classList.add('error-state');
-          statusDiv.classList.remove('hidden');
-          return;
+        // 1. CAPTURE TOKEN & CLEAN URL IMMEDIATELY
+        if (urlParams.has('id')) {
+            sessionStorage.setItem('uuid', urlParams.get('id'));
+            window.history.replaceState({}, document.title, window.location.pathname + (urlParams.has('module') ? '?module=' + urlParams.get('module') : ''));
         }
 
-        // Freeze interface footprint
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Verifying...';
+        let activeQuizData = [], currentLang = 'en', currentModTitle = "", currentCategory = "";
+        const msgs = { en: { start: "Begin Evaluation", doc: "Confirm Receipt", ack: "I confirm review of this document." }, es: { start: "Iniciar Evaluación", doc: "Confirmar Recibo", ack: "Confirmo la revisión del documento." } };
 
-        const targetUrl = `${SCRIPT_URL}?action=requestSecureDoc&phone=${encodeURIComponent(rawPhone)}&docType=${encodeURIComponent(docType)}`;
+        function toggleMenu() { document.getElementById('menuDrawer').classList.toggle('drawer-open'); document.getElementById('overlay').classList.toggle('opacity-0'); document.getElementById('overlay').classList.toggle('pointer-events-none'); }
+        
+        function setLanguage(l) { 
+            currentLang = l; document.getElementById('language-screen').classList.add('hidden'); document.getElementById('start-screen').classList.remove('hidden');
+            document.getElementById('download-btn').href = l === 'en' ? window.guideEN : window.guideES;
+            document.getElementById('ack-label').textContent = msgs[l].ack; document.getElementById('start-btn').textContent = currentCategory === 'Doc' ? msgs[l].doc : msgs[l].start;
+            activeQuizData = l === 'en' ? window.quizEN : window.quizES;
 
-        try {
-          const response = await fetch(targetUrl, {
-            method: 'GET',
-            mode: 'cors'
-          });
-
-          if (response.ok) {
-            showBlindSuccess();
-          } else {
-            showNetworkError();
-          }
-        } catch (error) {
-          // Fallback bypass handles redirect variances in the Google macro landscape
-          showBlindSuccess();
+            // 2. TOKEN LOGIC: Hide PII fields if ID is detected
+            if (sessionStorage.getItem('uuid')) { document.getElementById('pii-fields').classList.add('hidden'); }
         }
-      });
 
-      function showBlindSuccess() {
-        phoneInput.value = ''; // Flush immediate layout data
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Request Access Link';
-        
-        statusDiv.textContent = 'Request processed. If your number matches our field roster, a secure access link has been dispatched to your handset.';
-        statusDiv.classList.add('success-state');
-        statusDiv.classList.remove('hidden');
-      }
+        function handleStartAction() {
+            if (!sessionStorage.getItem('uuid') && (!document.getElementById('userName').value || !document.getElementById('userEmail').value)) return alert("Information Required.");
+            if (!document.getElementById('ack-checkbox').checked) return alert("Acknowledgement required.");
+            currentCategory === 'Doc' ? complete() : (document.getElementById('start-screen').classList.add('hidden'), document.getElementById('quiz-container').classList.remove('hidden'), showQuestion(0));
+        }
 
-      function showNetworkError() {
-        submitBtn.disabled = false;
-        submitBtn.textContent = 'Request Access Link';
-        
-        statusDiv.textContent = 'Network communication error. Please retry or contact dispatch infrastructure.';
-        statusDiv.classList.add('error-state');
-        statusDiv.classList.remove('hidden');
-      }
+        function showQuestion(idx) {
+            const q = activeQuizData[idx], container = document.getElementById('quiz-container'); container.innerHTML = ""; 
+            const header = document.createElement('div'); header.className = "mb-10 text-center"; header.innerHTML = `<span class="inline-block px-3 py-1 bg-slate-50 text-[#002855] text-[9px] font-black rounded-full mb-4 uppercase italic border border-slate-100">Step ${idx+1} / ${activeQuizData.length}</span>`;
+            const qText = document.createElement('h2'); qText.className = "text-2xl font-black"; qText.textContent = q.q; header.appendChild(qText); container.appendChild(header);
+            const ans = document.createElement('div'); ans.className = "space-y-3"; q.a.forEach((opt, oIdx) => { const b = document.createElement('button'); b.className = "w-full text-left bg-white border border-slate-100 p-5 rounded-2xl font-bold text-sm text-slate-800 hover:text-orange-600 transition-all"; b.textContent = opt; b.onclick = () => handleAnswer(idx, oIdx); ans.appendChild(b); }); container.appendChild(ans);
+            const fbArea = document.createElement('div'); fbArea.id = "feedback-area"; fbArea.className = "mt-8 min-h-[100px]"; container.appendChild(fbArea);
+        }
 
-      // Locale toggle handlers
-      document.getElementById('lang-en').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('lang-es').classList.remove('active');
-      });
-      document.getElementById('lang-es').addEventListener('click', function() {
-        this.classList.add('active');
-        document.getElementById('lang-en').classList.remove('active');
-      });
-    });
-  </script>
+        function handleAnswer(qIdx, oIdx) {
+            const q = activeQuizData[qIdx], fb = document.getElementById('feedback-area'); document.querySelectorAll('#quiz-container button').forEach(b => b.disabled = true);
+            const res = document.createElement('div'); if (oIdx === q.correct) { res.className = "p-6 bg-green-50 rounded-2xl fade-in"; res.innerHTML = `<p class="text-green-700 font-black text-[10px] uppercase mb-1 italic">// Correct</p>`; const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t); const n = document.createElement('button'); n.className = "w-full bg-[#002855] text-white py-4 rounded-xl font-black uppercase text-xs"; n.textContent = qIdx < activeQuizData.length - 1 ? "Next Challenge" : "Finalize Sync"; n.onclick = () => qIdx < activeQuizData.length - 1 ? showQuestion(qIdx + 1) : complete(); res.appendChild(n); } 
+            else { res.className = "p-6 bg-red-50 rounded-2xl fade-in"; res.innerHTML = `<p class="text-red-700 font-black text-[10px] uppercase mb-1 italic">// Retry</p>`; const t = document.createElement('p'); t.className = "text-slate-600 text-xs font-bold mb-4"; t.textContent = q.f; res.appendChild(t); const r = document.createElement('button'); r.className = "w-full bg-slate-200 text-slate-500 py-4 rounded-xl font-black uppercase text-xs italic"; r.textContent = "Try Again"; r.onclick = () => showQuestion(qIdx); res.appendChild(r); } fb.appendChild(res);
+        }
+
+        function complete() { 
+            const n = document.getElementById('userName').value, e = document.getElementById('userEmail').value;
+            document.getElementById('start-screen').classList.add('hidden'); document.getElementById('quiz-container').classList.remove('hidden');
+            document.getElementById('quiz-container').innerHTML = `<div class="text-center py-12"><h2 class="text-4xl font-black uppercase text-[#002855]">Verified</h2><p class="text-slate-400 font-bold uppercase text-[10px] tracking-[0.4em] italic mt-4">Field Ops Compliance Sync Complete</p></div>`; 
+            fetch(scriptURL + "?action=logCompletion&uuid=" + sessionStorage.getItem('uuid') + "&name=" + encodeURIComponent(n) + "&email=" + encodeURIComponent(e) + "&lang=" + currentLang + "&modTitle=" + encodeURIComponent(currentModTitle)); 
+        }
+
+        window.onload = () => {
+            const modID = new URLSearchParams(window.location.search).get('module') || "";
+            fetch(scriptURL + "?action=getModule&moduleId=" + modID).then(r => r.json()).then(d => { document.getElementById('moduleTitle').textContent = d.topic; currentModTitle = d.topic; currentCategory = d.category; if(d.category === 'Doc') document.getElementById('video-wrapper').style.display = 'none'; document.getElementById('heroVideo').src = "https://www.youtube.com/embed/" + d.videoId + "?rel=0"; window.guideEN = d.guideEN; window.guideES = d.guideES; window.quizEN = d.quizEN; window.quizES = d.quizES; document.getElementById('lang-loading').classList.add('hidden'); document.getElementById('lang-buttons').classList.remove('hidden'); });
+            fetch(scriptURL + "?action=getArchive").then(r => r.json()).then(data => { ["JobSite", "Driver", "Doc"].forEach(c => document.getElementById(`archive-${c}`).innerHTML = ""); data.forEach(m => { const nav = document.getElementById(`archive-${m.category.replace(/\s+/g, '')}`); if (nav) { const l = document.createElement('a'); l.href = `?module=${m.id}`; l.className = "block text-[11px] font-black text-slate-900 hover:text-orange-600 uppercase tracking-widest pb-2 transition-colors border-b border-slate-50"; l.textContent = m.title; nav.appendChild(l); } }); });
+        }
+    </script>
 </body>
 </html>
