@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SSP // Single Safety Portal</title>
   <style>
-    /* MINIMALIST INDUSTRIAL DESIGN FRAMEWORK */
+    /* MINIMALIST EDITORIAL WHITE THEME */
     :root {
-      --bg-primary: #121212;
-      --bg-surface: #1e1e1e;
-      --bg-drawer: #181818;
-      --text-main: #e0e0e0;
-      --text-muted: #a0a0a0;
-      --accent: #4caf50;
-      --accent-hover: #43a047;
-      --border: #2c2c2c;
-      --error: #cf6679;
+      --bg-page: #ffffff;
+      --bg-surface: #f9f9f9;
+      --bg-card: #ffffff;
+      --text-main: #111111;
+      --text-muted: #666666;
+      --accent: #000000;
+      --border: #e0e0e0;
+      --border-focus: #111111;
+      --success: #2e7d32;
+      --success-bg: #e8f5e9;
+      --error: #c62828;
+      --error-bg: #ffebee;
     }
 
     * {
@@ -25,100 +28,113 @@
     }
 
     body {
-      background-color: var(--bg-primary);
+      background-color: var(--bg-page);
       color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       line-height: 1.6;
       display: flex;
+      justify-content: center;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* MAIN APP CANVAS */
-    #app-container {
+    /* UNIFIED CONTAINER BOUNDARY (Fixes ultra-wide monitor gaps) */
+    #app-wrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1400px;
+      border-left: 1px solid var(--border);
+      border-right: 1px solid var(--border);
+      background-color: var(--bg-page);
+    }
+
+    /* MAIN CONTENT CANVAS */
+    #content-canvas {
       flex: 1;
-      padding: 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-      transition: opacity 0.3s ease;
+      padding: 2.5rem;
     }
 
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid var(--accent);
+      margin-bottom: 2.5rem;
     }
 
     h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: 1px;
+      font-size: 1.35rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .lang-toggle button {
       background: none;
       border: 1px solid var(--border);
       color: var(--text-muted);
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       cursor: pointer;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
+      font-weight: 600;
       transition: all 0.2s ease;
     }
 
     .lang-toggle button.active {
       border-color: var(--accent);
       color: var(--text-main);
-      background-color: rgba(76, 175, 80, 0.1);
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
-    /* PORTAL BODY PLAYGROUND */
+    /* DASHBOARD LAYOUT GRID */
     .portal-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 1fr;
       gap: 2rem;
     }
 
-    @media (max-width: 900px) {
-      .portal-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .video-deck, .quiz-deck {
-      background-color: var(--bg-surface);
+    .deck-card {
+      background-color: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 1.5rem;
+      padding: 2rem;
       border-radius: 4px;
     }
 
-    .video-placeholder {
-      background-color: #000;
+    .video-container {
+      background-color: #f0f0f0;
       aspect-ratio: 16/9;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--text-muted);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
       border-radius: 2px;
+      border: 1px dashed var(--border);
     }
 
-    /* RIGHT-SIDE CONTROL DRAWER */
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    /* SIDEBAR CONTROL DRAWER */
     #sidebar-drawer {
-      width: 320px;
-      background-color: var(--bg-drawer);
+      width: 340px;
+      background-color: var(--bg-surface);
       border-left: 1px solid var(--border);
-      padding: 2rem 1.5rem;
+      padding: 2.5rem 1.75rem;
       display: flex;
       flex-direction: column;
-      gap: 2rem;
+      gap: 2.5rem;
     }
 
-    @media (max-width: 768px) {
-      body {
+    @media (max-width: 900px) {
+      #app-wrapper {
         flex-direction: column;
+        border-left: none;
+        border-right: none;
       }
       #sidebar-drawer {
         width: 100%;
@@ -128,9 +144,11 @@
     }
 
     .drawer-section h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-      color: var(--text-main);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .section-subtext {
@@ -139,63 +157,66 @@
       margin-bottom: 1.25rem;
     }
 
-    /* FORM COMPONENTS */
+    /* SYSTEM FORM CONTROLS */
     .input-group {
       margin-bottom: 1.25rem;
     }
 
     .input-group label {
       display: block;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
     }
 
     .input-group input, .input-group select {
       width: 100%;
-      background-color: var(--bg-primary);
-      border: 1px solid var(--border);
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
       color: var(--text-main);
-      padding: 0.75rem;
-      font-size: 0.95rem;
+      padding: 0.7rem;
+      font-size: 0.9rem;
       border-radius: 4px;
       outline: none;
-      transition: border-color 0.2s ease;
+      transition: border-color 0.15s ease;
     }
 
     .input-group input:focus, .input-group select:focus {
-      border-color: var(--accent);
+      border-color: var(--border-focus);
     }
 
     .btn-primary {
       width: 100%;
       background-color: var(--accent);
-      color: #fff;
+      color: #ffffff;
       border: none;
-      padding: 0.85rem;
-      font-size: 0.95rem;
-      font-weight: 600;
+      padding: 0.8rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       border-radius: 4px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
+      transition: background-color 0.15s ease;
     }
 
     .btn-primary:hover {
-      background-color: var(--accent-hover);
+      background-color: #222222;
     }
 
     .btn-primary:disabled {
-      background-color: var(--border);
-      color: var(--text-muted);
+      background-color: #cccccc;
+      color: #888888;
       cursor: not-allowed;
     }
 
-    /* BLIND STATUS BOXES */
+    /* TRANSACTION MESSAGES */
     .status-message {
-      margin-top: 1rem;
-      padding: 0.75rem;
+      margin-top: 1.25rem;
+      padding: 0.85rem;
       font-size: 0.85rem;
       border-radius: 4px;
       line-height: 1.4;
@@ -206,81 +227,80 @@
     }
 
     .status-message.success-state {
-      background-color: rgba(76, 175, 80, 0.1);
-      border: 1px solid var(--accent);
-      color: #81c784;
+      background-color: var(--success-bg);
+      border: 1px solid var(--success);
+      color: var(--success);
     }
 
     .status-message.error-state {
-      background-color: rgba(207, 102, 121, 0.1);
+      background-color: var(--error-bg);
       border: 1px solid var(--error);
-      color: #e57373;
+      color: var(--error);
     }
   </style>
 </head>
 <body>
 
-  <main id="app-container">
-    <header>
-      <h1>SSP // SYSTEM OVERVIEW</h1>
-      <div class="lang-toggle">
-        <button class="active" id="lang-en">EN</button>
-        <button id="lang-es">ES</button>
-      </div>
-    </header>
-
-    <div class="portal-grid">
-      <section class="video-deck">
-        <div class="video-placeholder">
-          <span>[ Phase 3: YouTube Player Framework Staging Area ]</span>
+  <div id="app-wrapper">
+    <main id="content-canvas">
+      <header>
+        <h1>SSP // Single Safety Portal</h1>
+        <div class="lang-toggle">
+          <button class="active" id="lang-en">EN</button>
+          <button id="lang-es">ES</button>
         </div>
-        <h2>Module 01: Field Risk Mitigation</h2>
-        <p style="color: var(--text-muted); margin-top: 0.5rem;">Review the reference material before executing the check-out terminal.</p>
-      </section>
+      </header>
 
-      <section class="quiz-deck">
-        <h2>Compliance Verification</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.5rem;">Tokens generated out-of-band will log automatically on submission.</p>
-      </section>
-    </div>
-  </main>
+      <div class="portal-grid">
+        <section class="deck-card">
+          <div class="video-container">
+            <span>[ Phase 3: Player Pipeline Component ]</span>
+          </div>
+          <h2>Module 01: Field Risk Mitigation</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 0.5rem;">
+            Review the attached core guidance framework documentation prior to running the terminal validation.
+          </p>
+        </section>
+      </div>
+    </main>
 
-  <aside id="sidebar-drawer">
-    <div class="drawer-section">
-      <h3>Operator Console</h3>
-      <p class="section-subtext">Active Hub Status: Online</p>
-    </div>
-
-    <div class="drawer-section secure-auth-box">
-      <h3>Secure Document Vault</h3>
-      <p class="section-subtext">Enter your registered mobile number to receive secure compliance documents via text.</p>
-      
-      <div class="input-group">
-        <label for="vaultPhone">Mobile Number</label>
-        <input 
-          type="tel" 
-          id="vaultPhone" 
-          placeholder="(562) 555-0199" 
-          autocomplete="tel"
-        >
+    <aside id="sidebar-drawer">
+      <div class="drawer-section">
+        <h3>Operator Terminal</h3>
+        <p class="section-subtext">Infrastructure Status: Verified</p>
       </div>
 
-      <div class="input-group">
-        <label for="vaultDocType">Document Requested</label>
-        <select id="vaultDocType">
-          <option value="IIPP">Injury & Illness Prevention Program (IIPP)</option>
-          <option value="HEAT">Heat Illness Prevention Plan</option>
-          <option value="FLEET">Fleet Safety Manual</option>
-        </select>
+      <div class="drawer-section">
+        <h3>Secure Document Vault</h3>
+        <p class="section-subtext">Provide your registered mobile number to receive encrypted verification assets via out-of-band text.</p>
+        
+        <div class="input-group">
+          <label for="vaultPhone">Mobile Number</label>
+          <input 
+            type="tel" 
+            id="vaultPhone" 
+            placeholder="(562) 555-0199" 
+            autocomplete="tel"
+          >
+        </div>
+
+        <div class="input-group">
+          <label for="vaultDocType">Asset Designation</label>
+          <select id="vaultDocType">
+            <option value="IIPP">Injury & Illness Prevention Program (IIPP)</option>
+            <option value="HEAT">Heat Illness Prevention Plan</option>
+            <option value="FLEET">Fleet Safety Manual</option>
+          </select>
+        </div>
+
+        <button type="button" id="submitVaultRequest" class="btn-primary">
+          Request Access Link
+        </button>
+
+        <div id="vaultStatusMessage" class="status-message hidden"></div>
       </div>
-
-      <button type="button" id="submitVaultRequest" class="btn-primary">
-        Request Access Link
-      </button>
-
-      <div id="vaultStatusMessage" class="status-message hidden"></div>
-    </div>
-  </aside>
+    </aside>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -289,14 +309,16 @@
       const docSelect = document.getElementById('vaultDocType');
       const statusDiv = document.getElementById('vaultStatusMessage');
 
-      // REPLACE THIS STRUT WITH YOUR LIVE GOOGLE APPS SCRIPT WEB APP EXTENSION
+      // ASYNCHRONOUS BACKEND EXPORT TARGET
       const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbywOpDILOSwSMAltFYXTuEpn9qtVGDcBhG2aVEKrCuMLn58cdwZ_4mmm2D11sSqk7SJIw/exec';
+
+      if (!submitBtn) return;
 
       submitBtn.addEventListener('click', async () => {
         const rawPhone = phoneInput.value.trim();
         const docType = docSelect.value;
 
-        // Reset UI reporting elements
+        // Reset display frame
         statusDiv.classList.add('hidden');
         statusDiv.className = 'status-message'; 
 
@@ -307,36 +329,31 @@
           return;
         }
 
-        // Freeze interface during transport leg
+        // Freeze interface footprint
         submitBtn.disabled = true;
         submitBtn.textContent = 'Verifying...';
 
-        // Construct macro query parameter bundle
         const targetUrl = `${SCRIPT_URL}?action=requestSecureDoc&phone=${encodeURIComponent(rawPhone)}&docType=${encodeURIComponent(docType)}`;
 
         try {
-          // Fire request across domains directly to the spreadsheet gateway
           const response = await fetch(targetUrl, {
             method: 'GET',
             mode: 'cors'
           });
 
           if (response.ok) {
-            // Execution successful - implement blind feedback pattern
             showBlindSuccess();
           } else {
-            // Catches baseline HTTP failures
             showNetworkError();
           }
         } catch (error) {
-          // Google Apps Script context redirects frequently drop standard CORS handshakes
-          // Even if a catch triggers, the macro routinely finishes processing successfully
+          // Fallback bypass handles redirect variances in the Google macro landscape
           showBlindSuccess();
         }
       });
 
       function showBlindSuccess() {
-        phoneInput.value = ''; // Clean field footprint immediately
+        phoneInput.value = ''; // Flush immediate layout data
         submitBtn.disabled = false;
         submitBtn.textContent = 'Request Access Link';
         
@@ -349,12 +366,12 @@
         submitBtn.disabled = false;
         submitBtn.textContent = 'Request Access Link';
         
-        statusDiv.textContent = 'Network communication error. Please try again or contact dispatch.';
+        statusDiv.textContent = 'Network communication error. Please retry or contact dispatch infrastructure.';
         statusDiv.classList.add('error-state');
         statusDiv.classList.remove('hidden');
       }
 
-      // Quick-wire interface triggers for language switching layout placeholder
+      // Locale toggle handlers
       document.getElementById('lang-en').addEventListener('click', function() {
         this.classList.add('active');
         document.getElementById('lang-es').classList.remove('active');
