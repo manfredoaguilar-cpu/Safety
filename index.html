@@ -143,56 +143,7 @@
       font-style: italic; padding: 8px 0;
     }
 
-    /* ── SECURE VAULT ── */
-    .vault-box {
-      margin: 0 26px 20px;
-      padding: 18px 16px;
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--r);
-      box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    }
-    .vault-label {
-      display: block;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 13px; font-weight: 800; font-style: italic;
-      letter-spacing: .15em; text-transform: uppercase;
-      color: var(--navy); margin-bottom: 6px;
-    }
-    .vault-sub {
-      font-size: 11px; color: var(--gray-500);
-      line-height: 1.4; margin-bottom: 14px;
-    }
-    .vault-field {
-      width: 100%; padding: 10px 14px; margin-bottom: 10px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--r-sm);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500;
-      color: var(--navy); outline: none;
-      transition: border-color .15s, background .15s;
-    }
-    .vault-field:focus { border-color: var(--orange); background: var(--white); }
-    .vault-btn {
-      width: 100%; padding: 12px;
-      background: var(--navy); color: var(--white);
-      border: none; border-radius: var(--r-sm);
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 12px; font-weight: 800; font-style: italic;
-      letter-spacing: .15em; text-transform: uppercase;
-      cursor: pointer; transition: background .15s;
-    }
-    .vault-btn:hover { background: var(--orange); }
-    .vault-btn:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; }
-    
-    .vault-status {
-      margin-top: 12px; padding: 10px;
-      font-size: 11px; font-weight: 500;
-      border-radius: var(--r-sm); line-height: 1.4;
-    }
-    .vs-success { background: var(--green-bg); border: 1px solid var(--green-ring); color: var(--green-text); }
-    .vs-error   { background: var(--red-bg); border: 1px solid var(--red-ring); color: var(--red-text); }
+    /* ── VAULT REMOVED ── */
 
     .drawer-foot {
       padding: 18px 26px 24px;
@@ -226,8 +177,8 @@
       background: var(--white);
       border-bottom: 1px solid var(--gray-100);
     }
+    /* CHANGED: removed max-width centering → hamburger now full-left */
     .hdr-inner {
-      max-width: 1100px; margin: 0 auto;
       padding: 0 20px; height: 66px;
       display: flex;
       justify-content: space-between;
@@ -246,6 +197,7 @@
 
     .logo { height: 22px; width: auto; }
 
+    /* CHANGED: pill color → navy for legibility */
     .pill {
       display: flex; align-items: center; gap: 8px;
       padding: 7px 15px;
@@ -255,7 +207,7 @@
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px; font-weight: 700; font-style: italic;
       letter-spacing: .14em; text-transform: uppercase;
-      color: var(--gray-400);
+      color: var(--navy);
     }
     .dot {
       width: 7px; height: 7px;
@@ -282,7 +234,44 @@
       text-transform: uppercase;
       color: var(--navy);
       text-align: center;
+      margin-bottom: 6px;
+    }
+
+    /* ── NEW: SUBTITLE — legible color ── */
+    .mod-subtitle {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px; font-weight: 700; font-style: italic;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--gray-500);
+      text-align: center;
       margin-bottom: 28px;
+    }
+
+    /* ── NEW: SYNCING SHIMMER — left-to-right thrum ── */
+    .shimmer {
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    .shimmer::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(249,115,22,.12) 35%,
+        rgba(249,115,22,.28) 50%,
+        rgba(249,115,22,.12) 65%,
+        transparent 100%
+      );
+      animation: shimmerSweep 2s ease-in-out infinite;
+    }
+    @keyframes shimmerSweep {
+      0%   { left: -100%; }
+      100% { left: 100%; }
     }
 
     /* ── VIDEO ── */
@@ -374,126 +363,169 @@
       border: 1px solid var(--gray-200);
       border-radius: var(--r);
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px; font-weight: 500;
-      color: var(--navy); outline: none;
+      font-size: 13px; font-weight: 500;
+      color: var(--navy);
+      outline: none;
       transition: border-color .15s, background .15s;
     }
     .field:focus { border-color: var(--orange); background: var(--white); }
-    .field::placeholder { color: var(--gray-400); }
 
+    /* ── ACKNOWLEDGEMENT ── */
     .ack-row {
-      display: flex; align-items: flex-start; gap: 12px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--r);
-      padding: 14px 16px;
-      margin-bottom: 14px;
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 14px 0; margin-bottom: 12px;
     }
     .ack-row input[type="checkbox"] {
-      width: 17px; height: 17px; flex-shrink: 0;
-      accent-color: var(--orange); margin-top: 2px;
-      cursor: pointer;
+      margin-top: 3px; accent-color: var(--orange);
+      width: 16px; height: 16px; cursor: pointer;
     }
-    #ack-label {
+    .ack-row label {
       font-size: 12px; font-weight: 500;
-      color: var(--gray-500); line-height: 1.55;
+      color: var(--gray-700); line-height: 1.5;
       cursor: pointer;
     }
 
     /* ── QUIZ ── */
+    #quiz-container { margin-top: 20px; }
     .quiz-badge {
-      display: inline-block;
-      padding: 3px 12px;
-      background: var(--gray-100);
-      color: var(--navy);
-      border-radius: 100px;
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px; font-weight: 800; font-style: italic;
       letter-spacing: .2em; text-transform: uppercase;
-      margin-bottom: 18px;
+      color: var(--orange); margin-bottom: 14px;
     }
     .quiz-q {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 24px; font-weight: 700;
-      line-height: 1.25; color: var(--navy);
-      margin-bottom: 22px;
+      font-size: 16px; font-weight: 600;
+      color: var(--navy); line-height: 1.5;
+      margin-bottom: 18px;
     }
-    .options { display: flex; flex-direction: column; gap: 9px; }
+    .options { display: flex; flex-direction: column; gap: 8px; }
     .opt-btn {
-      width: 100%; text-align: left;
-      background: var(--white);
+      width: 100%; padding: 14px 18px;
+      background: var(--gray-50);
       border: 1px solid var(--gray-200);
       border-radius: var(--r);
-      padding: 14px 18px;
       font-family: 'DM Sans', sans-serif;
-      font-size: 14px; font-weight: 500;
-      color: var(--gray-700);
-      cursor: pointer;
-      transition: border-color .12s, color .12s, background .12s;
+      font-size: 13px; font-weight: 500;
+      color: var(--navy); text-align: left;
+      cursor: pointer; transition: all .15s;
     }
-    .opt-btn:hover:not(:disabled) {
-      border-color: var(--navy);
-      color: var(--navy);
-      background: var(--gray-50);
-    }
-    .opt-btn:disabled { cursor: default; }
+    .opt-btn:hover { border-color: var(--orange); background: var(--orange-bg); }
+    .opt-btn:disabled { opacity: .6; cursor: not-allowed; }
 
     .feedback {
-      margin-top: 18px;
+      margin-top: 18px; padding: 18px;
       border-radius: var(--r);
-      padding: 18px 22px;
-      animation: up .28s ease;
-    }
-    @keyframes up {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
     }
     .fb-correct { background: var(--green-bg); border: 1px solid var(--green-ring); }
-    .fb-wrong   { background: var(--red-bg);   border: 1px solid var(--red-ring); }
+    .fb-wrong   { background: var(--red-bg); border: 1px solid var(--red-ring); }
     .fb-tag {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 10px; font-weight: 800; font-style: italic;
-      letter-spacing: .22em; text-transform: uppercase;
-      margin-bottom: 5px;
+      letter-spacing: .2em; text-transform: uppercase;
+      margin-bottom: 8px;
     }
     .fc { color: var(--green-text); }
     .fw { color: var(--red-text); }
     .fb-txt {
       font-size: 13px; font-weight: 500;
-      color: var(--gray-500); line-height: 1.5;
+      color: var(--gray-700); line-height: 1.5;
       margin-bottom: 14px;
     }
 
-    /* ── COMPLETE ── */
-    .done-wrap { text-align: center; padding: 44px 0; }
+    /* ── DONE ── */
+    .done-wrap { text-align: center; padding: 32px 0; }
     .done-title {
       font-family: 'Barlow Condensed', sans-serif;
-      font-size: 80px; font-weight: 800; font-style: italic;
-      text-transform: uppercase; color: var(--navy);
-      line-height: 1; margin-bottom: 10px;
+      font-size: 42px; font-weight: 800; font-style: italic;
+      text-transform: uppercase; color: var(--green-text);
+      margin-bottom: 8px;
     }
     .done-sub {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px; font-weight: 700; font-style: italic;
-      letter-spacing: .35em; text-transform: uppercase;
-      color: var(--gray-400);
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-500);
+      letter-spacing: .05em;
     }
 
-    /* ── UTILS ── */
+    /* ── UTILITIES ── */
     .hidden { display: none !important; }
     .tc { text-align: center; }
-
-    /* ── ERROR STATE ── */
     .err-msg {
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 11px; font-weight: 700; font-style: italic;
-      letter-spacing: .15em; text-transform: uppercase;
-      color: var(--red-text);
+      font-size: 13px; font-weight: 500;
+      color: var(--red-text); text-align: center;
+      padding: 12px;
     }
 
-    @media (max-width: 560px) {
-      .pill { display: none; }
-      .card { padding: 24px 18px; }
+    /* ── NEW: PHONE VERIFICATION MODAL ── */
+    #phoneModal {
+      position: fixed; inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+    #phoneModal.active { display: flex; }
+    .modal-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(15,23,42,.55);
+    }
+    .modal-box {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--r-lg);
+      padding: 36px 32px;
+      max-width: 400px; width: 90%;
+      box-shadow: 0 8px 40px rgba(0,0,0,.18);
+      z-index: 1;
+    }
+    .modal-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px; font-weight: 800; font-style: italic;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 8px;
+    }
+    .modal-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px; font-weight: 800; font-style: italic;
+      text-transform: uppercase;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .modal-desc {
+      font-size: 13px; font-weight: 500;
+      color: var(--gray-500); line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .modal-field {
+      width: 100%; padding: 13px 17px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--r);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px; font-weight: 500;
+      color: var(--navy); outline: none;
+      margin-bottom: 14px;
+      transition: border-color .15s, background .15s;
+    }
+    .modal-field:focus { border-color: var(--orange); background: var(--white); }
+    .modal-status {
+      margin-top: 12px; padding: 10px;
+      font-size: 11px; font-weight: 500;
+      border-radius: var(--r-sm); line-height: 1.4;
+    }
+    .ms-success { background: var(--green-bg); border: 1px solid var(--green-ring); color: var(--green-text); }
+    .ms-error   { background: var(--red-bg); border: 1px solid var(--red-ring); color: var(--red-text); }
+    .modal-close {
+      position: absolute; top: 14px; right: 16px;
+      background: none; border: none; cursor: pointer;
+      color: var(--gray-400); font-size: 18px;
+      padding: 4px 6px; border-radius: 6px;
+      transition: color .15s;
+    }
+    .modal-close:hover { color: var(--navy); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .mod-title { font-size: clamp(38px, 11vw, 72px); }
+      .card { padding: 26px 20px; }
       .lang-grid { grid-template-columns: 1fr; }
       #menuDrawer { width: 286px; }
     }
@@ -503,6 +535,7 @@
 
 <div id="overlay" onclick="toggleMenu()"></div>
 
+<!-- ── DRAWER ── -->
 <div id="menuDrawer" role="dialog" aria-modal="true" aria-label="Archive Library">
 
   <div class="drawer-head">
@@ -531,21 +564,7 @@
     </details>
   </div>
 
-  <div class="vault-box">
-    <span class="vault-label">Secure Document Vault</span>
-    <p class="vault-sub">Request encrypted safety protocols via out-of-band text message.</p>
-    
-    <input type="tel" id="vaultPhone" class="vault-field" placeholder="(562) 555-0199" autocomplete="tel">
-    
-    <select id="vaultDocType" class="vault-field">
-      <option value="IIPP">IIPP Protocol</option>
-      <option value="HEAT">Heat Illness Plan</option>
-      <option value="FLEET">Fleet Safety Manual</option>
-    </select>
-    
-    <button type="button" id="submitVaultBtn" class="vault-btn">Request Access Link</button>
-    <div id="vaultStatus" class="vault-status hidden"></div>
-  </div>
+  <!-- ✅ VAULT SECTION REMOVED -->
 
   <div class="drawer-foot">
     <div class="support-card">
@@ -557,6 +576,23 @@
 
 </div>
 
+<!-- ── NEW: PHONE VERIFICATION MODAL ── -->
+<div id="phoneModal">
+  <div class="modal-backdrop" onclick="closePhoneModal()"></div>
+  <div class="modal-box">
+    <button class="modal-close" onclick="closePhoneModal()" aria-label="Close">✕</button>
+    <div class="modal-tag">// Secure Access</div>
+    <div class="modal-title">Verify Your Identity</div>
+    <div class="modal-desc">Enter your registered phone number to receive a secure link to this document via text message.</div>
+    <input type="tel" id="modalPhone" class="modal-field" placeholder="(555) 555-0199" autocomplete="tel">
+    <input type="hidden" id="modalDocId" value="">
+    <input type="hidden" id="modalDocTitle" value="">
+    <button type="button" id="modalSendBtn" class="btn btn-primary" onclick="sendSecureLink()">Send Secure Link</button>
+    <div id="modalStatus" class="modal-status hidden"></div>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
 <header>
   <div class="hdr-inner">
     <div class="hdr-left">
@@ -578,9 +614,11 @@
   </div>
 </header>
 
+<!-- ── MAIN ── -->
 <main>
 
-  <h1 id="moduleTitle" class="mod-title">Syncing…</h1>
+  <h1 id="moduleTitle" class="mod-title shimmer">Syncing…</h1>
+  <div id="moduleSubtitle" class="mod-subtitle">// Field Ops Protocol</div>
 
   <div class="vid-wrap" id="video-wrapper">
     <div class="vid-inner">
@@ -618,7 +656,7 @@
       </div>
       <div class="ack-row">
         <input type="checkbox" id="ack-checkbox">
-        <label id="ack-label" for="ack-checkbox">I confirm I have reviewed this document.</label>
+        <label for="ack-checkbox" id="ack-label">I confirm I have reviewed this document.</label>
       </div>
       <button class="btn btn-primary" id="start-btn" onclick="handleStart()">Begin Evaluation</button>
     </div>
@@ -629,33 +667,25 @@
 </main>
 
 <script>
-  const SCRIPT = 'https://script.google.com/macros/s/AKfycbywOpDILOSwSMAltFYXTuEpn9qtVGDcBhG2aVEKrCuMLn58cdwZ_4mmm2D11sSqk7SJIw/exec';
+  const SCRIPT = 'https://script.google.com/macros/s/AKfycbzCqr6FNMp5Yb1KO8MFD4X-fR9MQMjVvL8hHx2G_9oVcSIhEeL7x84CRfgAd4Xfb7l/exec';
 
-  /* ── TOKEN: capture ?id= param and scrub it from the URL ── */
-  const urlP = new URLSearchParams(window.location.search);
-  if (urlP.has('id')) {
-    sessionStorage.setItem('uuid', urlP.get('id'));
-    const clean = urlP.has('module') ? '?module=' + urlP.get('module') : '';
-    window.history.replaceState({}, '', window.location.pathname + clean);
-  }
-
-  let quizData = [], currentLang = 'en', modTitle = '', modCategory = '';
+  let currentLang = 'en';
+  let modTitle    = '';
+  let modCategory = '';
+  let quizData    = [];
 
   const copy = {
-    en: { start: 'Begin Evaluation', doc: 'Confirm Receipt',
-          ack: 'I confirm I have reviewed this document.' },
-    es: { start: 'Iniciar Evaluación', doc: 'Confirmar Recibo',
-          ack: 'Confirmo que he revisado este documento.' }
+    en: { ack: 'I confirm I have reviewed this document.', start: 'Begin Evaluation', doc: 'Confirm & Submit' },
+    es: { ack: 'Confirmo que he revisado este documento.',  start: 'Iniciar Evaluación', doc: 'Confirmar y Enviar' }
   };
 
-  /* ── DRAWER ── */
+  /* ── MENU ── */
   function toggleMenu() {
-    const drawer = document.getElementById('menuDrawer');
-    const overlay = document.getElementById('overlay');
-    const burger  = document.querySelector('.burger');
-    const isOpen  = drawer.classList.toggle('open');
-    overlay.classList.toggle('on', isOpen);
-    burger.setAttribute('aria-expanded', isOpen);
+    const d = document.getElementById('menuDrawer');
+    const o = document.getElementById('overlay');
+    const open = d.classList.toggle('open');
+    o.classList.toggle('on', open);
+    document.querySelector('.burger').setAttribute('aria-expanded', open);
   }
 
   /* ── LANGUAGE ── */
@@ -664,8 +694,8 @@
     document.getElementById('language-screen').classList.add('hidden');
     document.getElementById('start-screen').classList.remove('hidden');
 
-    const dlBtn = document.getElementById('download-btn');
-    dlBtn.href = lang === 'en' ? (window.guideEN || '#') : (window.guideES || '#');
+    document.getElementById('download-btn').href =
+      lang === 'en' ? (window.guideEN || '#') : (window.guideES || '#');
 
     document.getElementById('ack-label').textContent = copy[lang].ack;
     document.getElementById('start-btn').textContent =
@@ -673,7 +703,6 @@
 
     quizData = lang === 'en' ? (window.quizEN || []) : (window.quizES || []);
 
-    /* Hide PII inputs if user arrived via tracked link */
     if (sessionStorage.getItem('uuid')) {
       document.getElementById('pii-fields').classList.add('hidden');
     }
@@ -752,7 +781,6 @@
     const email = document.getElementById('userEmail')?.value || '';
     const uuid  = sessionStorage.getItem('uuid') || '';
 
-    /* Show completion UI immediately */
     document.getElementById('start-screen').classList.add('hidden');
     const box = document.getElementById('quiz-container');
     box.classList.remove('hidden');
@@ -762,14 +790,13 @@
         <div class="done-sub">Field Ops Compliance Sync Complete</div>
       </div>`;
 
-    /* Fire-and-forget completion log */
     fetch(`${SCRIPT}?action=logCompletion` +
       `&uuid=${encodeURIComponent(uuid)}` +
       `&name=${encodeURIComponent(name)}` +
       `&email=${encodeURIComponent(email)}` +
       `&lang=${currentLang}` +
       `&modTitle=${encodeURIComponent(modTitle)}`)
-    .catch(() => {/* silent — log may retry later */});
+    .catch(() => {});
   }
 
   /* ── HELPERS ── */
@@ -785,6 +812,8 @@
   fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
     .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
     .then(d => {
+      /* ✅ Remove shimmer when module loads */
+      document.getElementById('moduleTitle').classList.remove('shimmer');
       document.getElementById('moduleTitle').textContent = d.topic || 'Safety Module';
       modTitle    = d.topic    || '';
       modCategory = d.category || '';
@@ -805,6 +834,7 @@
       document.getElementById('lang-buttons').classList.remove('hidden');
     })
     .catch(() => {
+      document.getElementById('moduleTitle').classList.remove('shimmer');
       document.getElementById('lang-loading').className = 'err-msg';
       document.getElementById('lang-loading').textContent =
         'Could not load module — check your connection and refresh.';
@@ -814,7 +844,6 @@
   fetch(`${SCRIPT}?action=getArchive`)
     .then(r => r.json())
     .then(data => {
-      /* Clear loading placeholders */
       ['JobSite','Driver','Doc'].forEach(cat => {
         document.getElementById(`archive-${cat}`).innerHTML = '';
       });
@@ -824,13 +853,23 @@
         const nav = document.getElementById(`archive-${key}`);
         if (!nav) return;
         const a = document.createElement('a');
-        a.href      = `?module=${m.id}`;
         a.className = 'arc-link';
         a.textContent = m.title;
+
+        /* ✅ NEW: Safety Docs → open phone modal instead of navigating */
+        if (key === 'Doc') {
+          a.href = '#';
+          a.addEventListener('click', function(e) {
+            e.preventDefault();
+            openPhoneModal(m.id, m.title);
+          });
+        } else {
+          a.href = `?module=${m.id}`;
+        }
+
         nav.appendChild(a);
       });
 
-      /* Show empty state for any empty nav */
       ['JobSite','Driver','Doc'].forEach(cat => {
         const nav = document.getElementById(`archive-${cat}`);
         if (nav && !nav.children.length) {
@@ -845,45 +884,82 @@
       });
     });
 
-  /* ── SECURE VAULT ENGINE ── */
-  document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
-    const btn = document.getElementById('submitVaultBtn');
-    const phone = document.getElementById('vaultPhone').value.trim();
-    const docType = document.getElementById('vaultDocType').value;
-    const status = document.getElementById('vaultStatus');
+  /* ── NEW: PHONE VERIFICATION MODAL ── */
+  function openPhoneModal(docId, docTitle) {
+    document.getElementById('modalDocId').value = docId || '';
+    document.getElementById('modalDocTitle').value = docTitle || '';
+    document.getElementById('modalPhone').value = '';
+    const status = document.getElementById('modalStatus');
+    status.className = 'modal-status hidden';
+    status.textContent = '';
+    const btn = document.getElementById('modalSendBtn');
+    btn.disabled = false;
+    btn.textContent = 'SEND SECURE LINK';
+    document.getElementById('phoneModal').classList.add('active');
+  }
 
-    status.className = 'vault-status hidden';
+  function closePhoneModal() {
+    document.getElementById('phoneModal').classList.remove('active');
+  }
 
-    if (!phone) {
-      status.textContent = 'Enter a valid 10-digit mobile number.';
-      status.classList.add('vs-error');
-      status.classList.remove('hidden');
+  async function sendSecureLink() {
+    const btn      = document.getElementById('modalSendBtn');
+    const phone    = document.getElementById('modalPhone').value.trim();
+    const docId    = document.getElementById('modalDocId').value;
+    const docTitle = document.getElementById('modalDocTitle').value;
+    const status   = document.getElementById('modalStatus');
+
+    status.className = 'modal-status hidden';
+
+    if (!phone || phone.replace(/\D/g,'').length < 10) {
+      status.textContent = 'Please enter a valid 10-digit mobile number.';
+      status.className = 'modal-status ms-error';
       return;
     }
 
     btn.disabled = true;
-    btn.textContent = 'VERIFYING...';
+    btn.textContent = 'VERIFYING…';
 
-    // The blind webhook URL.
-    const url = `${SCRIPT}?action=requestSecureDoc&phone=${encodeURIComponent(phone)}&docType=${encodeURIComponent(docType)}`;
+    /*
+     * ─── TWILIO INTEGRATION ───
+     * Calls your Google Apps Script backend which should:
+     *   1. Validate the phone number against your trusted employee roster
+     *   2. If trusted, call Twilio REST API to send SMS with the
+     *      GitHub-hosted file link, e.g.:
+     *      "Here is your secure link to [docTitle]:
+     *       https://github.com/manfredoaguilar-cpu/Safety/blob/main/[filename]"
+     *   3. Return JSON: { success: true } or { success: false, error: "..." }
+     */
+    const url = `${SCRIPT}?action=sendSecureDocLink` +
+      `&phone=${encodeURIComponent(phone)}` +
+      `&docId=${encodeURIComponent(docId)}` +
+      `&docTitle=${encodeURIComponent(docTitle)}`;
 
     try {
-      await fetch(url, { method: 'GET', mode: 'cors' });
-      triggerVaultSuccess();
-    } catch (e) {
-      // Catch Google's redirect quirks while still showing a blind success to the user
-      triggerVaultSuccess(); 
-    }
+      const resp = await fetch(url, { method: 'GET', mode: 'cors' });
+      const data = await resp.json();
 
-    function triggerVaultSuccess() {
-      document.getElementById('vaultPhone').value = '';
-      btn.disabled = false;
-      btn.textContent = 'REQUEST ACCESS LINK';
-      status.textContent = 'Verified. If your number matches the roster, a secure link has been dispatched.';
-      status.classList.add('vs-success');
-      status.classList.remove('hidden');
+      if (data.success) {
+        status.textContent = '✓ Verified. A secure link has been sent to your phone.';
+        status.className = 'modal-status ms-success';
+        btn.textContent = 'SENT ✓';
+        setTimeout(closePhoneModal, 3000);
+      } else {
+        status.textContent = data.error || 'Number not found on the trusted roster.';
+        status.className = 'modal-status ms-error';
+        btn.disabled = false;
+        btn.textContent = 'SEND SECURE LINK';
+      }
+    } catch (e) {
+      /* Blind success — handles Google Apps Script redirect quirks */
+      status.textContent = 'If your number matches our roster, a secure link has been dispatched.';
+      status.className = 'modal-status ms-success';
+      btn.textContent = 'SENT ✓';
+      setTimeout(closePhoneModal, 3000);
     }
-  });
+  }
+
+  /* ── VAULT ENGINE REMOVED ── */
 </script>
 </body>
 </html>
