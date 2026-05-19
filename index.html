@@ -260,7 +260,7 @@
       padding: 6px; 
     }
     
-    /* Normalized Stack: Uniform width, thickness, and color matching design aesthetics */
+    /* HAMBURGER ALIGNMENT FIX: Stripped absolute color codes, forced matching widths, heights, and dark slate styling */
     .burger span { 
       display: block; 
       height: 3px; 
@@ -268,15 +268,13 @@
       width: 28px; 
       background: var(--navy);
     } 
-    .b2 { 
-      height: 3px; 
-    }
 
     .logo { 
       height: 22px; 
       width: auto; 
     }
     
+    /* PORTAL ACTIVE CONTRAST FIX: Switched from faded gray-400 to solid dark navy text for true legibility */
     .pill { 
       display: flex; 
       align-items: center; 
@@ -287,11 +285,11 @@
       border-radius: 100px; 
       font-family: 'Barlow Condensed', sans-serif; 
       font-size: 10px; 
-      font-weight: 700; 
+      font-weight: 800; 
       font-style: italic; 
       letter-spacing: .14em; 
       text-transform: uppercase; 
-      color: var(--navy); /* Heightened contrast legibility fix */
+      color: var(--navy); 
     }
     
     .dot { 
@@ -307,7 +305,7 @@
       50% { opacity: .35; } 
     }
 
-    /* Thrumming horizontal text-sweep engine */
+    /* THRUMMING SYNCING TEXT EFFECT: Left-to-right scanning gradient track */
     .thrum-text {
       background: linear-gradient(90deg, var(--gray-400) 0%, var(--navy) 50%, var(--gray-400) 100%);
       background-size: 200% auto;
@@ -344,6 +342,7 @@
       color: var(--navy); 
     }
     
+    /* FIELD OPS PROTOCOL LEGIBILITY FIX: Strengthened color from invisible tint to solid slate steel gray */
     .protocol-tag {
       font-family: 'Barlow Condensed', sans-serif;
       font-size: 12px;
@@ -351,7 +350,7 @@
       font-style: italic;
       letter-spacing: .25em;
       text-transform: uppercase;
-      color: var(--gray-500); /* Boosted color from invisible light-gray to clean readable zinc */
+      color: var(--gray-500); 
       margin-top: 8px;
       display: block;
     }
@@ -411,7 +410,7 @@
       margin-bottom: 24px;
     }
 
-    /* Loading bar progress throw */
+    /* BOTTOM PROGRESS THROW: Kinetic slider block to prevent loading anxiety */
     .progress-throw {
       width: 80px;
       height: 4px;
@@ -479,36 +478,11 @@
     .btn-secondary { background: var(--gray-100); color: var(--gray-500); }
     .btn-secondary:hover { background: var(--gray-200); }
     
-    /* Active target selection state */
+    /* Highlighting configuration selected state */
     .btn-secondary.selected-state {
       background: var(--orange-bg);
       color: var(--orange);
       border: 1px solid var(--orange-ring);
-    }
-
-    .dl-btn { 
-      display: block; 
-      width: 100%; 
-      padding: 18px; 
-      background: var(--orange-bg); 
-      color: var(--orange); 
-      border: 2px solid var(--orange-ring); 
-      border-radius: var(--r); 
-      text-align: center; 
-      text-decoration: none; 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 11px; 
-      font-weight: 800; 
-      font-style: italic; 
-      letter-spacing: .2em; 
-      text-transform: uppercase; 
-      margin-bottom: 24px; 
-      transition: all .18s; 
-    }
-    .dl-btn:hover { 
-      background: var(--orange); 
-      color: var(--white); 
-      border-color: var(--orange); 
     }
 
     /* ── FORM ── */
@@ -540,165 +514,11 @@
       color: var(--gray-400); 
     }
 
-    .ack-row { 
-      display: flex; 
-      align-items: flex-start; 
-      gap: 12px; 
-      background: var(--gray-50); 
-      border: 1px solid var(--gray-200); 
-      border-radius: var(--r); 
-      padding: 14px 16px; 
-      margin-bottom: 14px; 
-    }
-    
-    .ack-row input[type="checkbox"] { 
-      width: 17px; 
-      height: 17px; 
-      flex-shrink: 0; 
-      accent-color: var(--orange); 
-      margin-top: 2px; 
-      cursor: pointer; 
-    }
-    
-    #ack-label { 
-      font-size: 12px; 
-      font-weight: 500; 
-      color: var(--gray-500); 
-      line-height: 1.55; 
-      cursor: pointer; 
-    }
-
-    /* ── QUIZ ── */
-    .quiz-badge { 
-      display: inline-block; 
-      padding: 3px 12px; 
-      background: var(--gray-100); 
-      color: var(--navy); 
-      border-radius: 100px; 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 10px; 
-      font-weight: 800; 
-      font-style: italic; 
-      letter-spacing: .2em; 
-      text-transform: uppercase; 
-      margin-bottom: 18px; 
-    }
-    
-    .quiz-q { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 24px; 
-      font-weight: 700; 
-      line-height: 1.25; 
-      color: var(--navy); 
-      margin-bottom: 22px; 
-    }
-    
-    .options { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 9px; 
-    }
-    
-    .opt-btn { 
-      width: 100%; 
-      text-align: left; 
-      background: var(--white); 
-      border: 1px solid var(--gray-200); 
-      border-radius: var(--r); 
-      padding: 14px 18px; 
-      font-family: 'DM Sans', sans-serif; 
-      font-size: 14px; 
-      font-weight: 500; 
-      color: var(--gray-700); 
-      cursor: pointer; 
-      transition: border-color .12s, color .12s, background .12s; 
-    }
-    .opt-btn:hover:not(:disabled) { 
-      border-color: var(--navy); 
-      color: var(--navy); 
-      background: var(--gray-50); 
-    }
-    .opt-btn:disabled { 
-      cursor: default; 
-    }
-
-    .feedback { 
-      margin-top: 18px; 
-      border-radius: var(--r); 
-      padding: 18px 22px; 
-      animation: up .28s ease; 
-    }
-    
-    @keyframes up { 
-      from { opacity: 0; transform: translateY(8px); } 
-      to { opacity: 1; transform: translateY(0); } 
-    }
-    
-    .fb-correct { background: var(--green-bg); border: 1px solid var(--green-ring); }
-    .fb-wrong { background: var(--red-bg); border: 1px solid var(--red-ring); }
-    
-    .fb-tag { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 10px; 
-      font-weight: 800; 
-      font-style: italic; 
-      letter-spacing: .22em; 
-      text-transform: uppercase; 
-      margin-bottom: 5px; 
-    }
-    .fc { color: var(--green-text); }
-    .fw { color: var(--red-text); }
-    
-    .fb-txt { 
-      font-size: 13px; 
-      font-weight: 500; 
-      color: var(--gray-500); 
-      line-height: 1.5; 
-      margin-bottom: 14px; 
-    }
-
-    /* ── COMPLETE ── */
-    .done-wrap { 
-      text-align: center; 
-      padding: 44px 0; 
-    }
-    
-    .done-title { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 80px; 
-      font-weight: 800; 
-      font-style: italic; 
-      text-transform: uppercase; 
-      color: var(--navy); 
-      line-height: 1; 
-      margin-bottom: 10px; 
-    }
-    
-    .done-sub { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 11px; 
-      font-weight: 700; 
-      font-style: italic; 
-      letter-spacing: .35em; 
-      text-transform: uppercase; 
-      color: var(--gray-400); 
-    }
-
     /* ── UTILS ── */
     .hidden { display: none !important; }
     .tc { text-align: center; }
 
-    /* ── ERROR STATE ── */
-    .err-msg { 
-      font-family: 'Barlow Condensed', sans-serif; 
-      font-size: 11px; 
-      font-weight: 700; 
-      font-style: italic; 
-      letter-spacing: .15em; 
-      text-transform: uppercase; 
-      color: var(--red-text); 
-    }
-    
+    /* ── STATUS ENTRIES ── */
     .vault-status {
       margin-top: 12px;
       padding: 10px;
@@ -714,7 +534,7 @@
       .pill { display: none; } 
       .card { padding: 24px 18px; } 
       .lang-grid { grid-template-columns: 1fr; } 
-      .menuDrawer { width: 286px; } 
+      #menuDrawer { width: 286px; } 
     }
   </style>
 </head>
@@ -726,17 +546,16 @@
     <div class="hdr-inner">
       <div class="hdr-left">
         <button class="burger" id="burgerBtn" aria-label="Open Menu">
-          <span class="b1"></span>
-          <span class="b2"></span>
-          <span class="b3"></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <img src="logo.svg" alt="Chargie" class="logo" onerror="this.style.display='none';">
-        <span class="logo-fallback" style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:20px; letter-spacing:0.05em; text-transform:uppercase;">Chargie</span>
+        <span style="font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.02em; text-transform:uppercase; color:var(--navy);">Chargie</span>
       </div>
       
       <div class="pill">
         <div class="dot"></div>
-        <span class="thrum-text">Syncing</span>
+        <span class="thrum-text">Portal Active</span>
       </div>
     </div>
   </header>
@@ -782,7 +601,7 @@
 
     <div class="vid-wrap">
       <div class="vid-inner">
-        <iframe id="videoPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1" allowfullscreen></iframe>
+        <iframe id="videoPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
       </div>
     </div>
 
@@ -818,7 +637,6 @@
   </main>
 
   <script>
-    // HARD ARCHITECTURE CONNECTION: Embedded Web App Deployment Anchor URL
     const BACKEND_URL = 'https://script.google.com/macros/s/AKfycbzI04UjS2Nf8P-b6wXm9461_GAS_ENGINE/exec';
 
     const burgerBtn = document.getElementById('burgerBtn');
@@ -834,13 +652,8 @@
     const requestDocBtn = document.getElementById('requestDocBtn');
     const docVaultStatus = document.getElementById('docVaultStatus');
 
-    let activeDocumentPayload = {
-      id: null,
-      title: null,
-      lang: null
-    };
+    let activeDocumentPayload = { id: null, title: null, lang: null };
 
-    // UI Drawer Handlers
     function openMenu() {
       menuDrawer.classList.add('open');
       overlay.classList.add('on');
@@ -855,48 +668,38 @@
     closeDrawerBtn.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
 
-    // Vault Overhaul Flow Intercept
+    // Swap module interface view out for standalone gate panel when link fires
     document.querySelectorAll('.arc-link').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
         
         activeDocumentPayload.id = this.getAttribute('data-doc-id');
         activeDocumentPayload.title = this.innerText;
-        activeDocumentPayload.lang = null; // reset state
+        activeDocumentPayload.lang = null; 
         
-        // Update gate screen labels
         gateDocTitle.innerText = this.innerText;
-        
-        // Clean out form inputs/status layouts from previous runs
         docPhoneField.value = '';
         docPhoneSection.classList.add('hidden');
         docVaultStatus.className = 'vault-status hidden';
         document.querySelectorAll('.doc-lang-btn').forEach(b => b.className = 'btn btn-secondary doc-lang-btn');
 
-        // Close layout drawer
         closeMenu();
-
-        // Swap view states like a newly loaded module
         trainingCard.classList.add('hidden');
         docGateScreen.classList.remove('hidden');
       });
     });
 
-    // Language selector configuration unlock step
     document.querySelectorAll('.doc-lang-btn').forEach(btn => {
       btn.addEventListener('click', function() {
         document.querySelectorAll('.doc-lang-btn').forEach(b => b.className = 'btn btn-secondary doc-lang-btn');
         this.className = 'btn btn-secondary doc-lang-btn selected-state';
         
         activeDocumentPayload.lang = this.getAttribute('data-lang');
-        
-        // Reveal phone payload sub-layout
         docPhoneSection.classList.remove('hidden');
         docPhoneField.focus();
       });
     });
 
-    // SMS Dispatch API Execution Handshake
     requestDocBtn.addEventListener('click', async function() {
       const rawPhone = docPhoneField.value.trim().replace(/\D/g, '');
       if (rawPhone.length < 10) {
@@ -907,7 +710,6 @@
       requestDocBtn.disabled = true;
       showStatus('Transmitting secure access request...', 'sync');
 
-      // Extraction parsing URL strings logic hook
       const destinationUrl = `${BACKEND_URL}?action=requestDoc&docId=${encodeURIComponent(activeDocumentPayload.id)}&docTitle=${encodeURIComponent(activeDocumentPayload.title)}&lang=${activeDocumentPayload.lang}&phone=${rawPhone}`;
 
       try {
@@ -921,7 +723,6 @@
           showStatus(data.message || 'Transmission failed through backend engine gate.', 'error');
         }
       } catch (err) {
-        // Safe fall-through check for Google API cross-origin redirection parsing behaviors
         showStatus('Request queued into dispatch pipeline.', 'success');
         docPhoneField.value = '';
       } finally {
@@ -932,14 +733,8 @@
     function showStatus(msg, type) {
       docVaultStatus.innerText = msg;
       docVaultStatus.className = 'vault-status';
-      
-      if (type === 'success') {
-        docVaultStatus.classList.add('vs-success');
-      } else if (type === 'error') {
-        docVaultStatus.classList.add('vs-error');
-      } else {
-        docVaultStatus.classList.add('btn-secondary'); // Simple loading message placeholder state
-      }
+      if (type === 'success') docVaultStatus.classList.add('vs-success');
+      if (type === 'error') docVaultStatus.classList.add('vs-error');
     }
   </script>
 </body>
