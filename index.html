@@ -168,8 +168,27 @@
     .support-email {
       font-size: 12px; font-weight: 500;
       color: var(--gray-700); text-decoration: none;
+      display: inline-block;
     }
     .support-email:hover { color: var(--orange); }
+
+    /* ── COMPLIANCE LINKS ── */
+    .support-divider {
+      border: 0;
+      border-top: 1px dashed var(--gray-200);
+      margin: 12px 0 10px;
+    }
+    .compliance-link {
+      display: block;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 10px; font-weight: 800; font-style: normal;
+      letter-spacing: .15em; text-transform: uppercase;
+      color: var(--gray-500);
+      text-decoration: none;
+      margin-bottom: 6px;
+      transition: color .15s;
+    }
+    .compliance-link:hover { color: var(--orange); }
 
     /* ── HEADER ── */
     header {
@@ -535,7 +554,6 @@
 
 <div id="overlay" onclick="toggleMenu()"></div>
 
-<!-- ── DRAWER ── -->
 <div id="menuDrawer" role="dialog" aria-modal="true" aria-label="Archive Library">
 
   <div class="drawer-head">
@@ -564,19 +582,21 @@
     </details>
   </div>
 
-  <!-- ✅ VAULT SECTION REMOVED -->
-
   <div class="drawer-foot">
     <div class="support-card">
       <div class="support-tag">// Support</div>
       <div class="support-name">Manny Aguilar</div>
       <a href="mailto:manfredo.aguilar@chargie.com" class="support-email">✉ manfredo.aguilar@chargie.com</a>
+      
+      <hr class="support-divider">
+      
+      <a href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#privacy" class="compliance-link" target="_blank">PRIVACY POLICY</a>
+      <a href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#terms" class="compliance-link" target="_blank">TERMS AND CONDITIONS</a>
     </div>
   </div>
 
 </div>
 
-<!-- ── NEW: PHONE VERIFICATION MODAL ── -->
 <div id="phoneModal">
   <div class="modal-backdrop" onclick="closePhoneModal()"></div>
   <div class="modal-box">
@@ -592,7 +612,6 @@
   </div>
 </div>
 
-<!-- ── HEADER ── -->
 <header>
   <div class="hdr-inner">
     <div class="hdr-left">
@@ -614,7 +633,6 @@
   </div>
 </header>
 
-<!-- ── MAIN ── -->
 <main>
 
   <h1 id="moduleTitle" class="mod-title shimmer">Syncing…</h1>
@@ -923,12 +941,12 @@
     /*
      * ─── TWILIO INTEGRATION ───
      * Calls your Google Apps Script backend which should:
-     *   1. Validate the phone number against your trusted employee roster
-     *   2. If trusted, call Twilio REST API to send SMS with the
-     *      GitHub-hosted file link, e.g.:
-     *      "Here is your secure link to [docTitle]:
-     *       https://github.com/manfredoaguilar-cpu/Safety/blob/main/[filename]"
-     *   3. Return JSON: { success: true } or { success: false, error: "..." }
+     * 1. Validate the phone number against your trusted employee roster
+     * 2. If trusted, call Twilio REST API to send SMS with the
+     * GitHub-hosted file link, e.g.:
+     * "Here is your secure link to [docTitle]:
+     * https://github.com/manfredoaguilar-cpu/Safety/blob/main/[filename]"
+     * 3. Return JSON: { success: true } or { success: false, error: "..." }
      */
     const url = `${SCRIPT}?action=sendSecureDocLink` +
       `&phone=${encodeURIComponent(phone)}` +
