@@ -373,7 +373,7 @@
 
   <div class="vid-wrap" id="video-wrapper">
     <div class="vid-inner">
-      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" referrerpolicy="no-referrer" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -407,7 +407,7 @@
 </main>
 
 <script>
-  const SCRIPT = 'https://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
+  const SCRIPT = 'Yhttps://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
 
   const cap = (str, len) => typeof str === 'string' ? str.substring(0, len) : '';
   const clearNode = (node) => { while (node.firstChild) node.removeChild(node.firstChild); };
@@ -600,7 +600,7 @@
     box.appendChild(doneWrap);
 
     try {
-      /* Reverted to text/plain no-cors to bypass Apps Script preflight rejection until backend is updated */
+      /* Reverted to text/plain no-cors to fix CORS block on current legacy backend */
       await fetch(SCRIPT, {
         method: 'POST',
         mode: 'no-cors',
@@ -612,10 +612,9 @@
     }
   }
 
-  /* Initialization API Calls */
-  const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
-
+  /* Core Data Orchestration */
   function loadModuleData(modID) {
+    if (!modID) return;
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => {
@@ -647,20 +646,23 @@
       });
   }
 
-  if (urlModID) {
-    loadModuleData(urlModID);
-  }
-
+  /* Execution Sequence: Fetch Archive List first to establish landing baseline */
   fetch(`${SCRIPT}?action=getArchive`)
     .then(r => r.json())
     .then(data => {
       ['JobSite','Driver','Doc'].forEach(cat => clearNode(document.getElementById(`archive-${cat}`)));
       
       if (Array.isArray(data)) {
-        /* Auto-load the newest safety module if URL is blank */
+        const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+        
+        /* Fixed: Naked URL landing logic automatically fires the newest video module payload */
         if (!urlModID && data.length > 0) {
-          const latestMod = data.find(m => m.category !== 'Doc') || data[0];
-          if (latestMod && latestMod.id) loadModuleData(latestMod.id);
+          const latestVideoMod = data.find(m => m.category !== 'Doc') || data[0];
+          if (latestVideoMod && latestVideoMod.id) {
+            loadModuleData(latestVideoMod.id);
+          }
+        } else if (urlModID) {
+          loadModuleData(urlModID);
         }
 
         data.slice(0, 100).forEach(m => {
@@ -670,7 +672,6 @@
           
           const a = buildElement('a', 'arc-link', m.title);
           
-          /* Intercept clicks for Secure Documents instead of navigating */
           if (key === 'Doc') {
             a.addEventListener('click', (e) => {
               e.preventDefault();
@@ -696,6 +697,11 @@
           nav.appendChild(buildElement('span', 'arc-empty', 'Could not load.'));
         }
       });
+      // Fallback display check if infrastructure fails completely on initial drop
+      if (!new URLSearchParams(window.location.search).get('module')) {
+        document.getElementById('moduleTitle').textContent = 'Safety Hub';
+        document.getElementById('lang-loading').textContent = 'Connection timeout. Please reload to initialize framework sync.';
+      }
     });
 
   /* Event Listeners & Binding */
@@ -732,7 +738,6 @@
       btn.textContent = 'PROCESSING...';
 
       try {
-        /* Reverted to text/plain no-cors to bypass Apps Script preflight rejection */
         await fetch(SCRIPT, {
           method: 'POST',
           mode: 'no-cors',
@@ -740,7 +745,6 @@
           body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType: docId })
         });
         
-        /* Blind success due to no-cors opacity */
         document.getElementById('vaultPhone').value = '';
         status.textContent = 'Request received. If the number matches our roster, you\'ll receive a link shortly.';
         status.classList.add('vs-success');
