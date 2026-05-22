@@ -407,7 +407,7 @@
 </main>
 
 <script>
-  const SCRIPT = 'Yhttps://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
+  const SCRIPT = 'https://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
 
   const cap = (str, len) => typeof str === 'string' ? str.substring(0, len) : '';
   const clearNode = (node) => { while (node.firstChild) node.removeChild(node.firstChild); };
@@ -600,7 +600,7 @@
     box.appendChild(doneWrap);
 
     try {
-      /* Reverted to text/plain no-cors to fix CORS block on current legacy backend */
+      /* Reverted transport to plain-text fire-and-forget to match current active sheet setup */
       await fetch(SCRIPT, {
         method: 'POST',
         mode: 'no-cors',
@@ -612,7 +612,6 @@
     }
   }
 
-  /* Core Data Orchestration */
   function loadModuleData(modID) {
     if (!modID) return;
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
@@ -646,23 +645,24 @@
       });
   }
 
-  /* Execution Sequence: Fetch Archive List first to establish landing baseline */
+  /* Parallel Architecture Bootstrap */
+  const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+  if (urlModID) {
+    loadModuleData(urlModID);
+  }
+
   fetch(`${SCRIPT}?action=getArchive`)
     .then(r => r.json())
     .then(data => {
       ['JobSite','Driver','Doc'].forEach(cat => clearNode(document.getElementById(`archive-${cat}`)));
       
       if (Array.isArray(data)) {
-        const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
-        
-        /* Fixed: Naked URL landing logic automatically fires the newest video module payload */
+        /* Fixed landing sequence: Grab the top video module off the sheet array instantly if URL query parameters are absent */
         if (!urlModID && data.length > 0) {
           const latestVideoMod = data.find(m => m.category !== 'Doc') || data[0];
           if (latestVideoMod && latestVideoMod.id) {
             loadModuleData(latestVideoMod.id);
           }
-        } else if (urlModID) {
-          loadModuleData(urlModID);
         }
 
         data.slice(0, 100).forEach(m => {
@@ -697,8 +697,7 @@
           nav.appendChild(buildElement('span', 'arc-empty', 'Could not load.'));
         }
       });
-      // Fallback display check if infrastructure fails completely on initial drop
-      if (!new URLSearchParams(window.location.search).get('module')) {
+      if (!urlModID) {
         document.getElementById('moduleTitle').textContent = 'Safety Hub';
         document.getElementById('lang-loading').textContent = 'Connection timeout. Please reload to initialize framework sync.';
       }
