@@ -424,7 +424,7 @@
 </main>
 
 <script>
-  const SCRIPT = 'https://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
+  const SCRIPT = 'https://script.google.com/macros/s/AKfycbyFiqMECFC0GzYIzvJ7Zy5WteaJ_rCkYvnoQMrm0lB0viwX3sUddPl90dna3hPOzrhQOA/exec';
 
   const cap = (str, len) => typeof str === 'string' ? str.substring(0, len) : '';
   const clearNode = (node) => { while (node.firstChild) node.removeChild(node.firstChild); };
@@ -695,7 +695,7 @@
         /* Fixed: Rebuilt execution gate so native landing data resolves without colliding with pushState selection updates */
         const currentQueryID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
         if (!currentQueryID && data.length > 0) {
-          const latestVideoMod = data.find(m => m.category !== 'Doc') || data[0];
+          const latestVideoMod = [...data].reverse().find(m => m.category !== 'Doc') || data[data.length - 1];
           if (latestVideoMod && latestVideoMod.id) {
             loadModuleData(latestVideoMod.id);
           }
