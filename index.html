@@ -71,6 +71,21 @@
     }
     #overlay.on { opacity: 1; pointer-events: all; }
 
+    /* PULSING SYNC SIGN */
+    .sync-pulse-container {
+      display: inline-block;
+      position: relative;
+      padding: 4px 16px;
+      border-radius: var(--r-sm);
+      background: linear-gradient(90deg, var(--gray-50) 25%, var(--gray-100) 50%, var(--gray-50) 75%);
+      background-size: 200% 100%;
+      animation: syncShimmer 1.6s infinite linear;
+    }
+    @keyframes syncShimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
     /* VAULT MODAL */
     #vaultModal {
       position: fixed; inset: 0; background: rgba(15,23,42,.65);
@@ -369,7 +384,9 @@
 </header>
 
 <main>
-  <h1 id="moduleTitle" class="mod-title">Syncing…</h1>
+  <div id="titleContainer" class="tc" style="margin-bottom: 28px;">
+    <h1 id="moduleTitle" class="mod-title sync-pulse-container">Syncing…</h1>
+  </div>
 
   <div class="vid-wrap" id="video-wrapper">
     <div class="vid-inner">
@@ -481,6 +498,17 @@
     document.getElementById('vaultActiveDocId').value = docId;
     document.getElementById('vaultDocTitle').textContent = `Request encrypted access for: ${docTitle}`;
     document.getElementById('vaultModal').classList.add('on');
+  }
+
+  function resetToSyncState() {
+    const title = document.getElementById('moduleTitle');
+    title.className = 'mod-title sync-pulse-container';
+    title.textContent = 'Syncing…';
+    document.getElementById('language-screen').classList.remove('hidden');
+    document.getElementById('lang-loading').classList.remove('hidden');
+    document.getElementById('lang-buttons').classList.add('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-container').classList.add('hidden');
   }
 
   function setLanguage(lang) {
@@ -614,10 +642,15 @@
 
   function loadModuleData(modID) {
     if (!modID) return;
+    resetToSyncState();
+
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => {
-        document.getElementById('moduleTitle').textContent = cap(d.topic, 100) || 'Safety Module';
+        const title = document.getElementById('moduleTitle');
+        title.className = 'mod-title'; // Drop shimmer once payload resolves
+        title.textContent = cap(d.topic, 100) || 'Safety Module';
+        
         modTitle    = cap(d.topic, 100)    || '';
         modCategory = cap(d.category, 50) || '';
 
@@ -639,6 +672,8 @@
         document.getElementById('lang-buttons').classList.remove('hidden');
       })
       .catch(() => {
+        const titleEl = document.getElementById('moduleTitle');
+        titleEl.className = 'mod-title';
         const loadingEl = document.getElementById('lang-loading');
         loadingEl.className = 'err-msg';
         loadingEl.textContent = 'Could not load module — check your connection and refresh.';
@@ -646,9 +681,9 @@
   }
 
   /* Parallel Architecture Bootstrap */
-  const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
-  if (urlModID) {
-    loadModuleData(urlModID);
+  const initialModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+  if (initialModID) {
+    loadModuleData(initialModID);
   }
 
   fetch(`${SCRIPT}?action=getArchive`)
@@ -657,8 +692,9 @@
       ['JobSite','Driver','Doc'].forEach(cat => clearNode(document.getElementById(`archive-${cat}`)));
       
       if (Array.isArray(data)) {
-        /* Fixed landing sequence: Grab the top video module off the sheet array instantly if URL query parameters are absent */
-        if (!urlModID && data.length > 0) {
+        /* Fixed: Rebuilt execution gate so native landing data resolves without colliding with pushState selection updates */
+        const currentQueryID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+        if (!currentQueryID && data.length > 0) {
           const latestVideoMod = data.find(m => m.category !== 'Doc') || data[0];
           if (latestVideoMod && latestVideoMod.id) {
             loadModuleData(latestVideoMod.id);
@@ -678,7 +714,14 @@
               showVaultPrompt(m.id, m.title);
             });
           } else {
-            a.href = `?module=${encodeURIComponent(cap(m.id, 64))}`;
+            /* Upgraded: Single-page router binding maps link updates without severing state synchronization metrics */
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetID = cap(m.id, 64);
+              window.history.pushState({}, '', `?module=${encodeURIComponent(targetID)}`);
+              toggleMenu();
+              loadModuleData(targetID);
+            });
           }
           nav.appendChild(a);
         });
@@ -697,11 +740,20 @@
           nav.appendChild(buildElement('span', 'arc-empty', 'Could not load.'));
         }
       });
-      if (!urlModID) {
-        document.getElementById('moduleTitle').textContent = 'Safety Hub';
+      const currentQueryID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+      if (!currentQueryID) {
+        const titleEl = document.getElementById('moduleTitle');
+        titleEl.className = 'mod-title';
+        titleEl.textContent = 'Safety Hub';
         document.getElementById('lang-loading').textContent = 'Connection timeout. Please reload to initialize framework sync.';
       }
     });
+
+  /* Intercept hardware back/forward actions safely */
+  window.addEventListener('popstate', () => {
+    const activeID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+    if (activeID) loadModuleData(activeID);
+  });
 
   /* Event Listeners & Binding */
   document.addEventListener('DOMContentLoaded', () => {
