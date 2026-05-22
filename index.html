@@ -18,8 +18,6 @@
     frame-ancestors 'none';
     form-action 'none';
     upgrade-insecure-requests;">
-  
-  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +69,49 @@
     }
     #overlay.on { opacity: 1; pointer-events: all; }
 
+    /* VAULT MODAL */
+    #vaultModal {
+      position: fixed; inset: 0; background: rgba(15,23,42,.65);
+      z-index: 90; display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity .2s ease;
+    }
+    #vaultModal.on { opacity: 1; pointer-events: all; }
+    
+    .vault-box-modal {
+      background: var(--white); border-radius: var(--r-lg); padding: 32px 24px;
+      max-width: 400px; width: 100%; box-shadow: var(--shadow); position: relative;
+      transform: translateY(10px); transition: transform .3s ease;
+    }
+    #vaultModal.on .vault-box-modal { transform: translateY(0); }
+
+    .vault-close {
+      position: absolute; top: 16px; right: 16px; background: none; border: none;
+      font-size: 20px; color: var(--gray-400); cursor: pointer; line-height: 1;
+    }
+    .vault-close:hover { color: var(--navy); }
+
+    .vault-label {
+      display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 18px;
+      font-weight: 800; font-style: italic; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--navy); margin-bottom: 8px; text-align: center;
+    }
+    .vault-sub { font-size: 13px; color: var(--gray-500); line-height: 1.4; margin-bottom: 20px; text-align: center; }
+    
+    .vault-field {
+      width: 100%; padding: 13px 16px; margin-bottom: 12px; background: var(--gray-50);
+      border: 1px solid var(--gray-200); border-radius: var(--r); font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 500; color: var(--navy); outline: none; transition: border-color .15s;
+    }
+    .vault-field:focus { border-color: var(--orange); background: var(--white); }
+    
+    .vault-status {
+      margin-top: 14px; padding: 12px; font-size: 12px; font-weight: 500;
+      border-radius: var(--r-sm); line-height: 1.4; text-align: center;
+    }
+    .vs-success { background: var(--green-bg); border: 1px solid var(--green-ring); color: var(--green-text); }
+    .vs-error   { background: var(--red-bg); border: 1px solid var(--red-ring); color: var(--red-text); }
+
+    /* DRAWER */
     #menuDrawer {
       position: fixed; top: 0; left: 0; height: 100%; width: 310px;
       background: var(--white); z-index: 70; transform: translateX(-100%);
@@ -112,43 +153,11 @@
     .arc-link {
       display: block; font-size: 11px; font-weight: 600; text-decoration: none;
       color: var(--gray-700); letter-spacing: .05em; text-transform: uppercase;
-      padding: 6px 0; border-bottom: 1px solid var(--gray-100); transition: color .12s;
+      padding: 6px 0; border-bottom: 1px solid var(--gray-100); transition: color .12s; cursor: pointer;
     }
     .arc-link:last-child { border-bottom: none; }
     .arc-link:hover { color: var(--orange); }
     .arc-empty { font-size: 11px; color: var(--gray-400); font-style: italic; padding: 8px 0; }
-
-    .vault-box {
-      margin: 0 26px 20px; padding: 18px 16px; background: var(--white);
-      border: 1px solid var(--gray-200); border-radius: var(--r); box-shadow: 0 2px 8px rgba(0,0,0,.04);
-    }
-    .vault-label {
-      display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 13px;
-      font-weight: 800; font-style: italic; letter-spacing: .15em; text-transform: uppercase;
-      color: var(--navy); margin-bottom: 6px;
-    }
-    .vault-sub { font-size: 11px; color: var(--gray-500); line-height: 1.4; margin-bottom: 14px; }
-    .vault-field {
-      width: 100%; padding: 10px 14px; margin-bottom: 10px; background: var(--gray-50);
-      border: 1px solid var(--gray-200); border-radius: var(--r-sm); font-family: 'DM Sans', sans-serif;
-      font-size: 13px; font-weight: 500; color: var(--navy); outline: none; transition: border-color .15s, background .15s;
-    }
-    .vault-field:focus { border-color: var(--orange); background: var(--white); }
-    .vault-btn {
-      width: 100%; padding: 12px; background: var(--navy); color: var(--white); border: none;
-      border-radius: var(--r-sm); font-family: 'Barlow Condensed', sans-serif; font-size: 12px;
-      font-weight: 800; font-style: italic; letter-spacing: .15em; text-transform: uppercase;
-      cursor: pointer; transition: background .15s;
-    }
-    .vault-btn:hover { background: var(--orange); }
-    .vault-btn:disabled { background: var(--gray-200); color: var(--gray-400); cursor: not-allowed; }
-    
-    .vault-status {
-      margin-top: 12px; padding: 10px; font-size: 11px; font-weight: 500;
-      border-radius: var(--r-sm); line-height: 1.4;
-    }
-    .vs-success { background: var(--green-bg); border: 1px solid var(--green-ring); color: var(--green-text); }
-    .vs-error   { background: var(--red-bg); border: 1px solid var(--red-ring); color: var(--red-text); }
 
     .drawer-foot { padding: 18px 26px 24px; border-top: 1px solid var(--gray-100); }
     .support-card {
@@ -163,6 +172,7 @@
     .support-email { font-size: 12px; font-weight: 500; color: var(--gray-700); text-decoration: none; }
     .support-email:hover { color: var(--orange); }
 
+    /* HEADER */
     header {
       position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--gray-100);
     }
@@ -188,6 +198,7 @@
     .dot { width: 7px; height: 7px; background: var(--green); border-radius: 50%; animation: pulse 2.2s infinite; }
     @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
+    /* MAIN */
     main { max-width: 840px; margin: 0 auto; padding: 44px 20px 80px; }
 
     .mod-title {
@@ -297,6 +308,20 @@
 
 <div id="overlay"></div>
 
+<div id="vaultModal" role="dialog" aria-modal="true">
+  <div class="vault-box-modal">
+    <button id="close-vault-btn" class="vault-close" aria-label="Close">✕</button>
+    <span class="vault-label">Secure Document Vault</span>
+    <p id="vaultDocTitle" class="vault-sub">Request encrypted protocol access.</p>
+    
+    <input type="hidden" id="vaultActiveDocId">
+    <input type="tel" id="vaultPhone" class="vault-field" placeholder="Mobile Number (562) 555-0199" autocomplete="tel">
+    
+    <button type="button" id="submitVaultBtn" class="btn btn-primary" style="padding: 14px; font-size: 14px;">Dispatch Secure Link</button>
+    <div id="vaultStatus" class="vault-status hidden"></div>
+  </div>
+</div>
+
 <div id="menuDrawer" role="dialog" aria-modal="true" aria-label="Archive Library">
   <div class="drawer-head">
     <span class="drawer-label">// Archive Library</span>
@@ -316,22 +341,6 @@
       <summary>Safety Docs <span class="chev">▾</span></summary>
       <div class="arc-nav" id="archive-Doc"><span class="arc-empty">Loading…</span></div>
     </details>
-  </div>
-
-  <div class="vault-box">
-    <span class="vault-label">Secure Document Vault</span>
-    <p class="vault-sub">Request encrypted safety protocols via out-of-band text message.</p>
-    
-    <input type="tel" id="vaultPhone" class="vault-field" placeholder="(562) 555-0199" autocomplete="tel">
-    
-    <select id="vaultDocType" class="vault-field">
-      <option value="IIPP">IIPP Protocol</option>
-      <option value="HEAT">Heat Illness Plan</option>
-      <option value="FLEET">Fleet Safety Manual</option>
-    </select>
-    
-    <button type="button" id="submitVaultBtn" class="vault-btn">Request Access Link</button>
-    <div id="vaultStatus" class="vault-status hidden"></div>
   </div>
 
   <div class="drawer-foot">
@@ -362,11 +371,11 @@
 
   <div class="vid-wrap" id="video-wrapper">
     <div class="vid-inner">
-      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" referrerpolicy="no-referrer" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
-  <div style="max-width:560px; margin:0 auto;">
+  <div style="max-width:560px; margin:0 auto;" id="content-block">
     <div class="card tc" id="language-screen">
       <div id="lang-loading" class="loading-txt">Establishing Protocol…</div>
       <div id="lang-buttons" class="hidden">
@@ -398,7 +407,6 @@
 <script>
   const SCRIPT = 'https://script.google.com/macros/s/AKfycbz98vNISjYFB2T8BXfXRCkyJ6uV5N_R19UwSnLPIY8HJRPVejvTTg57vxDTAZ2EQDe8yg/exec';
 
-  /* Hard Caps & Sanitization Helpers */
   const cap = (str, len) => typeof str === 'string' ? str.substring(0, len) : '';
   const clearNode = (node) => { while (node.firstChild) node.removeChild(node.firstChild); };
 
@@ -419,7 +427,6 @@
     es: { start: 'Iniciar Evaluación', doc: 'Confirmar Recibo', ack: 'Confirmo que he revisado este documento.' }
   };
 
-  /* Tightened URL Allowlist with strict HTTPS enforcement */
   function safeUrl(url) {
     if (!url || url.length > 250) return '#';
     try {
@@ -433,7 +440,6 @@
     } catch { return '#'; }
   }
 
-  /* Quiz Array Sanitization */
   function sanitizeQuiz(arr) {
     if (!Array.isArray(arr)) return [];
     return arr.slice(0, 50).flatMap(q => {
@@ -459,6 +465,20 @@
     const isOpen  = drawer.classList.toggle('open');
     overlay.classList.toggle('on', isOpen);
     burger.setAttribute('aria-expanded', isOpen);
+  }
+
+  function closeVaultModal() {
+    const modal = document.getElementById('vaultModal');
+    modal.classList.remove('on');
+    document.getElementById('vaultPhone').value = '';
+    document.getElementById('vaultStatus').classList.add('hidden');
+  }
+
+  function showVaultPrompt(docId, docTitle) {
+    toggleMenu(); 
+    document.getElementById('vaultActiveDocId').value = docId;
+    document.getElementById('vaultDocTitle').textContent = `Request encrypted access for: ${docTitle}`;
+    document.getElementById('vaultModal').classList.add('on');
   }
 
   function setLanguage(lang) {
@@ -507,7 +527,6 @@
     renderQuestion(0);
   }
 
-  /* Secure DOM Constructor */
   function buildElement(tag, className, text) {
     const el = document.createElement(tag);
     if (className) el.className = className;
@@ -579,13 +598,13 @@
     box.appendChild(doneWrap);
 
     try {
-      const response = await fetch(SCRIPT, {
+      /* Reverted to text/plain no-cors to bypass Apps Script preflight rejection until backend is updated */
+      await fetch(SCRIPT, {
         method: 'POST',
-        mode: 'cors',
-        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ action: 'logCompletion', uuid, name, email, lang: currentLang, modTitle })
       });
-      if (!response.ok) console.warn('Sync delayed.');
     } catch (e) {
       console.warn('Network gap during sync.');
     }
@@ -593,6 +612,7 @@
 
   /* Initialization API Calls */
   const modID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+  
   if (modID) {
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
@@ -620,6 +640,13 @@
         loadingEl.className = 'err-msg';
         loadingEl.textContent = 'Could not load module — check your connection and refresh.';
       });
+  } else {
+    /* Graceful fail state if no module ID is in the URL */
+    document.getElementById('moduleTitle').textContent = 'Safety Library';
+    document.getElementById('video-wrapper').style.display = 'none';
+    const loadingEl = document.getElementById('lang-loading');
+    loadingEl.textContent = 'Select a module from the archive drawer to begin.';
+    loadingEl.style.animation = 'none';
   }
 
   fetch(`${SCRIPT}?action=getArchive`)
@@ -632,8 +659,18 @@
           const key = m.category ? cap(m.category.replace(/\s+/g,''), 50) : '';
           const nav = document.getElementById(`archive-${key}`);
           if (!nav) return;
+          
           const a = buildElement('a', 'arc-link', m.title);
-          a.href = `?module=${encodeURIComponent(cap(m.id, 64))}`;
+          
+          /* Intercept clicks for Secure Documents instead of navigating */
+          if (key === 'Doc') {
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              showVaultPrompt(m.id, m.title);
+            });
+          } else {
+            a.href = `?module=${encodeURIComponent(cap(m.id, 64))}`;
+          }
           nav.appendChild(a);
         });
       }
@@ -658,6 +695,7 @@
     document.getElementById('overlay')?.addEventListener('click', toggleMenu);
     document.getElementById('burger-btn')?.addEventListener('click', toggleMenu);
     document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
+    document.getElementById('close-vault-btn')?.addEventListener('click', closeVaultModal);
     document.getElementById('btn-en')?.addEventListener('click', () => setLanguage('en'));
     document.getElementById('btn-es')?.addEventListener('click', () => setLanguage('es'));
     document.getElementById('start-btn')?.addEventListener('click', handleStart);
@@ -665,7 +703,7 @@
     document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
       const btn = document.getElementById('submitVaultBtn');
       const rawPhone = document.getElementById('vaultPhone').value;
-      const docType = cap(document.getElementById('vaultDocType').value, 50);
+      const docId = document.getElementById('vaultActiveDocId').value;
       const status = document.getElementById('vaultStatus');
 
       status.className = 'vault-status hidden';
@@ -686,29 +724,25 @@
       btn.textContent = 'PROCESSING...';
 
       try {
-        const response = await fetch(SCRIPT, {
+        /* Reverted to text/plain no-cors to bypass Apps Script preflight rejection */
+        await fetch(SCRIPT, {
           method: 'POST',
-          mode: 'cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType })
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType: docId })
         });
         
-        const result = await response.json();
-        
-        if (result.success) {
-          document.getElementById('vaultPhone').value = '';
-          status.textContent = 'Request received. If the number matches our roster, you\'ll receive a link shortly.';
-          status.classList.add('vs-success');
-        } else {
-          throw new Error('Backend rejection');
-        }
+        /* Blind success due to no-cors opacity */
+        document.getElementById('vaultPhone').value = '';
+        status.textContent = 'Request received. If the number matches our roster, you\'ll receive a link shortly.';
+        status.classList.add('vs-success');
       } catch (e) {
         status.textContent = 'Communication error. Please try again or contact dispatch.';
         status.classList.add('vs-error');
       } finally {
         status.classList.remove('hidden');
         btn.disabled = false;
-        btn.textContent = 'REQUEST ACCESS LINK';
+        btn.textContent = 'DISPATCH SECURE LINK';
       }
     });
   });
