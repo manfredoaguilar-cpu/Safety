@@ -18,6 +18,8 @@
     frame-ancestors 'none';
     form-action 'none';
     upgrade-insecure-requests;">
+  
+  <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -185,7 +187,7 @@
     .burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
     .burger span { display: block; height: 3px; border-radius: 3px; }
     .b1, .b4 { width: 28px; background: #D2B48C; }
-    .b2 { width: 28px; background: #22C55E; height: 2px; }
+    .b2 { width: 20px; background: #22C55E; height: 2px; }
     .b3 { width: 28px; background: #5C4033; }
 
     .logo { height: 22px; width: auto; }
@@ -371,7 +373,7 @@
 
   <div class="vid-wrap" id="video-wrapper">
     <div class="vid-inner">
-      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" referrerpolicy="no-referrer" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
   </div>
 
@@ -611,9 +613,9 @@
   }
 
   /* Initialization API Calls */
-  const modID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
-  
-  if (modID) {
+  const urlModID = cap(new URLSearchParams(window.location.search).get('module'), 64) || '';
+
+  function loadModuleData(modID) {
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => {
@@ -623,8 +625,11 @@
 
         if (d.category === 'Doc') {
           document.getElementById('video-wrapper').style.display = 'none';
-        } else if (/^[a-zA-Z0-9_-]{11}$/.test(d.videoId)) {
-          document.getElementById('heroVideo').src = `https://www.youtube.com/embed/${d.videoId}?rel=0`;
+        } else {
+          document.getElementById('video-wrapper').style.display = 'block';
+          if (/^[a-zA-Z0-9_-]{11}$/.test(d.videoId)) {
+            document.getElementById('heroVideo').src = `https://www.youtube.com/embed/${d.videoId}?rel=0`;
+          }
         }
 
         window.guideEN = safeUrl(d.guideEN);
@@ -640,13 +645,10 @@
         loadingEl.className = 'err-msg';
         loadingEl.textContent = 'Could not load module — check your connection and refresh.';
       });
-  } else {
-    /* Graceful fail state if no module ID is in the URL */
-    document.getElementById('moduleTitle').textContent = 'Safety Library';
-    document.getElementById('video-wrapper').style.display = 'none';
-    const loadingEl = document.getElementById('lang-loading');
-    loadingEl.textContent = 'Select a module from the archive drawer to begin.';
-    loadingEl.style.animation = 'none';
+  }
+
+  if (urlModID) {
+    loadModuleData(urlModID);
   }
 
   fetch(`${SCRIPT}?action=getArchive`)
@@ -655,6 +657,12 @@
       ['JobSite','Driver','Doc'].forEach(cat => clearNode(document.getElementById(`archive-${cat}`)));
       
       if (Array.isArray(data)) {
+        /* Auto-load the newest safety module if URL is blank */
+        if (!urlModID && data.length > 0) {
+          const latestMod = data.find(m => m.category !== 'Doc') || data[0];
+          if (latestMod && latestMod.id) loadModuleData(latestMod.id);
+        }
+
         data.slice(0, 100).forEach(m => {
           const key = m.category ? cap(m.category.replace(/\s+/g,''), 50) : '';
           const nav = document.getElementById(`archive-${key}`);
