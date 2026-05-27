@@ -100,9 +100,7 @@
     #vaultModal.on .vault-box-modal { transform: translateY(0); }
     .vault-close {
       position: absolute; top: 16px; right: 16px; background: none; border: none;
-      font-size: 20px; color: var(--gray-400); cursor: pointer; line-height: 1;
-    }
-    .vault-close:hover { color: var(--navy); }
+      font-size: 20navy); }
     .vault-label {
       display: block; font-family: 'DM Sans', sans-serif; font-size: 18px;
       font-weight: 700; color: var(--navy); margin-bottom: 8px; text-align: center;
@@ -312,9 +310,10 @@
         <a href="mailto:manfredo.aguilar@chargie.com" class="support-email" target="_blank" rel="noopener noreferrer">✉ manfredo.aguilar@chargie.com</a>
       </div>
       
+      <!-- ✅ FIX 1: Corrected href targets -->
       <div class="unlocked-legal-links">
-        <a id="footer-tos-link" href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-        <a id="footer-privacy-link" href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a id="footer-tos-link" href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a id="footer-privacy-link" href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       </div>
     </div>
   </div>
@@ -379,7 +378,7 @@
   </main>
 
 <script>
-  const SCRIPT = 'https://script.google.com/macros/s/AKfycbxZMfMRs7_Htsy_88qUVHzI3_78qK5qPKU84SG12nKIEpRXiECKUT4uCB8GprlnmMW8Sw/exec';
+  const SCRIPT = 'https://script.google.com/macros/s/AKfycbxZMfMRs7_Htsy_88qK5qPKU84SG12nKIEpRXiECKUT4uCB8GprlnmMW8Sw/exec';
 
   const cap = (val, len) => (val === undefined || val === null) ? '' : String(val).substring(0, len);
   const clearNode = (node) => { while (node && node.firstChild) node.removeChild(node.firstChild); };
@@ -404,11 +403,13 @@
     es: { start: 'Iniciar Evaluación', doc: 'Confirmar Recibo', ack: 'Confirmo que he revisado este documento.' }
   };
 
+  /* ✅ FIX 2: Added manfredoaguilar-cpu.github.io to the allow-list */
   function safeUrl(url) {
     if (!url || String(url).length > 250) return '#';
     try {
       const u = new URL(url);
       if (u.protocol !== 'https:') return '#';
+      if (u.hostname === 'manfredoaguilar-cpu.github.io' && u.pathname.startsWith('/Safety/')) return url;
       if (u.hostname === 'raw.githubusercontent.com' && u.pathname.startsWith('/manfredoaguilar-cpu/Safety/')) return url;
       if (u.hostname === 'github.com' && u.pathname.startsWith('/manfredoaguilar-cpu/Safety/')) return url;
       if (u.hostname === 'drive.google.com' && u.pathname.startsWith('/file/d/')) return url;
@@ -658,20 +659,12 @@
           const rawTitle = cap(m.title, 120);
           const key = m.category ? cap(String(m.category).replace(/\s+/g,''), 50) : '';
           
-          /* CAPTURE LINK TRAFFIC AND INTERCEPT STATIC POLICY LINKS BEFORE THEY GENERATE DROPDOWN NODES */
-          if (key === 'Doc' && (rawTitle === 'SMS Privacy Policy' || rawTitle === 'SMS Terms and Conditions')) {
-            const parsedUrl = safeUrl(m.guideEN || m.guideES);
-            if (rawTitle === 'SMS Terms and Conditions') {
-              window.legalLinks.tos = parsedUrl;
-              const activeNode = document.getElementById('footer-tos-link');
-              if (activeNode) activeNode.href = parsedUrl;
-            }
-            if (rawTitle === 'SMS Privacy Policy') {
-              window.legalLinks.privacy = parsedUrl;
-              const activeNode = document.getElementById('footer-privacy-link');
-              if (activeNode) activeNode.href = parsedUrl;
-            }
-            return; 
+          /* ✅ FIX 3: Match actual sheet titles and skip them from the dropdown.
+             The footer links are already hardcoded correctly in the HTML,
+             so we just need to prevent these from appearing in Safety Docs. */
+          const lowerTitle = rawTitle.toLowerCase();
+          if (lowerTitle === 'privacy policy' || lowerTitle.startsWith('terms and condition')) {
+            return; // skip — linked directly in the drawer footer
           }
 
           const nav = document.getElementById(`archive-${key}`);
@@ -729,12 +722,6 @@
     document.getElementById('btn-es')?.addEventListener('click', () => setLanguage('es'));
     document.getElementById('start-btn')?.addEventListener('click', handleStart);
 
-    /* HARD RESOLUTION LOCK FOR FOOTER ANCHORS AFTER WINDOW REGISTRATION WRAPS */
-    const staticTosNode = document.getElementById('footer-tos-link');
-    const staticPrivNode = document.getElementById('footer-privacy-link');
-    if (staticTosNode && window.legalLinks.tos !== '#') staticTosNode.href = window.legalLinks.tos;
-    if (staticPrivNode && window.legalLinks.privacy !== '#') staticPrivNode.href = window.legalLinks.privacy;
-
     document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
       const btn = document.getElementById('submitVaultBtn');
       const rawPhone = document.getElementById('vaultPhone').value;
@@ -764,7 +751,7 @@
         });
 
         document.getElementById('vaultPhone').value = '';
-        status.textContent = 'Request received. If the number matches our roster, you’ll receive a link shortly.';
+        status.textContent = 'Request received. If the number matches our roster, you\'ll receive a link shortly.';
         status.classList.add('vs-success');
       } catch (e) {
         status.textContent = 'Communication error. Please try again or contact dispatch.';
