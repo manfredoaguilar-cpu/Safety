@@ -166,12 +166,12 @@
     .hdr-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 66px; display: flex; justify-content: space-between; align-items: center; }
     .hdr-left { display: flex; align-items: center; gap: 18px; }
     
-    /* BURGER BAR SYMMETRIC METRICS */
+    /* BURGER BAR SYMMETRIC METRICS - 28px uniform width */
     .burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
-    .burger span { display: block; height: 3px; border-radius: 3px; }
-    .b1, .b4 { width: 28px; background: #D2B48C; }
-    .b2 { width: 28px; background: #22C55E; } 
-    .b3 { width: 28px; background: #5C4033; }
+    .burger span { display: block; height: 3px; border-radius: 3px; width: 28px; }
+    .b1, .b4 { background: #D2B48C; }
+    .b2 { background: #22C55E; } 
+    .b3 { background: #5C4033; }
     
     .logo { height: 22px; width: auto; }
     .pill {
@@ -188,6 +188,7 @@
       font-family: 'DM Sans', sans-serif; 
       font-size: clamp(38px, 6.5vw, 56px);
       font-weight: 800; 
+      font-style: normal; /* Stripped italics */
       line-height: 1.15;
       letter-spacing: -0.02em;
       color: var(--navy); 
@@ -280,3 +281,490 @@
       <input type="tel" id="vaultPhone" class="vault-field" placeholder="Mobile Number (562) 555-0199" autocomplete="tel">
 
       <button type="button" id="submitVaultBtn" class="btn btn-primary" style="padding: 14px; font-size: 14px;">Dispatch Secure Link</button>
+      <div id="vaultStatus" class="vault-status hidden"></div>
+    </div>
+  </div>
+
+  <div id="menuDrawer" role="dialog" aria-modal="true" aria-label="Archive Library">
+    <div class="drawer-head">
+      <span class="drawer-label">// Archive Library</span>
+      <button id="close-menu-btn" class="close-btn" aria-label="Close">✕</button>
+    </div>
+
+    <div class="drawer-scroll">
+      <details open>
+        <summary>Job Site Safety <span class="chev">▾</span></summary>
+        <div class="arc-nav" id="archive-JobSite"><span class="arc-empty">Loading…</span></div>
+      </details>
+      <details>
+        <summary>Driver Safety <span class="chev">▾</span></summary>
+        <div class="arc-nav" id="archive-Driver"><span class="arc-empty">Loading…</span></div>
+      </details>
+      <details>
+        <summary>Safety Docs <span class="chev">▾</span></summary>
+        <div class="arc-nav" id="archive-Doc"><span class="arc-empty">Loading…</span></div>
+      </details>
+    </div>
+
+    <div class="drawer-foot">
+      <div class="support-card">
+        <div class="support-tag">// Support</div>
+        <div class="support-name">Manny Aguilar</div>
+        <a href="mailto:manfredo.aguilar@chargie.com" class="support-email" target="_blank" rel="noopener noreferrer">✉ manfredo.aguilar@chargie.com</a>
+      </div>
+      
+      <div class="unlocked-legal-links">
+        <a id="footer-tos-link" href="#" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a id="footer-privacy-link" href="#" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="hdr-inner">
+      <div class="hdr-left">
+        <button id="burger-btn" class="burger" aria-label="Open menu" aria-expanded="false">
+          <span class="b1"></span><span class="b2"></span><span class="b3"></span><span class="b4"></span>
+        </button>
+        <img src="https://raw.githubusercontent.com/manfredoaguilar-cpu/Safety/main/Chargie%20Logo%201.png" alt="Chargie" class="logo" loading="eager">
+      </div>
+      <div class="pill" id="user-status">
+        <span class="dot"></span><span id="display-name">Portal Active</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div id="titleContainer" class="tc" style="margin-bottom: 24px;">
+      <h1 id="moduleTitle" class="mod-title">Syncing…</h1>
+      <div id="syncLoaderContainer" class="sync-loader-container">
+        <div class="sync-loader-bar"></div>
+      </div>
+    </div>
+
+    <div class="vid-wrap" id="video-wrapper">
+      <div class="vid-inner">
+        <iframe id="heroVideo" src="" title="Safety module video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+
+    <div style="max-width: 560px; margin: 0 auto;" id="content-block">
+      <div class="card tc" id="language-screen">
+        <div id="lang-loading" class="loading-txt">Establishing Protocol…</div>
+        <div id="lang-buttons" class="hidden">
+          <div class="lang-title">Select Language</div>
+          <div class="lang-grid">
+            <button id="btn-en" class="btn btn-primary">English</button>
+            <button id="btn-es" class="btn btn-primary">Español</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card hidden" id="start-screen">
+        <a id="download-btn" href="#" target="_blank" rel="noopener noreferrer" class="dl-btn">↓ Download PDF Document</a>
+        <div id="pii-fields" class="field-group">
+          <input type="text" id="userName" class="field" placeholder="Full Name" autocomplete="name">
+          <input type="email" id="userEmail" class="field" placeholder="Email Address" autocomplete="email">
+        </div>
+        <div class="ack-row">
+          <input type="checkbox" id="ack-checkbox">
+          <label id="ack-label" for="ack-checkbox">I confirm I have reviewed this document.</label>
+        </div>
+        <button class="btn btn-primary" id="start-btn">Begin Evaluation</button>
+      </div>
+
+      <div class="card hidden" id="quiz-container"></div>
+    </div>
+  </main>
+
+<script>
+  const SCRIPT = 'https://script.google.com/macros/s/AKfycbxZMfMRs7_Htsy_88qUVHzI3_78qK5qPKU84SG12nKIEpRXiECKUT4uCB8GprlnmMW8Sw/exec';
+
+  const cap = (val, len) => (val === undefined || val === null) ? '' : String(val).substring(0, len);
+  const clearNode = (node) => { while (node && node.firstChild) node.removeChild(node.firstChild); };
+
+  const urlP = new URLSearchParams(window.location.search);
+  if (urlP.has('id')) {
+    const rawId = urlP.get('id');
+    if (/^[a-zA-Z0-9-_.]+$/.test(rawId)) {
+      sessionStorage.setItem('uuid', cap(rawId, 128));
+    }
+    const clean = urlP.has('module') ? '?module=' + encodeURIComponent(cap(urlP.get('module'), 64)) : '';
+    window.history.replaceState({}, '', window.location.pathname + clean);
+  }
+
+  let quizData = [], currentLang = 'en', modTitle = '', modCategory = '';
+
+  const copy = {
+    en: { start: 'Begin Evaluation', doc: 'Confirm Receipt', ack: 'I confirm I have reviewed this document.' },
+    es: { start: 'Iniciar Evaluación', doc: 'Confirmar Recibo', ack: 'Confirmo que he revisado este documento.' }
+  };
+
+  /* FIXED URL ALLOWLIST: Accepts the github.io domain now */
+  function safeUrl(url) {
+    if (!url || String(url).length > 250) return '#';
+    try {
+      const u = new URL(url);
+      if (u.protocol !== 'https:') return '#';
+      if (u.hostname === 'manfredoaguilar-cpu.github.io' && u.pathname.startsWith('/Safety/')) return url;
+      if (u.hostname === 'raw.githubusercontent.com' && u.pathname.startsWith('/manfredoaguilar-cpu/Safety/')) return url;
+      if (u.hostname === 'github.com' && u.pathname.startsWith('/manfredoaguilar-cpu/Safety/')) return url;
+      if (u.hostname === 'drive.google.com' && u.pathname.startsWith('/file/d/')) return url;
+      if (u.hostname === 'docs.google.com' && u.pathname.startsWith('/document/d/')) return url;
+      return '#';
+    } catch { return '#'; }
+  }
+
+  function sanitizeQuiz(arr) {
+    if (!Array.isArray(arr)) return [];
+    return arr.slice(0, 50).flatMap(q => {
+      if (!q || typeof q.q !== 'string' || !Array.isArray(q.a)) return [];
+      const aCapped = q.a.slice(0, 6).map(a => cap(a, 200));
+      const correct = (Number.isInteger(q.correct) && q.correct >= 0 && q.correct < aCapped.length) ? q.correct : 0;
+      return [{
+        q: cap(q.q, 500),
+        a: aCapped,
+        correct,
+        f: cap(q.f || '', 500)
+      }];
+    });
+  }
+
+  function toggleMenu() {
+    const drawer = document.getElementById('menuDrawer');
+    const overlay = document.getElementById('overlay');
+    const burger  = document.getElementById('burger-btn');
+    const isOpen  = drawer.classList.toggle('open');
+    overlay.classList.toggle('on', isOpen);
+    burger.setAttribute('aria-expanded', isOpen);
+  }
+
+  function closeVaultModal() {
+    document.getElementById('vaultModal').classList.remove('on');
+    document.getElementById('vaultPhone').value = '';
+    document.getElementById('vaultStatus').classList.add('hidden');
+  }
+
+  function showVaultPrompt(docId, docTitle) {
+    toggleMenu();
+    document.getElementById('vaultActiveDocId').value = cap(docId, 64);
+    document.getElementById('vaultDocTitle').textContent = `Request encrypted access for: ${cap(docTitle, 120)}`;
+    document.getElementById('vaultModal').classList.add('on');
+  }
+
+  function resetToSyncState() {
+    const title = document.getElementById('moduleTitle');
+    title.textContent = 'Syncing…';
+    document.getElementById('syncLoaderContainer').classList.remove('hidden');
+    document.getElementById('language-screen').classList.remove('hidden');
+    document.getElementById('lang-loading').classList.remove('hidden');
+    document.getElementById('lang-buttons').classList.add('hidden');
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-container').classList.add('hidden');
+  }
+
+  function setLanguage(lang) {
+    currentLang = lang;
+    document.getElementById('language-screen').classList.add('hidden');
+    document.getElementById('start-screen').classList.remove('hidden');
+
+    document.getElementById('download-btn').href = (lang === 'en') ? (window.guideEN || '#') : (window.guideES || '#');
+    document.getElementById('ack-label').textContent = copy[lang].ack;
+    document.getElementById('start-btn').textContent = (modCategory === 'Doc') ? copy[lang].doc : copy[lang].start;
+
+    quizData = (lang === 'en') ? (window.quizEN || []) : (window.quizES || []);
+
+    if (sessionStorage.getItem('uuid')) {
+      document.getElementById('pii-fields').classList.add('hidden');
+    }
+  }
+
+  function handleStart() {
+    const uuid  = sessionStorage.getItem('uuid');
+    const name  = cap(document.getElementById('userName').value.trim(), 100);
+    const email = cap(document.getElementById('userEmail').value.trim(), 100);
+
+    if (!uuid) {
+      if (!name || !email) {
+        alert('Please enter your full name and email to continue.');
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Please enter a valid email.');
+        return;
+      }
+    }
+
+    if (!document.getElementById('ack-checkbox').checked) {
+      alert('Please check the acknowledgement box to continue.');
+      return;
+    }
+
+    if (modCategory === 'Doc') { recordComplete(); return; }
+
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('quiz-container').classList.remove('hidden');
+    renderQuestion(0);
+  }
+
+  function buildElement(tag, className, text) {
+    const el = document.createElement(tag);
+    if (className) el.className = className;
+    if (text !== undefined && text !== null) el.textContent = cap(text, 500);
+    return el;
+  }
+
+  function renderQuestion(idx) {
+    const q = quizData[idx];
+    const box = document.getElementById('quiz-container');
+    clearNode(box);
+
+    box.appendChild(buildElement('div', 'quiz-badge', `Step ${idx + 1} / ${quizData.length}`));
+    box.appendChild(buildElement('div', 'quiz-q', q.q));
+
+    const optsContainer = buildElement('div', 'options');
+    q.a.forEach((optText, i) => {
+      const btn = buildElement('button', 'opt-btn', optText);
+      btn.addEventListener('click', () => checkAnswer(idx, i));
+      optsContainer.appendChild(btn);
+    });
+    box.appendChild(optsContainer);
+
+    const fbContainer = buildElement('div');
+    fbContainer.id = 'fb';
+    box.appendChild(fbContainer);
+  }
+
+  function checkAnswer(qIdx, oIdx) {
+    const q = quizData[qIdx];
+    document.querySelectorAll('.opt-btn').forEach(b => b.disabled = true);
+
+    const isRight = oIdx === q.correct;
+    const fb = document.getElementById('fb');
+    clearNode(fb);
+
+    const last = qIdx >= quizData.length - 1;
+    const fbWrap = buildElement('div', `feedback ${isRight ? 'fb-correct' : 'fb-wrong'}`);
+
+    fbWrap.appendChild(buildElement('div', `fb-tag ${isRight ? 'fc' : 'fw'}`, isRight ? '// Correct' : '// Retry'));
+    fbWrap.appendChild(buildElement('div', 'fb-txt', q.f));
+
+    const actionBtn = buildElement('button', `btn ${isRight ? 'btn-primary' : 'btn-secondary'}`);
+    if (isRight) {
+      actionBtn.textContent = last ? 'Finalize Sync' : 'Next Challenge';
+      actionBtn.addEventListener('click', () => last ? recordComplete() : renderQuestion(qIdx + 1));
+    } else {
+      actionBtn.textContent = 'Try Again';
+      actionBtn.addEventListener('click', () => renderQuestion(qIdx));
+    }
+
+    fbWrap.appendChild(actionBtn);
+    fb.appendChild(fbWrap);
+  }
+
+  async function recordComplete() {
+    const name  = cap(document.getElementById('userName')?.value || '', 100);
+    const email = cap(document.getElementById('userEmail')?.value || '', 100);
+    const uuid  = cap(sessionStorage.getItem('uuid') || '', 128);
+
+    document.getElementById('start-screen').classList.add('hidden');
+    const box = document.getElementById('quiz-container');
+    clearNode(box);
+    box.classList.remove('hidden');
+
+    const doneWrap = buildElement('div', 'done-wrap');
+    doneWrap.appendChild(buildElement('div', 'done-title', 'Verified'));
+    doneWrap.appendChild(buildElement('div', 'done-sub', 'Field Ops Compliance Sync Complete'));
+    box.appendChild(doneWrap);
+
+    try {
+      await fetch(SCRIPT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'logCompletion', uuid, name, email, lang: currentLang, modTitle })
+      });
+    } catch (e) {
+      console.warn('Network gap during sync.');
+    }
+  }
+
+  function loadModuleData(modID) {
+    modID = cap(modID, 64);
+    if (!modID) return;
+
+    resetToSyncState();
+
+    fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
+      .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(d => {
+        document.getElementById('syncLoaderContainer').classList.add('hidden');
+        
+        const title = document.getElementById('moduleTitle');
+        title.textContent = cap(d.topic, 100) || 'Safety Module';
+
+        modTitle    = cap(d.topic, 100) || '';
+        modCategory = cap(d.category, 50) || '';
+
+        if (d.category === 'Doc') {
+          document.getElementById('video-wrapper').style.display = 'none';
+        } else {
+          document.getElementById('video-wrapper').style.display = 'block';
+          if (/^[a-zA-Z0-9_-]{11}$/.test(d.videoId)) {
+            document.getElementById('heroVideo').src = `https://www.youtube.com/embed/${d.videoId}?rel=0`;
+          } else {
+            document.getElementById('heroVideo').src = '';
+          }
+        }
+
+        window.guideEN = safeUrl(d.guideEN);
+        window.guideES = safeUrl(d.guideES);
+        window.quizEN  = sanitizeQuiz(d.quizEN);
+        window.quizES  = sanitizeQuiz(d.quizES);
+
+        document.getElementById('lang-loading').classList.add('hidden');
+        document.getElementById('lang-buttons').classList.remove('hidden');
+      })
+      .catch(() => {
+        document.getElementById('syncLoaderContainer').classList.add('hidden');
+        const loadingEl = document.getElementById('lang-loading');
+        loadingEl.className = 'err-msg';
+        loadingEl.textContent = 'Could not load module — check your connection and refresh.';
+      });
+  }
+
+  const initialModID = cap(new URLSearchParams(window.location.search).get('module') || '', 64);
+  if (initialModID) loadModuleData(initialModID);
+
+  fetch(`${SCRIPT}?action=getArchive`)
+    .then(r => r.json())
+    .then(data => {
+      ['JobSite','Driver','Doc'].forEach(cat => clearNode(document.getElementById(`archive-${cat}`)));
+
+      if (Array.isArray(data)) {
+        const currentQueryID = cap(new URLSearchParams(window.location.search).get('module') || '', 64);
+
+        if (!currentQueryID && data.length > 0) {
+          const latestVideoMod = [...data].reverse().find(m => String(m.category || '') !== 'Doc' && String(m.category || '') !== 'Legal') || data[data.length - 1];
+          if (latestVideoMod && latestVideoMod.id !== undefined && latestVideoMod.id !== null && String(latestVideoMod.id) !== '') {
+            loadModuleData(latestVideoMod.id);
+            window.history.replaceState({}, '', `?module=${encodeURIComponent(cap(latestVideoMod.id, 64))}`);
+          }
+        }
+
+        data.slice(0, 100).forEach(m => {
+          const rawTitle = cap(m.title, 120);
+          const key = m.category ? cap(String(m.category).replace(/\s+/g,''), 50) : '';
+          
+          /* INTERCEPT LEGAL CATEGORY DOCUMENTS */
+          if (key === 'Legal') {
+            const parsedUrl = safeUrl(m.guideEN || m.guideES);
+            if (rawTitle.toLowerCase().includes('terms')) {
+              const tosLink = document.getElementById('footer-tos-link');
+              if (tosLink) tosLink.href = parsedUrl;
+            }
+            if (rawTitle.toLowerCase().includes('privacy')) {
+              const privLink = document.getElementById('footer-privacy-link');
+              if (privLink) privLink.href = parsedUrl;
+            }
+            return; /* Skip generating a visual element in the drawer */
+          }
+
+          const nav = document.getElementById(`archive-${key}`);
+          if (!nav) return;
+
+          const a = buildElement('a', 'arc-link', m.title);
+
+          if (key === 'Doc') {
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              showVaultPrompt(m.id, m.title);
+            });
+          } else {
+            a.addEventListener('click', (e) => {
+              e.preventDefault();
+              const targetID = cap(m.id, 64);
+              if (!targetID) return;
+              window.history.pushState({}, '', `?module=${encodeURIComponent(targetID)}`);
+              toggleMenu();
+              loadModuleData(targetID);
+            });
+          }
+
+          nav.appendChild(a);
+        });
+      }
+
+      ['JobSite','Driver','Doc'].forEach(cat => {
+        const nav = document.getElementById(`archive-${cat}`);
+        if (nav && !nav.children.length) nav.appendChild(buildElement('span', 'arc-empty', 'No entries yet.'));
+      });
+    })
+    .catch(() => {
+      ['JobSite','Driver','Doc'].forEach(cat => {
+        const nav = document.getElementById(`archive-${cat}`);
+        if (nav) {
+          clearNode(nav);
+          nav.appendChild(buildElement('span', 'arc-empty', 'Could not load.'));
+        }
+      });
+    });
+
+  window.addEventListener('popstate', () => {
+    const activeID = cap(new URLSearchParams(window.location.search).get('module') || '', 64);
+    if (activeID) loadModuleData(activeID);
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('overlay')?.addEventListener('click', toggleMenu);
+    document.getElementById('burger-btn')?.addEventListener('click', toggleMenu);
+    document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
+    document.getElementById('close-vault-btn')?.addEventListener('click', closeVaultModal);
+    document.getElementById('btn-en')?.addEventListener('click', () => setLanguage('en'));
+    document.getElementById('btn-es')?.addEventListener('click', () => setLanguage('es'));
+    document.getElementById('start-btn')?.addEventListener('click', handleStart);
+
+    document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
+      const btn = document.getElementById('submitVaultBtn');
+      const rawPhone = document.getElementById('vaultPhone').value;
+      const docId = document.getElementById('vaultActiveDocId').value;
+      const status = document.getElementById('vaultStatus');
+
+      status.className = 'vault-status hidden';
+
+      let digits = String(rawPhone || '').replace(/\D/g, '');
+      if (digits.length === 11 && digits.startsWith('1')) digits = digits.substring(1);
+      if (digits.length !== 10) {
+        status.textContent = 'Enter a valid 10-digit mobile number.';
+        status.classList.add('vs-error');
+        status.classList.remove('hidden');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'PROCESSING...';
+
+      try {
+        await fetch(SCRIPT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType: cap(docId, 64) })
+        });
+
+        document.getElementById('vaultPhone').value = '';
+        status.textContent = 'Request received. If the number matches our roster, you’ll receive a link shortly.';
+        status.classList.add('vs-success');
+      } catch (e) {
+        status.textContent = 'Communication error. Please try again or contact dispatch.';
+        status.classList.add('vs-error');
+      } finally {
+        status.classList.remove('hidden');
+        btn.disabled = false;
+        btn.textContent = 'DISPATCH SECURE LINK';
+      }
+    });
+  });
+</script>
+</body>
+</html>
