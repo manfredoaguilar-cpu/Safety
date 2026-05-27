@@ -166,11 +166,11 @@
     .hdr-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 66px; display: flex; justify-content: space-between; align-items: center; }
     .hdr-left { display: flex; align-items: center; gap: 18px; }
     
-    /* FIXED BURGER BAR SYMMETRY METRICS */
+    /* FIXED BURGER BAR SYMMETRIC METRICS */
     .burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
     .burger span { display: block; height: 3px; border-radius: 3px; }
     .b1, .b4 { width: 28px; background: #D2B48C; }
-    .b2 { width: 28px; background: #22C55E; } /* Sized up to match alignment parameters */
+    .b2 { width: 28px; background: #22C55E; } 
     .b3 { width: 28px; background: #5C4033; }
     
     .logo { height: 22px; width: auto; }
@@ -313,8 +313,8 @@
       </div>
       
       <div class="unlocked-legal-links">
-        <a href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-        <a href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a id="footer-tos-link" href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a id="footer-privacy-link" href="https://manfredoaguilar-cpu.github.io/Safety/" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       </div>
     </div>
   </div>
@@ -379,7 +379,6 @@
 <script>
   const SCRIPT = 'https://script.google.com/macros/s/AKfycbxZMfMRs7_Htsy_88qUVHzI3_78qK5qPKU84SG12nKIEpRXiECKUT4uCB8GprlnmMW8Sw/exec';
 
-  /* FIXED CAP: Re-engineered to process native index structures directly */
   const cap = (val, len) => (val === undefined || val === null) ? '' : String(val).substring(0, len);
   const clearNode = (node) => { while (node && node.firstChild) node.removeChild(node.firstChild); };
 
@@ -512,6 +511,14 @@
     return el;
   }
 
+  document.getElementById('overlay')?.addEventListener('click', toggleMenu);
+  document.getElementById('burger-btn')?.addEventListener('click', toggleMenu);
+  document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
+  document.getElementById('close-vault-btn')?.addEventListener('click', closeVaultModal);
+  document.getElementById('btn-en')?.addEventListener('click', () => setLanguage('en'));
+  document.getElementById('btn-es')?.addEventListener('click', () => setLanguage('es'));
+  document.getElementById('start-btn')?.addEventListener('click', handleStart);
+
   function renderQuestion(idx) {
     const q = quizData[idx];
     const box = document.getElementById('quiz-container');
@@ -596,7 +603,6 @@
     fetch(`${SCRIPT}?action=getModule&moduleId=${encodeURIComponent(modID)}`)
       .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then(d => {
-        // Drop progress bar visualization when data resolves
         document.getElementById('syncLoaderContainer').classList.add('hidden');
         
         const title = document.getElementById('moduleTitle');
@@ -652,7 +658,23 @@
         }
 
         data.slice(0, 100).forEach(m => {
+          const rawTitle = cap(m.title, 120);
           const key = m.category ? cap(String(m.category).replace(/\s+/g,''), 50) : '';
+          
+          /* ELIMINATE STATIC POLICY DOCUMENTS FROM THE INTERACTIVE LIST ACCORDING TO ROSTER RULES */
+          if (key === 'Doc' && (rawTitle === 'SMS Privacy Policy' || rawTitle === 'SMS Terms and Conditions')) {
+            /* Route properties dynamically directly to footer links instead of generating elements */
+            if (rawTitle === 'SMS Terms and Conditions') {
+              const tosLink = document.getElementById('footer-tos-link');
+              if (tosLink) tosLink.href = safeUrl(m.guideEN || m.guideES);
+            }
+            if (rawTitle === 'SMS Privacy Policy') {
+              const privLink = document.getElementById('footer-privacy-link');
+              if (privLink) privLink.href = safeUrl(m.guideEN || m.guideES);
+            }
+            return; 
+          }
+
           const nav = document.getElementById(`archive-${key}`);
           if (!nav) return;
 
@@ -698,55 +720,45 @@
     if (activeID) loadModuleData(activeID);
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('overlay')?.addEventListener('click', toggleMenu);
-    document.getElementById('burger-btn')?.addEventListener('click', toggleMenu);
-    document.getElementById('close-menu-btn')?.addEventListener('click', toggleMenu);
-    document.getElementById('close-vault-btn')?.addEventListener('click', closeVaultModal);
-    document.getElementById('btn-en')?.addEventListener('click', () => setLanguage('en'));
-    document.getElementById('btn-es')?.addEventListener('click', () => setLanguage('es'));
-    document.getElementById('start-btn')?.addEventListener('click', handleStart);
+  document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
+    const btn = document.getElementById('submitVaultBtn');
+    const rawPhone = document.getElementById('vaultPhone').value;
+    const docId = document.getElementById('vaultActiveDocId').value;
+    const status = document.getElementById('vaultStatus');
 
-    document.getElementById('submitVaultBtn')?.addEventListener('click', async () => {
-      const btn = document.getElementById('submitVaultBtn');
-      const rawPhone = document.getElementById('vaultPhone').value;
-      const docId = document.getElementById('vaultActiveDocId').value;
-      const status = document.getElementById('vaultStatus');
+    status.className = 'vault-status hidden';
 
-      status.className = 'vault-status hidden';
+    let digits = String(rawPhone || '').replace(/\D/g, '');
+    if (digits.length === 11 && digits.startsWith('1')) digits = digits.substring(1);
+    if (digits.length !== 10) {
+      status.textContent = 'Enter a valid 10-digit mobile number.';
+      status.classList.add('vs-error');
+      status.classList.remove('hidden');
+      return;
+    }
 
-      let digits = String(rawPhone || '').replace(/\D/g, '');
-      if (digits.length === 11 && digits.startsWith('1')) digits = digits.substring(1);
-      if (digits.length !== 10) {
-        status.textContent = 'Enter a valid 10-digit mobile number.';
-        status.classList.add('vs-error');
-        status.classList.remove('hidden');
-        return;
-      }
+    btn.disabled = true;
+    btn.textContent = 'PROCESSING...';
 
-      btn.disabled = true;
-      btn.textContent = 'PROCESSING...';
+    try {
+      await fetch(SCRIPT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType: cap(docId, 64) })
+      });
 
-      try {
-        await fetch(SCRIPT, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'requestSecureDoc', phone: digits, docType: cap(docId, 64) })
-        });
-
-        document.getElementById('vaultPhone').value = '';
-        status.textContent = 'Request received. If the number matches our roster, you’ll receive a link shortly.';
-        status.classList.add('vs-success');
-      } catch (e) {
-        status.textContent = 'Communication error. Please try again or contact dispatch.';
-        status.classList.add('vs-error');
-      } finally {
-        status.classList.remove('hidden');
-        btn.disabled = false;
-        btn.textContent = 'DISPATCH SECURE LINK';
-      }
-    });
+      document.getElementById('vaultPhone').value = '';
+      status.textContent = 'Request received. If the number matches our roster, you’ll receive a link shortly.';
+      status.classList.add('vs-success');
+    } catch (e) {
+      status.textContent = 'Communication error. Please try again or contact dispatch.';
+      status.classList.add('vs-error');
+    } finally {
+      status.classList.remove('hidden');
+      btn.disabled = false;
+      btn.textContent = 'DISPATCH SECURE LINK';
+    }
   });
 </script>
 </body>
