@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chargie Field Ops // Safety Hub</title>
 
+  <!-- Hardened Content Security Policy -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' https://script.google.com https://script.googleusercontent.com;
@@ -23,7 +24,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -166,7 +167,7 @@
     .hdr-inner { max-width: 1100px; margin: 0 auto; padding: 0 20px; height: 66px; display: flex; justify-content: space-between; align-items: center; }
     .hdr-left { display: flex; align-items: center; gap: 18px; }
     
-    /* BURGER BAR SYMMETRIC METRICS - 28px uniform width */
+    /* BURGER BAR SYMMETRIC METRICS */
     .burger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
     .burger span { display: block; height: 3px; border-radius: 3px; width: 28px; }
     .b1, .b4 { background: #D2B48C; }
@@ -188,7 +189,7 @@
       font-family: 'DM Sans', sans-serif; 
       font-size: clamp(38px, 6.5vw, 56px);
       font-weight: 800; 
-      font-style: normal; /* Stripped italics */
+      font-style: normal; 
       line-height: 1.15;
       letter-spacing: -0.02em;
       color: var(--navy); 
@@ -271,6 +272,7 @@
 
   <div id="overlay"></div>
 
+  <!-- VAULT MODAL -->
   <div id="vaultModal" role="dialog" aria-modal="true">
     <div class="vault-box-modal">
       <button id="close-vault-btn" class="vault-close" aria-label="Close">✕</button>
@@ -285,6 +287,7 @@
     </div>
   </div>
 
+  <!-- DRAWER -->
   <div id="menuDrawer" role="dialog" aria-modal="true" aria-label="Archive Library">
     <div class="drawer-head">
       <span class="drawer-label">// Archive Library</span>
@@ -313,13 +316,15 @@
         <a href="mailto:manfredo.aguilar@chargie.com" class="support-email" target="_blank" rel="noopener noreferrer">✉ manfredo.aguilar@chargie.com</a>
       </div>
       
+      <!-- OPEN-ACCESS LEGAL FOOTER ANCHORS (HARDCODED FOR 100% RELIABILITY) -->
       <div class="unlocked-legal-links">
-        <a id="footer-tos-link" href="#" target="_blank" rel="noopener noreferrer">Terms of Service</a>
-        <a id="footer-privacy-link" href="#" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
+        <a id="footer-tos-link" href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#terms" target="_blank" rel="noopener noreferrer">Terms of Service</a>
+        <a id="footer-privacy-link" href="https://manfredoaguilar-cpu.github.io/Safety/legal.html#privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>
       </div>
     </div>
   </div>
 
+  <!-- HEADER -->
   <header>
     <div class="hdr-inner">
       <div class="hdr-left">
@@ -334,6 +339,7 @@
     </div>
   </header>
 
+  <!-- MAIN CONTAINER -->
   <main>
     <div id="titleContainer" class="tc" style="margin-bottom: 24px;">
       <h1 id="moduleTitle" class="mod-title">Syncing…</h1>
@@ -370,7 +376,9 @@
           <input type="checkbox" id="ack-checkbox">
           <label id="ack-label" for="ack-checkbox">I confirm I have reviewed this document.</label>
         </div>
-        <button class="btn btn-primary" id="start-btn">Begin Evaluation</button>
+        <div id="evalBtnBlock">
+          <button class="btn btn-primary" id="start-btn">Begin Evaluation</button>
+        </div>
       </div>
 
       <div class="card hidden" id="quiz-container"></div>
@@ -400,7 +408,6 @@
     es: { start: 'Iniciar Evaluación', doc: 'Confirmar Recibo', ack: 'Confirmo que he revisado este documento.' }
   };
 
-  /* FIXED URL ALLOWLIST: Accepts the github.io domain now */
   function safeUrl(url) {
     if (!url || String(url).length > 250) return '#';
     try {
@@ -656,18 +663,10 @@
           const rawTitle = cap(m.title, 120);
           const key = m.category ? cap(String(m.category).replace(/\s+/g,''), 50) : '';
           
-          /* INTERCEPT LEGAL CATEGORY DOCUMENTS */
-          if (key === 'Legal') {
-            const parsedUrl = safeUrl(m.guideEN || m.guideES);
-            if (rawTitle.toLowerCase().includes('terms')) {
-              const tosLink = document.getElementById('footer-tos-link');
-              if (tosLink) tosLink.href = parsedUrl;
-            }
-            if (rawTitle.toLowerCase().includes('privacy')) {
-              const privLink = document.getElementById('footer-privacy-link');
-              if (privLink) privLink.href = parsedUrl;
-            }
-            return; /* Skip generating a visual element in the drawer */
+          /* ELIMINATE LEGAL DOCS FROM THE DRAWER (Regardless of Category) */
+          const lowerTitle = rawTitle.toLowerCase();
+          if (lowerTitle.includes('privacy') || lowerTitle.includes('terms')) {
+            return; /* Vaporized. */
           }
 
           const nav = document.getElementById(`archive-${key}`);
