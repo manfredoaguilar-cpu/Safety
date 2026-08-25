@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>JSS — Respeto y Desescalada | Módulo de Seguridad Chargie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&amp;family=Anton&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CHARGIE SAFETY MODULE — HOUSE STYLESHEET  (v3, flow-based)
+   ============================================================ */
+:root{
+  --pink:#FF3366;
+  --orange:#FF8A1F;
+  --yellow:#FFC93C;
+  --ink:#14213D;
+  --body:#3E4C5E;
+  --muted:#7A8797;
+  --line:#E3E8EF;
+  --wash:#FAFBFC;
+
+  --font-display:'Rubik Dirt','Anton',Impact,'Arial Black',sans-serif;
+  --font-body:'Nunito Sans','Helvetica Neue',Arial,sans-serif;
+
+  --grad:linear-gradient(100deg,var(--pink) 0%,var(--orange) 55%,var(--yellow) 100%);
+  --grad-rule:linear-gradient(90deg,var(--pink) 0%,var(--orange) 60%,var(--yellow) 100%);
+
+  --side:0.72in;   /* horizontal page inset */
+  --vert:0.55in;   /* vertical page margin, applied per-page by @page */
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font-body);
+  color:var(--body);
+  background:#8C93A0;
+  font-size:10.6pt;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ---------- DOCUMENT WRAPPER ---------- */
+.doc{
+  width:8.5in;
+  margin:0 auto;
+  padding:0 var(--side);
+  background:#fff;
+}
+
+/* ---------- PAGE BREAK CONTROL ---------- */
+.pagebreak{break-before:page;page-break-before:always;height:0;}
+.keep{break-inside:avoid;page-break-inside:avoid;}
+
+/* ---------- HERO / CLOSER BANNER ---------- */
+.banner{
+  margin-left:calc(-1 * var(--side));
+  margin-right:calc(-1 * var(--side) + var(--vert));
+  background:var(--grad);
+  border-radius:0 6in 6in 0;
+  padding:0.4in 0.7in 0.4in 0.75in;
+  text-align:center;
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
+.banner.hero{
+  margin-top:calc(-1 * var(--vert));
+  padding-top:0.45in;
+  padding-bottom:0.45in;
+}
+.banner.closer{margin-top:.34in;}
+.banner h1{
+  font-family:var(--font-display);
+  font-weight:400;
+  color:#0E0E10;
+  margin:0;
+  font-size:30pt;
+  line-height:1.04;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.banner.closer h1{font-size:24pt;}
+.banner .sub{
+  font-family:var(--font-display);
+  font-size:12pt;
+  color:#141416;
+  margin-top:.1in;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  line-height:1.15;
+}
+
+/* ---------- SECTION ---------- */
+.sec{margin-top:.24in;}
+.sec > h2{
+  font-family:var(--font-display);
+  font-weight:400;
+  text-transform:uppercase;
+  color:var(--ink);
+  font-size:20pt;
+  line-height:1.06;
+  text-align:center;
+  margin:0 0 .12in;
+  padding-top:.1in;
+  position:relative;
+  break-after:avoid;
+  page-break-after:avoid;
+}
+.sec > h2::before{
+  content:"";
+  position:absolute;
+  top:0; left:50%; transform:translateX(-50%);
+  width:2.45in; height:4px;
+  background:var(--grad-rule);
+  border-radius:2px;
+}
+
+/* ---------- TEXT ---------- */
+p{margin:0 0 .08in;}
+.lead{font-size:10.5pt;}
+.callout{
+  margin:.12in 0 0;
+  font-weight:800;
+  color:var(--ink);
+  font-size:10.5pt;
+  line-height:1.35;
+  break-inside:avoid;
+}
+.callout.center{text-align:center;}
+.kicker{
+  text-align:center;
+  font-family:var(--font-display);
+  color:var(--pink);
+  font-size:12pt;
+  text-transform:uppercase;
+  margin-top:.1in;
+  break-inside:avoid;
+}
+
+/* ---------- BULLETS ---------- */
+ul.bul{list-style:none;margin:0;padding:0;}
+ul.bul li{position:relative;padding-left:.24in;margin-bottom:.06in;break-inside:avoid;font-size:10.2pt;}
+ul.bul li::before{
+  content:"";position:absolute;left:.055in;top:.08in;
+  width:6px;height:6px;border-radius:50%;background:var(--pink);
+}
+
+/* ---------- WHY IT MATTERS (IMAGE PANEL EMBEDDED) ---------- */
+.why{display:grid;grid-template-columns:1fr 2.1in;gap:.26in;align-items:start;break-inside:avoid;}
+.iconpanel{
+  background:var(--wash);border:1px solid var(--line);border-radius:14px;
+  padding:.1in;text-align:center;break-inside:avoid;
+}
+.iconpanel .panel-img-wrap{
+  width:100%;
+  height:1.45in;
+  border-radius:10px;
+  overflow:hidden;
+  border:2px solid var(--ink);
+  background:#fff;
+  margin-bottom:.08in;
+}
+.iconpanel .panel-img-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.iconpanel .cap{
+  font-family:var(--font-display);font-size:10pt;color:var(--ink);
+  text-transform:uppercase;line-height:1.15;
+}
+
+/* ---------- HAZARD CARDS (2x2) ---------- */
+.hazards{display:grid;grid-template-columns:1fr 1fr;gap:.14in .18in;}
+.hz{
+  border:1px solid var(--line);
+  border-left:4px solid var(--pink);
+  border-radius:0 10px 10px 0;
+  padding:.12in .15in .13in;
+  background:#fff;
+  break-inside:avoid;page-break-inside:avoid;
+}
+.hz:nth-child(2){border-left-color:var(--orange);}
+.hz:nth-child(3){border-left-color:var(--orange);}
+.hz:nth-child(4){border-left-color:var(--yellow);}
+.hz h3{
+  margin:0 0 .05in;font-size:10.5pt;color:var(--ink);font-weight:800;
+  display:flex;align-items:center;gap:.08in;
+}
+.hz h3 svg{width:16px;height:16px;flex:none;}
+.hz ul{list-style:none;margin:0;padding:0;font-size:9.6pt;}
+.hz li{position:relative;padding-left:.16in;margin-bottom:.03in;line-height:1.35;}
+.hz li::before{
+  content:"";position:absolute;left:0;top:.07in;
+  width:4px;height:4px;border-radius:50%;background:var(--muted);
+}
+
+/* ---------- NUMBERED STEPS ---------- */
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s;}
+ol.steps li{
+  counter-increment:s;position:relative;padding-left:.4in;margin-bottom:.08in;
+  break-inside:avoid;page-break-inside:avoid;
+}
+ol.steps li::before{
+  content:counter(s);
+  position:absolute;left:0;top:-1px;
+  width:.28in;height:.28in;
+  background:var(--grad);color:#0E0E10;border-radius:50%;
+  font-family:var(--font-display);font-size:11.5pt;
+  display:flex;align-items:center;justify-content:center;
+}
+ol.steps .t{font-weight:800;color:var(--ink);font-size:10.4pt;display:block;line-height:1.2;}
+ol.steps .d{font-size:9.6pt;line-height:1.35;display:block;}
+ol.steps li.crit{
+  background:#FFF7E8;border-left:3px solid var(--yellow);
+  margin-left:-.1in;padding-left:.45in;padding-top:.04in;padding-bottom:.04in;
+  border-radius:0 8px 8px 0;
+}
+ol.steps li.crit::before{background:#111;color:#FFC93C;left:.1in;top:.04in;}
+.tag{
+  display:inline-block;background:#111;color:var(--yellow);
+  font-family:var(--font-display);font-size:7pt;
+  padding:1px 5px;border-radius:4px;
+  vertical-align:2px;margin-left:5px;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+
+/* ---------- FIELD CHECKLIST ---------- */
+.checklist{
+  border:2px solid var(--ink);border-radius:14px;
+  padding:.18in .22in .16in;background:#fff;
+  break-inside:avoid;page-break-inside:avoid;
+}
+.checklist .ttl{
+  font-family:var(--font-display);font-size:12pt;color:var(--ink);
+  text-transform:uppercase;text-align:center;margin-bottom:.12in;
+}
+.checklist .grid{display:grid;grid-template-columns:1fr 1fr;gap:.07in .25in;}
+.checklist .row{display:flex;align-items:flex-start;gap:.1in;font-size:9.8pt;line-height:1.3;}
+.checklist .box{
+  flex:none;width:.15in;height:.15in;
+  border:2px solid var(--ink);border-radius:3px;margin-top:.02in;
+}
+.signoff{
+  display:grid;grid-template-columns:1.7fr 1fr .8fr;gap:.22in;
+  margin-top:.16in;padding-top:.12in;border-top:1px dashed var(--line);
+  font-size:8.5pt;color:var(--muted);
+}
+.signoff .f{border-bottom:1.5px solid var(--ink);height:.26in;margin-bottom:2px;}
+
+/* ---------- SCREEN-ONLY ---------- */
+.printnote{
+  width:8.5in;margin:.3in auto .22in;
+  background:#111;color:#fff;border-radius:12px;
+  padding:.18in .26in;font-size:10.5pt;line-height:1.5;
+}
+.printnote b{color:var(--yellow);}
+@media screen{
+  .doc{box-shadow:0 3px 18px rgba(0,0,0,.28);padding-top:var(--vert);padding-bottom:var(--vert);}
+  .banner.hero{margin-top:calc(-1 * var(--vert));}
+}
+
+/* ---------- PRINT ---------- */
+@page{size:letter;margin:0.55in 0;}
+@media print{
+  body{background:#fff;}
+  .printnote{display:none !important;}
+  .doc{width:auto;box-shadow:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ═══════════════ PÁGINA 1 ═══════════════ -->
+  <div class="banner hero">
+    <h1>Respeto y Desescalada</h1>
+    <div class="sub">Guía de Estudio sobre Comunicación Laboral y Manejo de Conflictos</div>
+  </div>
+
+  <div class="sec">
+    <h2>Introducción</h2>
+    <p class="lead">La fricción interpersonal en el lugar de trabajo no es solo una molestia: es un riesgo de seguridad directo. Cuando las tensiones aumentan, el enfoque se pierde, la comunicación se degrada y se omiten pasos críticos de protección. Esta guía ofrece herramientas para reemplazar el juicio con curiosidad, manejar conversaciones difíciles y mantener a nuestros equipos alineados y protegidos.</p>
+    <p class="callout">La comunicación clara y el respeto mutuo son tan vitales para nuestra seguridad como el EPP y los candados de bloqueo.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Por Qué Es Importante</h2>
+    <div class="why">
+      <div>
+        <ul class="bul">
+          <li>La frustración no resuelta y las actitudes pasivo-agresivas generan distracciones peligrosas cerca de equipos de alto voltaje.</li>
+          <li>Las reacciones desmedidas rara vez se deben al problema inmediato; suelen reflejar estrés acumulado, fatiga o presiones no expresadas.</li>
+          <li>Rara vez se enseñan habilidades humanas para tener conversaciones difíciles, lo que lleva a evadir el conflicto o a la confrontación.</li>
+        </ul>
+        <p class="callout">Cuidarnos unos a otros implica abordar la fricción con empatía antes de que afecte la seguridad en el sitio.</p>
+      </div>
+      <div class="iconpanel">
+        <div class="panel-img-wrap">
+          <img src="deescalation_art.png" alt="Ilustración de conversación y desescalada">
+        </div>
+        <div class="cap">Curiosidad<br>Sobre Juicio</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Detonantes y Puntos Ciegos</h2>
+    <div class="hazards">
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF3366" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l3 3"></path></svg>La Trampa del "¿Por Qué?"</h3>
+        <ul>
+          <li>Preguntar "¿Por qué eres tan negativo?" genera respuestas defensivas.</li>
+          <li>Cambia el tono de resolución hacia un ataque personal.</li>
+          <li><b>Solución:</b> Usa preguntas abiertas desde la curiosidad.</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF8A1F" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>Reacciones Desproporcionadas</h3>
+        <ul>
+          <li>Una reacción extrema ante un detalle menor suele tener otra causa.</li>
+          <li>Puede tratarse de fatiga, estrés o presión acumulada.</li>
+          <li><b>Solución:</b> Lee el entorno y profundiza con calma.</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF8A1F" stroke-width="2.2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>Críticos Activos vs. Pasivos</h3>
+        <ul>
+          <li>La crítica constructiva revela puntos ciegos importantes.</li>
+          <li>Quejarse sin actuar agota la energía del equipo.</li>
+          <li><b>Solución:</b> Apoya a quienes señalan fallas y colaboran.</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#E8A700" stroke-width="2.2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>Evasión del Conflicto</h3>
+        <ul>
+          <li>Dejar pasar las tensiones genera resentimiento.</li>
+          <li>La falta de diálogo daña la ejecución segura en campo.</li>
+          <li><b>Solución:</b> Programa conversaciones directas y tranquilas.</li>
+        </ul>
+      </div>
+    </div>
+    <p class="callout center">Reemplaza el juicio con curiosidad antes de que la tensión sea un peligro.</p>
+  </div>
+
+  <!-- ═══════════════ PÁGINA 2 ═══════════════ -->
+  <div class="pagebreak"></div>
+
+  <div class="sec">
+    <h2>Los 5 Pasos para la Desescalada y Alineación</h2>
+    <ol class="steps">
+      <li>
+        <span class="t">Cambia Juicio por Curiosidad</span>
+        <span class="d">En lugar de juzgar o preguntar "¿Por qué estás tan negativo?", pregunta: "¿Qué está generando esta frustración? Me interesa entenderlo para resolverlo juntos."</span>
+      </li>
+      <li>
+        <span class="t">Reconoce y Valida</span>
+        <span class="d">Permite que tu compañero se sienta escuchado. Un sincero "Te entiendo" valida su perspectiva antes de redirigir la conversación hacia las soluciones.</span>
+      </li>
+      <li>
+        <span class="t">Evalúa la Causa Real (La "Regla del 5")</span>
+        <span class="d">Entiende que una reacción por encima de 5 rara vez es por el problema visible. Observa el trasfondo: fatiga, sobrecarga de trabajo o presiones externas.</span>
+      </li>
+      <li>
+        <span class="t">Distingue la Crítica Útil del Pesimismo</span>
+        <span class="d">Diferencia a quien solo se queja de quien señala riesgos para corregirlos. Valora a quienes identifican fallas y están dispuestos a buscar la solución.</span>
+      </li>
+      <li class="crit">
+        <span class="t">Estructura Conversaciones Difíciles <span class="tag">Habilidad Clave</span></span>
+        <span class="d">Habla en privado: Explica el impacto concreto ("Tu energía en la reunión afectó el ánimo del equipo"), muestra preocupación genuina y <b>guarda silencio para dejar procesar el mensaje</b> sin elevar el tono.</span>
+      </li>
+    </ol>
+    <p class="callout center">La interacción humana es compleja; dominarla es nuestra mayor ventaja operativa.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Lista de Verificación de Campo</h2>
+    <div class="checklist">
+      <div class="ttl">Comunicación y Resolución de Conflictos</div>
+      <div class="grid">
+        <div class="row"><span class="box"></span><span>Curiosidad empleada en lugar de preguntas acusatorias</span></div>
+        <div class="row"><span class="box"></span><span>Frustración del compañero validada y escuchada</span></div>
+        <div class="row"><span class="box"></span><span>Identificadas causas de fondo (fatiga, estrés, etc.)</span></div>
+        <div class="row"><span class="box"></span><span>Diferenciada la crítica constructiva de la queja pasiva</span></div>
+        <div class="row"><span class="box"></span><span>Conversación difícil realizada en privado y con calma</span></div>
+        <div class="row"><span class="box"></span><span>Impacto en la seguridad y el equipo expresado claramente</span></div>
+        <div class="row"><span class="box"></span><span>Espacio de silencio permitido para escuchar la respuesta</span></div>
+        <div class="row"><span class="box"></span><span>Acuerdos de trabajo colaborativos establecidos</span></div>
+      </div>
+      <div class="signoff">
+        <div><div class="f"></div>Líder de Equipo / Supervisor</div>
+        <div><div class="f"></div>Ubicación / Proyecto</div>
+        <div><div class="f"></div>Fecha</div>
+      </div>
+    </div>
+    <p class="kicker">El diálogo calmado protege la seguridad de todos</p>
+  </div>
+
+  <div class="banner closer">
+    <h1>Lidera con Cuidado, Ejecuta en Equipo</h1>
+    <div class="sub">La comunicación respetuosa evita la fricción en el trabajo</div>
+  </div>
+
+</div>
+
+</body>
+</html>
