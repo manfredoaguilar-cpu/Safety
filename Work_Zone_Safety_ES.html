@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>JSS — Seguridad en Zonas de Trabajo | Módulo de Seguridad Chargie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Rubik+Dirt&amp;family=Anton&amp;family=Nunito+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&amp;display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   CHARGIE SAFETY MODULE — HOUSE STYLESHEET (v3, flow-based)
+   ============================================================ */
+:root{
+  --pink:#FF3366;
+  --orange:#FF8A1F;
+  --yellow:#FFC93C;
+  --ink:#14213D;
+  --body:#3E4C5E;
+  --muted:#7A8797;
+  --line:#E3E8EF;
+  --wash:#FAFBFC;
+
+  --font-display:'Rubik Dirt','Anton',Impact,'Arial Black',sans-serif;
+  --font-body:'Nunito Sans','Helvetica Neue',Arial,sans-serif;
+
+  --grad:linear-gradient(100deg,var(--pink) 0%,var(--orange) 55%,var(--yellow) 100%);
+  --grad-rule:linear-gradient(90deg,var(--pink) 0%,var(--orange) 60%,var(--yellow) 100%);
+
+  --side:0.72in;
+  --vert:0.55in;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font-body);
+  color:var(--body);
+  background:#8C93A0;
+  font-size:10.6pt;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+
+.doc{
+  width:8.5in;
+  margin:0 auto;
+  padding:0 var(--side);
+  background:#fff;
+}
+
+.pagebreak{break-before:page;page-break-before:always;height:0;}
+.keep{break-inside:avoid;page-break-inside:avoid;}
+
+.banner{
+  margin-left:calc(-1 * var(--side));
+  margin-right:calc(-1 * var(--side) + var(--vert));
+  background:var(--grad);
+  border-radius:0 6in 6in 0;
+  padding:0.4in 0.7in 0.4in 0.75in;
+  text-align:center;
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
+.banner.hero{
+  margin-top:calc(-1 * var(--vert));
+  padding-top:0.45in;
+  padding-bottom:0.45in;
+}
+.banner.closer{margin-top:.34in;}
+.banner h1{
+  font-family:var(--font-display);
+  font-weight:400;
+  color:#0E0E10;
+  margin:0;
+  font-size:28pt;
+  line-height:1.04;
+  letter-spacing:.01em;
+  text-transform:uppercase;
+}
+.banner.closer h1{font-size:23pt;}
+.banner .sub{
+  font-family:var(--font-display);
+  font-size:12pt;
+  color:#141416;
+  margin-top:.1in;
+  text-transform:uppercase;
+  letter-spacing:.02em;
+  line-height:1.15;
+}
+
+.sec{margin-top:.24in;}
+.sec > h2{
+  font-family:var(--font-display);
+  font-weight:400;
+  text-transform:uppercase;
+  color:var(--ink);
+  font-size:20pt;
+  line-height:1.06;
+  text-align:center;
+  margin:0 0 .12in;
+  padding-top:.1in;
+  position:relative;
+  break-after:avoid;
+  page-break-after:avoid;
+}
+.sec > h2::before{
+  content:"";
+  position:absolute;
+  top:0; left:50%; transform:translateX(-50%);
+  width:2.45in; height:4px;
+  background:var(--grad-rule);
+  border-radius:2px;
+}
+
+p{margin:0 0 .08in;}
+.lead{font-size:10.5pt;}
+.callout{
+  margin:.12in 0 0;
+  font-weight:800;
+  color:var(--ink);
+  font-size:10.5pt;
+  line-height:1.35;
+  break-inside:avoid;
+}
+.callout.center{text-align:center;}
+.kicker{
+  text-align:center;
+  font-family:var(--font-display);
+  color:var(--pink);
+  font-size:12pt;
+  text-transform:uppercase;
+  margin-top:.1in;
+  break-inside:avoid;
+}
+
+ul.bul{list-style:none;margin:0;padding:0;}
+ul.bul li{position:relative;padding-left:.24in;margin-bottom:.06in;break-inside:avoid;font-size:10.2pt;}
+ul.bul li::before{
+  content:"";position:absolute;left:.055in;top:.08in;
+  width:6px;height:6px;border-radius:50%;background:var(--pink);
+}
+
+.why{display:grid;grid-template-columns:1fr 2.1in;gap:.26in;align-items:start;break-inside:avoid;}
+.iconpanel{
+  background:var(--wash);border:1px solid var(--line);border-radius:14px;
+  padding:.14in .12in;text-align:center;break-inside:avoid;
+}
+.iconpanel svg{width:0.95in;height:0.95in;display:block;margin:0 auto .08in;}
+.iconpanel .cap{
+  font-family:var(--font-display);font-size:10pt;color:var(--ink);
+  text-transform:uppercase;line-height:1.15;
+}
+
+.hazards{display:grid;grid-template-columns:1fr 1fr;gap:.14in .18in;}
+.hz{
+  border:1px solid var(--line);
+  border-left:4px solid var(--pink);
+  border-radius:0 10px 10px 0;
+  padding:.12in .15in .13in;
+  background:#fff;
+  break-inside:avoid;page-break-inside:avoid;
+}
+.hz:nth-child(2){border-left-color:var(--orange);}
+.hz:nth-child(3){border-left-color:var(--orange);}
+.hz:nth-child(4){border-left-color:var(--yellow);}
+.hz h3{
+  margin:0 0 .05in;font-size:10.5pt;color:var(--ink);font-weight:800;
+  display:flex;align-items:center;gap:.08in;
+}
+.hz h3 svg{width:16px;height:16px;flex:none;}
+.hz ul{list-style:none;margin:0;padding:0;font-size:9.6pt;}
+.hz li{position:relative;padding-left:.16in;margin-bottom:.03in;line-height:1.35;}
+.hz li::before{
+  content:"";position:absolute;left:0;top:.07in;
+  width:4px;height:4px;border-radius:50%;background:var(--muted);
+}
+
+ol.steps{list-style:none;margin:0;padding:0;counter-reset:s;}
+ol.steps li{
+  counter-increment:s;position:relative;padding-left:.4in;margin-bottom:.08in;
+  break-inside:avoid;page-break-inside:avoid;
+}
+ol.steps li::before{
+  content:counter(s);
+  position:absolute;left:0;top:-1px;
+  width:.28in;height:.28in;
+  background:var(--grad);color:#0E0E10;border-radius:50%;
+  font-family:var(--font-display);font-size:11.5pt;
+  display:flex;align-items:center;justify-content:center;
+}
+ol.steps .t{font-weight:800;color:var(--ink);font-size:10.4pt;display:block;line-height:1.2;}
+ol.steps .d{font-size:9.6pt;line-height:1.35;display:block;}
+ol.steps li.crit{
+  background:#FFF7E8;border-left:3px solid var(--yellow);
+  margin-left:-.1in;padding-left:.45in;padding-top:.04in;padding-bottom:.04in;
+  border-radius:0 8px 8px 0;
+}
+ol.steps li.crit::before{background:#111;color:#FFC93C;left:.1in;top:.04in;}
+.tag{
+  display:inline-block;background:#111;color:var(--yellow);
+  font-family:var(--font-display);font-size:7pt;
+  padding:1px 5px;border-radius:4px;
+  vertical-align:2px;margin-left:5px;
+  text-transform:uppercase;letter-spacing:.03em;
+}
+
+.checklist{
+  border:2px solid var(--ink);border-radius:14px;
+  padding:.18in .22in .16in;background:#fff;
+  break-inside:avoid;page-break-inside:avoid;
+}
+.checklist .ttl{
+  font-family:var(--font-display);font-size:12pt;color:var(--ink);
+  text-transform:uppercase;text-align:center;margin-bottom:.12in;
+}
+.checklist .grid{display:grid;grid-template-columns:1fr 1fr;gap:.07in .25in;}
+.checklist .row{display:flex;align-items:flex-start;gap:.1in;font-size:9.8pt;line-height:1.3;}
+.checklist .box{
+  flex:none;width:.15in;height:.15in;
+  border:2px solid var(--ink);border-radius:3px;margin-top:.02in;
+}
+.signoff{
+  display:grid;grid-template-columns:1.7fr 1fr .8fr;gap:.22in;
+  margin-top:.16in;padding-top:.12in;border-top:1px dashed var(--line);
+  font-size:8.5pt;color:var(--muted);
+}
+.signoff .f{border-bottom:1.5px solid var(--ink);height:.26in;margin-bottom:2px;}
+
+.printnote{
+  width:8.5in;margin:.3in auto .22in;
+  background:#111;color:#fff;border-radius:12px;
+  padding:.18in .26in;font-size:10.5pt;line-height:1.5;
+}
+.printnote b{color:var(--yellow);}
+@media screen{
+  .doc{box-shadow:0 3px 18px rgba(0,0,0,.28);padding-top:var(--vert);padding-bottom:var(--vert);}
+  .banner.hero{margin-top:calc(-1 * var(--vert));}
+}
+
+@page{size:letter;margin:0.55in 0;}
+@media print{
+  body{background:#fff;}
+  .printnote{display:none !important;}
+  .doc{width:auto;box-shadow:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="printnote">
+  <b>Para exportar como PDF:</b> Cmd/Ctrl + P → Destino <b>Guardar como PDF</b> → Papel <b>Carta (Letter)</b> → Escala <b>100%</b> → Márgenes <b>Predeterminados</b> → marcar <b>“Gráficos de fondo”</b> y desmarcar <b>“Encabezados y pies de página”</b>.
+</div>
+
+<div class="doc">
+
+  <!-- ═══════════════ PÁGINA 1 ═══════════════ -->
+  <div class="banner hero">
+    <h1>Seguridad en Zonas de Trabajo</h1>
+    <div class="sub">Guía de Estudio sobre Delimitación Vial y en Sitio</div>
+  </div>
+
+  <div class="sec">
+    <h2>Introducción</h2>
+    <p class="lead">Las zonas de trabajo son áreas planificadas donde las labores de construcción, mantenimiento y servicios públicos coinciden con el flujo vehicular. Conos, barreras y letreros forman líneas de defensa estructuradas para organizar el tráfico, separar a los trabajadores de los vehículos en marcha y proteger los equipos. La seguridad exige entender la delimitación del sitio y respetar los límites fijados en la vía.</p>
+    <p class="callout">Las zonas de trabajo no son montajes al azar: son barreras diseñadas entre el tráfico y vidas humanas.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Por Qué Es Importante</h2>
+    <div class="why">
+      <div>
+        <ul class="bul">
+          <li>La intrusión de vehículos por exceso de velocidad, distracciones o poca visibilidad es el mayor peligro para el personal en vía.</li>
+          <li>La conducta impredecible de los conductores, como cambios bruscos de carril o agresividad, introduce riesgos fuera de control.</li>
+          <li>El uso de maquinaria pesada dentro de espacios reducidos genera zonas críticas de atrapamiento y golpes.</li>
+        </ul>
+        <p class="callout">Una delimitación clara transforma vías de alto riesgo en perímetros de trabajo protegidos.</p>
+      </div>
+      <div class="iconpanel">
+        <svg viewBox="0 0 64 64" fill="none" stroke="#14213D" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M26 8h12l16 48H10L26 8z" fill="#FFC93C" stroke="#14213D"/>
+          <line x1="20" y1="26" x2="44" y2="26" stroke="#FF3366" stroke-width="3"/>
+          <line x1="16" y1="40" x2="48" y2="40" stroke="#FF3366" stroke-width="3"/>
+          <line x1="6" y1="56" x2="58" y2="56" stroke="#14213D" stroke-width="3"/>
+        </svg>
+        <div class="cap">Delimita Antes<br>Protege el Espacio</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>Peligros Críticos en Zonas de Trabajo</h2>
+    <div class="hazards">
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF3366" stroke-width="2.2" stroke-linecap="round"><path d="M12 2L2 22h20L12 2z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Intrusión Vehicular</h3>
+        <ul>
+          <li>Conductores invaden el perímetro por velocidad o uso del celular</li>
+          <li>Cambios bruscos de carril en estrechamientos viales</li>
+          <li><b>Solución:</b> Barreras firmes y señalización anticipada</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF8A1F" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Puntos Ciegos de Maquinaria</h3>
+        <ul>
+          <li>Técnicos atrapados entre máquinas y paredes fijas</li>
+          <li>Maniobras de reversa sin visibilidad completa</li>
+          <li><b>Solución:</b> Rutas exclusivas de paso y alarmas audibles</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#FF8A1F" stroke-width="2.2" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>Superficies Irregulares</h3>
+        <ul>
+          <li>Grava suelta, zanjas abiertas y pavimento roto</li>
+          <li>Resbalones y tropiezos al mover materiales y equipo</li>
+          <li><b>Solución:</b> Pasos firmes e inspecciones continuas del suelo</li>
+        </ul>
+      </div>
+      <div class="hz">
+        <h3><svg viewBox="0 0 24 24" fill="none" stroke="#E8A700" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="4" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>Visibilidad Reducida</h3>
+        <ul>
+          <li>Trabajos al anochecer o clima adverso que tapan letreros</li>
+          <li>Conductores que no interpretan los avisos de desvío</li>
+          <li><b>Solución:</b> Luces de alta potencia y letreros reflejantes</li>
+        </ul>
+      </div>
+    </div>
+    <p class="callout center">Las señales anticipadas dan a los conductores el tiempo necesario para reaccionar.</p>
+  </div>
+
+  <!-- ═══════════════ PÁGINA 2 ═══════════════ -->
+  <div class="pagebreak"></div>
+
+  <div class="sec">
+    <h2>Los 5 Pilares de Protección en Zonas de Trabajo</h2>
+    <ol class="steps">
+      <li>
+        <span class="t">Colocar Señalización de Advertencia Previa</span>
+        <span class="d">Instala letreros como "Trabajos en la Vía" antes del perímetro físico para advertir a los conductores que las condiciones y los carriles cambiarán más adelante.</span>
+      </li>
+      <li>
+        <span class="t">Canalizar y Organizar el Flujo de Tráfico</span>
+        <span class="d">Usa señalización direccional ("Incorpórese a la Derecha", "Carril Cerrado") con líneas cónicas para guiar a los autos de forma fluida lejos de los técnicos.</span>
+      </li>
+      <li>
+        <span class="t">Hacer Cumplir la Reducción de Velocidad</span>
+        <span class="d">Coloca avisos normativos de velocidad reducida. Bajar la velocidad de paso otorga a conductores distraídos la distancia de frenado requerida para sortear desvíos.</span>
+      </li>
+      <li class="crit">
+        <span class="t">Instalar Barreras de Separación Física <span class="tag">Línea Crítica</span></span>
+        <span class="d">Nunca dependas únicamente de señales visuales cuando el tráfico pasa cerca. Emplea barreras de impacto, barricadas o vehículos de resguardo para frenar autos descontrolados.</span>
+      </li>
+      <li>
+        <span class="t">Confirmar el Término de la Zona de Trabajo</span>
+        <span class="d">Coloca el letrero "Fin de Zona de Trabajo" en el límite final. Esto indica claramente que el flujo regular y la velocidad estándar pueden retomarse con seguridad.</span>
+      </li>
+    </ol>
+    <p class="callout center">Un cono es una indicación visual; una barrera es protección física.</p>
+  </div>
+
+  <div class="sec">
+    <h2>Lista de Verificación de Zona de Trabajo</h2>
+    <div class="checklist">
+      <div class="ttl">Verificación Previa de Perímetro y Delimitación</div>
+      <div class="grid">
+        <div class="row"><span class="box"></span><span>Señales de advertencia previa con línea de visión despejada</span></div>
+        <div class="row"><span class="box"></span><span>Conos y delimitadores colocados con espaciado cónico estándar</span></div>
+        <div class="row"><span class="box"></span><span>Avisos de reducción de velocidad y multas dobles visibles</span></div>
+        <div class="row"><span class="box"></span><span>Barrera física o vehículo de resguardo entre tráfico y personal</span></div>
+        <div class="row"><span class="box"></span><span>Superficies de tránsito inspeccionadas contra tropiezos</span></div>
+        <div class="row"><span class="box"></span><span>Paso de maquinaria pesada separado de la zona peatonal técnica</span></div>
+        <div class="row"><span class="box"></span><span>Chalecos de alta visibilidad Clase 2 o 3 en todo el equipo</span></div>
+        <div class="row"><span class="box"></span><span>Iluminación auxiliar y cintas reflejantes activas si hay poca luz</span></div>
+      </div>
+      <div class="signoff">
+        <div><div class="f"></div>Responsable de Seguridad en Sitio</div>
+        <div><div class="f"></div>Ubicación / ID de Proyecto</div>
+        <div><div class="f"></div>Fecha</div>
+      </div>
+    </div>
+    <p class="kicker">Delimitación completa = autorización para trabajar</p>
+  </div>
+
+  <div class="banner closer">
+    <h1>Planifica la Zona, Protege al Equipo</h1>
+    <div class="sub">Límites estructurados previenen tragedias viales</div>
+  </div>
+
+</div>
+
+</body>
+</html>
